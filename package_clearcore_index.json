@@ -1,0 +1,1345 @@
+{
+  "packages": [
+    {
+      "name": "ClearCore",
+      "maintainer": "Teknic, Inc",
+      "websiteURL": "https://www.teknic.com",
+      "email": "support@teknic.com",
+      "help": { "online": "https://www.teknic.com" },
+      "platforms": [
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.0",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore.zip",
+          "archiveFileName": "ClearCore.zip",
+		  "checksum": "MD5:f0d9b5062bdd3cf185d47dd506653a02",
+		  "size": "49579189",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "ClearCore",
+              "name": "arm-none-eabi-gcc",
+              "version": "6-2017q2"
+            },
+            {
+              "packager": "ClearCore",
+              "name": "bossac",
+              "version": "1.7.0"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            }
+          ]
+        } ,
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.1",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore-1.0.1.zip",
+          "archiveFileName": "ClearCore-1.0.1.zip",
+		  "checksum": "MD5:C6340AB716C34C4B0CFB93C9CFE9CD4B",
+		  "size": "20506161",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "ClearCore",
+              "name": "arm-none-eabi-gcc",
+              "version": "6-2017q2"
+            },
+            {
+              "packager": "ClearCore",
+              "name": "bossac",
+              "version": "1.7.0"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            },
+            {
+              "name": "libClearCore",
+              "packager": "ClearCore",
+              "version": "1.0.0"
+            },
+            {
+              "name": "LwIP",
+              "packager": "ClearCore",
+              "version": "1.0.0"
+            }
+          ]
+        },
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.2",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore-1.0.2.zip",
+          "archiveFileName": "ClearCore-1.0.2.zip",
+		  "checksum": "MD5:C6340AB716C34C4B0CFB93C9CFE9CD4B",
+		  "size": "20506161",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "ClearCore",
+              "name": "arm-none-eabi-gcc",
+              "version": "6-2017q2"
+            },
+            {
+              "packager": "ClearCore",
+              "name": "bossac",
+              "version": "1.7.0"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            },
+            {
+              "name": "libClearCore",
+              "packager": "ClearCore",
+              "version": "1.0.2"
+            },
+            {
+              "name": "LwIP",
+              "packager": "ClearCore",
+              "version": "1.0.2"
+            }
+          ]
+        }, 
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.3",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore-1.0.3.zip",
+          "archiveFileName": "ClearCore-1.0.3.zip",
+		  "checksum": "MD5:519f524a314e7e3bfa3195fcb68f1bac",
+		  "size": "5722268",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "ClearCore",
+              "name": "arm-none-eabi-gcc",
+              "version": "6-2017q2"
+            },
+            {
+              "packager": "ClearCore",
+              "name": "bossac",
+              "version": "1.7.0"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            },
+            {
+              "name": "libClearCore",
+              "packager": "ClearCore",
+              "version": "1.0.3"
+            },
+            {
+              "name": "LwIP",
+              "packager": "ClearCore",
+              "version": "1.0.3"
+            }
+          ]
+        },
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.4",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore-1.0.4.zip",
+          "archiveFileName": "ClearCore-1.0.4.zip",
+		  "checksum": "MD5:2706e88f2e404c2b6511707459d2ca2e",
+		  "size": "5801302",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "ClearCore",
+              "name": "arm-none-eabi-gcc",
+              "version": "6-2017q2"
+            },
+            {
+              "packager": "ClearCore",
+              "name": "bossac",
+              "version": "1.7.0"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            },
+            {
+              "name": "libClearCore",
+              "packager": "ClearCore",
+              "version": "1.0.4"
+            },
+            {
+              "name": "LwIP",
+              "packager": "ClearCore",
+              "version": "1.0.4"
+            }
+          ]
+        },
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.5",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore-1.0.5.zip",
+          "archiveFileName": "ClearCore-1.0.5.zip",
+		  "checksum": "MD5:17ce22f023e89ae9e8762556c8976818",
+		  "size": "5897084",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "ClearCore",
+              "name": "arm-none-eabi-gcc",
+              "version": "6-2017q2"
+            },
+            {
+              "packager": "ClearCore",
+              "name": "bossac",
+              "version": "1.7.0"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            },
+            {
+              "name": "libClearCore",
+              "packager": "ClearCore",
+              "version": "1.0.5"
+            },
+            {
+              "name": "LwIP",
+              "packager": "ClearCore",
+              "version": "1.0.5"
+            }
+          ]
+        },
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.6",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore-1.0.6.zip",
+          "archiveFileName": "ClearCore-1.0.6.zip",
+		  "checksum": "MD5:7c6f2b4b8cb6fd8e4b3f38935c173dcf",
+		  "size": "5900436",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "ClearCore",
+              "name": "arm-none-eabi-gcc",
+              "version": "6-2017q2"
+            },
+            {
+              "packager": "ClearCore",
+              "name": "bossac",
+              "version": "1.7.0"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            },
+            {
+              "name": "libClearCore",
+              "packager": "ClearCore",
+              "version": "1.0.6"
+            },
+            {
+              "name": "LwIP",
+              "packager": "ClearCore",
+              "version": "1.0.6"
+            }
+          ]
+        },
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.7",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore-1.0.7.zip",
+          "archiveFileName": "ClearCore-1.0.7.zip",
+		  "checksum": "MD5:f8ffb672ca06f50c7a143e4373b9e8ba",
+		  "size": "6483484",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4"
+            },
+            {
+              "packager": "arduino",
+              "name": "bossac",
+              "version": "1.9.1-arduino1"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            },
+            {
+              "name": "libClearCore",
+              "packager": "ClearCore",
+              "version": "1.0.7"
+            },
+            {
+              "name": "LwIP",
+              "packager": "ClearCore",
+              "version": "1.0.7"
+            }
+          ]
+        },
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.8",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore-1.0.8.zip",
+          "archiveFileName": "ClearCore-1.0.8.zip",
+		  "checksum": "MD5:a3da5854848212a5caf44bc148c49c57",
+		  "size": "6549641",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4"
+            },
+            {
+              "packager": "arduino",
+              "name": "bossac",
+              "version": "1.9.1-arduino1"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            },
+            {
+              "name": "libClearCore",
+              "packager": "ClearCore",
+              "version": "1.0.8"
+            },
+            {
+              "name": "LwIP",
+              "packager": "ClearCore",
+              "version": "1.0.8"
+            }
+          ]
+        },
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.9",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore-1.0.9.zip",
+          "archiveFileName": "ClearCore-1.0.9.zip",
+		  "checksum": "MD5:03cc4ecedf4236b1c60e5f534b0c30a0",
+		  "size": "6525926",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4"
+            },
+            {
+              "packager": "arduino",
+              "name": "bossac",
+              "version": "1.9.1-arduino1"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            },
+            {
+              "name": "libClearCore",
+              "packager": "ClearCore",
+              "version": "1.0.9"
+            },
+            {
+              "name": "LwIP",
+              "packager": "ClearCore",
+              "version": "1.0.9"
+            }
+          ]
+        },
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.10",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore-1.0.10.zip",
+          "archiveFileName": "ClearCore-1.0.10.zip",
+		  "checksum": "MD5:60b1ab31ea53927d2944f6ac5520484e",
+		  "size": "106564609",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4"
+            },
+            {
+              "packager": "arduino",
+              "name": "bossac",
+              "version": "1.9.1-arduino1"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            }
+          ]
+        },
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.11",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore-1.0.11.zip",
+          "archiveFileName": "ClearCore-1.0.11.zip",
+		  "checksum": "MD5:84ba95c96d9317062b617118e3dcd171",
+		  "size": "191632880",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4"
+            },
+            {
+              "packager": "arduino",
+              "name": "bossac",
+              "version": "1.9.1-arduino1"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            }
+          ]
+        },
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.12",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore-1.0.12.zip",
+          "archiveFileName": "ClearCore-1.0.12.zip",
+		  "checksum": "MD5:90a5d0614e51f3637a3059981c2acfc3",
+		  "size": "196558265",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4"
+            },
+            {
+              "packager": "arduino",
+              "name": "bossac",
+              "version": "1.9.1-arduino1"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            }
+          ]
+        },
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.0.13",
+          "category": "Contributed",
+          "help": { "online": "https://www.teknic.com" },
+          "url": "https://dev1.teknic.com/files/downloads/ClearCore-1.0.13.zip",
+          "archiveFileName": "ClearCore-1.0.13.zip",
+		  "checksum": "MD5:d96a5cba3c60ec086b3a326e7f80879b",
+		  "size": "20850099",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4"
+            },
+            {
+              "packager": "arduino",
+              "name": "bossac",
+              "version": "1.9.1-arduino1"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            }
+          ]
+        }
+      ],
+      "tools":[
+		{
+          "name": "arm-none-eabi-gcc",
+          "version": "6-2017q2",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/gcc-arm-none-eabi-6-2017-q2-update-win32.zip",
+                "archiveFileName": "gcc-arm-none-eabi-6-2017-q2-update-win32.zip",
+                "checksum": "MD5:512173381ef6cd11544cd888cd7564d4",
+                "size": "129606743"
+            },
+            {
+              "host": "x86_64-linux-gnu",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2?revision=bc2c96c0-14b5-4bb4-9f18-bceb4050fee7?product=GNU%20Arm%20Embedded%20Toolchain,64-bit,,Linux,7-2018-q2-update",
+              "archiveFileName": "gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2",
+              "checksum": "MD5:299ebd3f1c2c90930d28ab82e5d8d6c0",
+              "size": "100600407"
+            },
+            {
+              "host": "",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-src.tar.bz2?revision=bf2e4a67-c08c-49d5-b97d-17757cc8a77e?product=GNU%20Arm%20Embedded%20Toolchain,Invariant,,Source,7-2018-q2-update",
+              "archiveFileName": "gcc-arm-none-eabi-7-2018-q2-update-src.tar.bz2",
+              "checksum": "MD5:7f88d3f1d0285e73e116cc3428bc1e13",
+              "size": "170586363"
+            }
+          ]
+        },
+		{
+          "name": "bossac",
+          "version": "1.7.0",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/bossac.1.7.0-win32.zip",
+                "archiveFileName": "bossac.1.7.0-win32.zip",
+                "checksum": "MD5:c7825e7218c551fe50d2700ed64a157a",
+                "size": "959277"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/bossac-1.7.0-arduino3-linux64.tar.gz",
+                "archiveFileName": "bossac-1.7.0-arduino3-linux64.tar.gz",
+                "checksum": "MD5:5f09079752ed9a690afe1a5e40744e5f",
+                "size": "207342"
+            },
+            {
+              "host": "i686-pc-linux-gnu",
+              "url": "http://downloads.arduino.cc/tools/bossac-1.7.0-arduino3-linux32.tar.gz",
+              "archiveFileName": "bossac-1.7.0-arduino3-linux32.tar.gz",
+              "checksum": "SHA-256:4ac4354746d1a09258f49a43ef4d1baf030d81c022f8434774268b00f55d3ec3",
+              "size": "193577"
+            },
+            {
+              "host": "arm-linux-gnueabihf",
+              "url": "http://downloads.arduino.cc/tools/bossac-1.7.0-arduino3-linuxarm.tar.gz",
+              "archiveFileName": "bossac-1.7.0-arduino3-linuxarm.tar.gz",
+              "checksum": "SHA-256:626c6cc548046901143037b782bf019af1663bae0d78cf19181a876fb9abbb90",
+              "size": "193941"
+            },
+            {
+              "host": "aarch64-linux-gnu",
+              "url": "http://downloads.arduino.cc/tools/bossac-1.7.0-arduino3-linuxaarch64.tar.gz",
+              "archiveFileName": "bossac-1.7.0-arduino3-linuxaarch64.tar.gz",
+              "checksum": "SHA-256:626c6cc548046901143037b782bf019af1663bae0d78cf19181a876fb9abbb90",
+              "size": "268365"
+            }
+          ]
+        },
+		{
+          "name": "libClearCore",
+          "version": "1.0.0",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore.zip",
+                "archiveFileName": "libClearCore.zip",
+                "checksum": "MD5:42E3D3619C165945AB6DC6E6A5F0478B",
+                "size": "9532617"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore.zip",
+                "archiveFileName": "libClearCore.zip",
+                "checksum": "MD5:42E3D3619C165945AB6DC6E6A5F0478B",
+                "size": "9532617"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore.zip",
+                "archiveFileName": "libClearCore.zip",
+                "checksum": "MD5:42E3D3619C165945AB6DC6E6A5F0478B",
+                "size": "9532617"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore.zip",
+                "archiveFileName": "libClearCore.zip",
+                "checksum": "MD5:42E3D3619C165945AB6DC6E6A5F0478B",
+                "size": "9532617"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore.zip",
+                "archiveFileName": "libClearCore.zip",
+                "checksum": "MD5:42E3D3619C165945AB6DC6E6A5F0478B",
+                "size": "9532617"
+            }
+          ]
+        },
+		{
+          "name": "libClearCore",
+          "version": "1.0.2",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.2.zip",
+                "archiveFileName": "libClearCore-1.0.2.zip",
+                "checksum": "MD5:518a482e3a56f510baa95e52d68271e2",
+                "size": "17497321"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.2.zip",
+                "archiveFileName": "libClearCore-1.0.2.zip",
+                "checksum": "MD5:518a482e3a56f510baa95e52d68271e2",
+                "size": "17497321"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.2.zip",
+                "archiveFileName": "libClearCore-1.0.2.zip",
+                "checksum": "MD5:518a482e3a56f510baa95e52d68271e2",
+                "size": "17497321"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.2.zip",
+                "archiveFileName": "libClearCore-1.0.2.zip",
+                "checksum": "MD5:518a482e3a56f510baa95e52d68271e2",
+                "size": "17497321"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.2.zip",
+                "archiveFileName": "libClearCore-1.0.2.zip",
+                "checksum": "MD5:518a482e3a56f510baa95e52d68271e2",
+                "size": "17497321"
+            }
+          ]
+        },
+        {
+          "name": "libClearCore",
+          "version": "1.0.3",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.3.zip",
+                "archiveFileName": "libClearCore-1.0.3.zip",
+                "checksum": "MD5:af23e20e5e7e53b05e37864f25cff891",
+                "size": "10801060"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.3.zip",
+                "archiveFileName": "libClearCore-1.0.3.zip",
+                "checksum": "MD5:af23e20e5e7e53b05e37864f25cff891",
+                "size": "10801060"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.3.zip",
+                "archiveFileName": "libClearCore-1.0.3.zip",
+                "checksum": "MD5:af23e20e5e7e53b05e37864f25cff891",
+                "size": "10801060"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.3.zip",
+                "archiveFileName": "libClearCore-1.0.3.zip",
+                "checksum": "MD5:af23e20e5e7e53b05e37864f25cff891",
+                "size": "10801060"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.3.zip",
+                "archiveFileName": "libClearCore-1.0.3.zip",
+                "checksum": "MD5:af23e20e5e7e53b05e37864f25cff891",
+                "size": "10801060"
+            }
+          ]
+        },
+        {
+          "name": "libClearCore",
+          "version": "1.0.4",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.4.zip",
+                "archiveFileName": "libClearCore-1.0.4.zip",
+                "checksum": "MD5:cb7963f312129af87930c59f90c40040",
+                "size": "10873801"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.4.zip",
+                "archiveFileName": "libClearCore-1.0.4.zip",
+                "checksum": "MD5:cb7963f312129af87930c59f90c40040",
+                "size": "10873801"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.4.zip",
+                "archiveFileName": "libClearCore-1.0.4.zip",
+                "checksum": "MD5:cb7963f312129af87930c59f90c40040",
+                "size": "10873801"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.4.zip",
+                "archiveFileName": "libClearCore-1.0.4.zip",
+                "checksum": "MD5:cb7963f312129af87930c59f90c40040",
+                "size": "10873801"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.4.zip",
+                "archiveFileName": "libClearCore-1.0.4.zip",
+                "checksum": "MD5:cb7963f312129af87930c59f90c40040",
+                "size": "10873801"
+            }
+          ]
+        },
+        {
+          "name": "libClearCore",
+          "version": "1.0.5",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.5.zip",
+                "archiveFileName": "libClearCore-1.0.5.zip",
+                "checksum": "MD5:8791c4c4c3ddb981d268a03c0044e55b",
+                "size": "11425672"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.5.zip",
+                "archiveFileName": "libClearCore-1.0.5.zip",
+                "checksum": "MD5:8791c4c4c3ddb981d268a03c0044e55b",
+                "size": "11425672"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.5.zip",
+                "archiveFileName": "libClearCore-1.0.5.zip",
+                "checksum": "MD5:8791c4c4c3ddb981d268a03c0044e55b",
+                "size": "11425672"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.5.zip",
+                "archiveFileName": "libClearCore-1.0.5.zip",
+                "checksum": "MD5:8791c4c4c3ddb981d268a03c0044e55b",
+                "size": "11425672"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.5.zip",
+                "archiveFileName": "libClearCore-1.0.5.zip",
+                "checksum": "MD5:8791c4c4c3ddb981d268a03c0044e55b",
+                "size": "11425672"
+            }
+          ]
+        },
+        {
+          "name": "libClearCore",
+          "version": "1.0.6",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.6.zip",
+                "archiveFileName": "libClearCore-1.0.6.zip",
+                "checksum": "MD5:8c2de64673cc376e70cfcf7391d22240",
+                "size": "11605749"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.6.zip",
+                "archiveFileName": "libClearCore-1.0.6.zip",
+                "checksum": "MD5:8c2de64673cc376e70cfcf7391d22240",
+                "size": "11605749"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.6.zip",
+                "archiveFileName": "libClearCore-1.0.6.zip",
+                "checksum": "MD5:8c2de64673cc376e70cfcf7391d22240",
+                "size": "11605749"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.6.zip",
+                "archiveFileName": "libClearCore-1.0.6.zip",
+                "checksum": "MD5:8c2de64673cc376e70cfcf7391d22240",
+                "size": "11605749"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.6.zip",
+                "archiveFileName": "libClearCore-1.0.6.zip",
+                "checksum": "MD5:8c2de64673cc376e70cfcf7391d22240",
+                "size": "11605749"
+            }
+          ]
+        },
+        {
+          "name": "libClearCore",
+          "version": "1.0.7",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.7.zip",
+                "archiveFileName": "libClearCore-1.0.7.zip",
+                "checksum": "MD5:3eb093e2a07482c942b33cf9ded33766",
+                "size": "11608182"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.7.zip",
+                "archiveFileName": "libClearCore-1.0.7.zip",
+                "checksum": "MD5:3eb093e2a07482c942b33cf9ded33766",
+                "size": "11608182"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.7.zip",
+                "archiveFileName": "libClearCore-1.0.7.zip",
+                "checksum": "MD5:3eb093e2a07482c942b33cf9ded33766",
+                "size": "11608182"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.7.zip",
+                "archiveFileName": "libClearCore-1.0.7.zip",
+                "checksum": "MD5:3eb093e2a07482c942b33cf9ded33766",
+                "size": "11608182"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.7.zip",
+                "archiveFileName": "libClearCore-1.0.7.zip",
+                "checksum": "MD5:3eb093e2a07482c942b33cf9ded33766",
+                "size": "11608182"
+            }
+          ]
+        },
+        {
+          "name": "libClearCore",
+          "version": "1.0.8",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.8.zip",
+                "archiveFileName": "libClearCore-1.0.8.zip",
+                "checksum": "MD5:7f285e1fc29c039d25d02178bb42a971",
+                "size": "11683701"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.8.zip",
+                "archiveFileName": "libClearCore-1.0.8.zip",
+                "checksum": "MD5:7f285e1fc29c039d25d02178bb42a971",
+                "size": "11683701"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.8.zip",
+                "archiveFileName": "libClearCore-1.0.8.zip",
+                "checksum": "MD5:7f285e1fc29c039d25d02178bb42a971",
+                "size": "11683701"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.8.zip",
+                "archiveFileName": "libClearCore-1.0.8.zip",
+                "checksum": "MD5:7f285e1fc29c039d25d02178bb42a971",
+                "size": "11683701"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.8.zip",
+                "archiveFileName": "libClearCore-1.0.8.zip",
+                "checksum": "MD5:7f285e1fc29c039d25d02178bb42a971",
+                "size": "11683701"
+            }
+          ]
+        },
+        {
+          "name": "libClearCore",
+          "version": "1.0.9",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.9.zip",
+                "archiveFileName": "libClearCore-1.0.9.zip",
+                "checksum": "MD5:0f5fb6a13067f7ef3ae62ef1a78eef6f",
+                "size": "11530960"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.9.zip",
+                "archiveFileName": "libClearCore-1.0.9.zip",
+                "checksum": "MD5:0f5fb6a13067f7ef3ae62ef1a78eef6f",
+                "size": "11530960"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.9.zip",
+                "archiveFileName": "libClearCore-1.0.9.zip",
+                "checksum": "MD5:0f5fb6a13067f7ef3ae62ef1a78eef6f",
+                "size": "11530960"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.9.zip",
+                "archiveFileName": "libClearCore-1.0.9.zip",
+                "checksum": "MD5:0f5fb6a13067f7ef3ae62ef1a78eef6f",
+                "size": "11530960"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/libClearCore-1.0.9.zip",
+                "archiveFileName": "libClearCore-1.0.9.zip",
+                "checksum": "MD5:0f5fb6a13067f7ef3ae62ef1a78eef6f",
+                "size": "11530960"
+            }
+          ]
+        },
+		{
+          "name": "LwIP",
+          "version": "1.0.0",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP.zip",
+                "archiveFileName": "LwIP.zip",
+                "checksum": "MD5:0084A25B92490BECFA5E357CC69C9794",
+                "size": "2833286"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP.zip",
+                "archiveFileName": "LwIP.zip",
+                "checksum": "MD5:0084A25B92490BECFA5E357CC69C9794",
+                "size": "2833286"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP.zip",
+                "archiveFileName": "LwIP.zip",
+                "checksum": "MD5:0084A25B92490BECFA5E357CC69C9794",
+                "size": "2833286"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP.zip",
+                "archiveFileName": "LwIP.zip",
+                "checksum": "MD5:0084A25B92490BECFA5E357CC69C9794",
+                "size": "2833286"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP.zip",
+                "archiveFileName": "LwIP.zip",
+                "checksum": "MD5:0084A25B92490BECFA5E357CC69C9794",
+                "size": "2833286"
+            }
+          ]
+        },
+		{
+          "name": "LwIP",
+          "version": "1.0.2",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.2.zip",
+                "archiveFileName": "LwIP-1.0.2.zip",
+                "checksum": "MD5:7d40f12f46d9a429c31833a1c4866443",
+                "size": "1426870"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.2.zip",
+                "archiveFileName": "LwIP-1.0.2.zip",
+                "checksum": "MD5:7d40f12f46d9a429c31833a1c4866443",
+                "size": "1426870"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.2.zip",
+                "archiveFileName": "LwIP-1.0.2.zip",
+                "checksum": "MD5:7d40f12f46d9a429c31833a1c4866443",
+                "size": "1426870"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.2.zip",
+                "archiveFileName": "LwIP-1.0.2.zip",
+                "checksum": "MD5:7d40f12f46d9a429c31833a1c4866443",
+                "size": "1426870"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.2.zip",
+                "archiveFileName": "LwIP-1.0.2.zip",
+                "checksum": "MD5:7d40f12f46d9a429c31833a1c4866443",
+                "size": "1426870"
+            }
+          ]
+        },
+        {
+          "name": "LwIP",
+          "version": "1.0.3",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.3.zip",
+                "archiveFileName": "LwIP-1.0.3.zip",
+                "checksum": "MD5:6399b131d83cbb755a516098cc90f932",
+                "size": "10294179"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.3.zip",
+                "archiveFileName": "LwIP-1.0.3.zip",
+                "checksum": "MD5:6399b131d83cbb755a516098cc90f932",
+                "size": "10294179"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.3.zip",
+                "archiveFileName": "LwIP-1.0.3.zip",
+                "checksum": "MD5:6399b131d83cbb755a516098cc90f932",
+                "size": "10294179"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.3.zip",
+                "archiveFileName": "LwIP-1.0.3.zip",
+                "checksum": "MD5:6399b131d83cbb755a516098cc90f932",
+                "size": "10294179"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.3.zip",
+                "archiveFileName": "LwIP-1.0.3.zip",
+                "checksum": "MD5:6399b131d83cbb755a516098cc90f932",
+                "size": "10294179"
+            }
+          ]
+        },
+        {
+          "name": "LwIP",
+          "version": "1.0.4",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.4.zip",
+                "archiveFileName": "LwIP-1.0.4.zip",
+                "checksum": "MD5:a2867593de686cd09fa96567258fbe5d",
+                "size": "10293967"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.4.zip",
+                "archiveFileName": "LwIP-1.0.4.zip",
+                "checksum": "MD5:a2867593de686cd09fa96567258fbe5d",
+                "size": "10293967"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.4.zip",
+                "archiveFileName": "LwIP-1.0.4.zip",
+                "checksum": "MD5:a2867593de686cd09fa96567258fbe5d",
+                "size": "10293967"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.4.zip",
+                "archiveFileName": "LwIP-1.0.4.zip",
+                "checksum": "MD5:a2867593de686cd09fa96567258fbe5d",
+                "size": "10293967"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.4.zip",
+                "archiveFileName": "LwIP-1.0.4.zip",
+                "checksum": "MD5:a2867593de686cd09fa96567258fbe5d",
+                "size": "10293967"
+            }
+          ]
+        },
+        {
+          "name": "LwIP",
+          "version": "1.0.5",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.5.zip",
+                "archiveFileName": "LwIP-1.0.5.zip",
+                "checksum": "MD5:c53ecc6fd31d8b7e2d51566066b3d44c",
+                "size": "10294261"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.5.zip",
+                "archiveFileName": "LwIP-1.0.5.zip",
+                "checksum": "MD5:c53ecc6fd31d8b7e2d51566066b3d44c",
+                "size": "10294261"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.5.zip",
+                "archiveFileName": "LwIP-1.0.5.zip",
+                "checksum": "MD5:c53ecc6fd31d8b7e2d51566066b3d44c",
+                "size": "10294261"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.5.zip",
+                "archiveFileName": "LwIP-1.0.5.zip",
+                "checksum": "MD5:c53ecc6fd31d8b7e2d51566066b3d44c",
+                "size": "10294261"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.5.zip",
+                "archiveFileName": "LwIP-1.0.5.zip",
+                "checksum": "MD5:c53ecc6fd31d8b7e2d51566066b3d44c",
+                "size": "10294261"
+            }
+          ]
+        },
+        {
+          "name": "LwIP",
+          "version": "1.0.6",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.6.zip",
+                "archiveFileName": "LwIP-1.0.6.zip",
+                "checksum": "MD5:18a903380ecc4b903c03ca6b18377529",
+                "size": "10293348"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.6.zip",
+                "archiveFileName": "LwIP-1.0.6.zip",
+                "checksum": "MD5:18a903380ecc4b903c03ca6b18377529",
+                "size": "10293348"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.6.zip",
+                "archiveFileName": "LwIP-1.0.6.zip",
+                "checksum": "MD5:18a903380ecc4b903c03ca6b18377529",
+                "size": "10293348"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.6.zip",
+                "archiveFileName": "LwIP-1.0.6.zip",
+                "checksum": "MD5:18a903380ecc4b903c03ca6b18377529",
+                "size": "10293348"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.6.zip",
+                "archiveFileName": "LwIP-1.0.6.zip",
+                "checksum": "MD5:18a903380ecc4b903c03ca6b18377529",
+                "size": "10293348"
+            }
+          ]
+        },
+        {
+          "name": "LwIP",
+          "version": "1.0.7",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.7.zip",
+                "archiveFileName": "LwIP-1.0.7.zip",
+                "checksum": "MD5:21056b6541d8acaf129ffdbe728a62d0",
+                "size": "10293811"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.7.zip",
+                "archiveFileName": "LwIP-1.0.7.zip",
+                "checksum": "MD5:21056b6541d8acaf129ffdbe728a62d0",
+                "size": "10293811"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.7.zip",
+                "archiveFileName": "LwIP-1.0.7.zip",
+                "checksum": "MD5:21056b6541d8acaf129ffdbe728a62d0",
+                "size": "10293811"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.7.zip",
+                "archiveFileName": "LwIP-1.0.7.zip",
+                "checksum": "MD5:21056b6541d8acaf129ffdbe728a62d0",
+                "size": "10293811"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.7.zip",
+                "archiveFileName": "LwIP-1.0.7.zip",
+                "checksum": "MD5:21056b6541d8acaf129ffdbe728a62d0",
+                "size": "10293811"
+            }
+          ]
+        },
+        {
+          "name": "LwIP",
+          "version": "1.0.8",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.8.zip",
+                "archiveFileName": "LwIP-1.0.8.zip",
+                "checksum": "MD5:1e8c1d2f259e0552a141cafed3fe0862",
+                "size": "10311740"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.8.zip",
+                "archiveFileName": "LwIP-1.0.8.zip",
+                "checksum": "MD5:1e8c1d2f259e0552a141cafed3fe0862",
+                "size": "10311740"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.8.zip",
+                "archiveFileName": "LwIP-1.0.8.zip",
+                "checksum": "MD5:1e8c1d2f259e0552a141cafed3fe0862",
+                "size": "10311740"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.8.zip",
+                "archiveFileName": "LwIP-1.0.8.zip",
+                "checksum": "MD5:1e8c1d2f259e0552a141cafed3fe0862",
+                "size": "10311740"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.8.zip",
+                "archiveFileName": "LwIP-1.0.8.zip",
+                "checksum": "MD5:1e8c1d2f259e0552a141cafed3fe0862",
+                "size": "10311740"
+            }
+          ]
+        },
+        {
+          "name": "LwIP",
+          "version": "1.0.9",
+          "systems": [
+            {
+                "host": "i686-mingw32",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.9.zip",
+                "archiveFileName": "LwIP-1.0.9.zip",
+                "checksum": "MD5:8b9a56804962d7b54726ddfef71664db",
+                "size": "10312430"
+            },
+            {
+				"host": "aarch64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.9.zip",
+                "archiveFileName": "LwIP-1.0.9.zip",
+                "checksum": "MD5:8b9a56804962d7b54726ddfef71664db",
+                "size": "10312430"
+            },
+            {
+                "host": "x86_64-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.9.zip",
+                "archiveFileName": "LwIP-1.0.9.zip",
+                "checksum": "MD5:8b9a56804962d7b54726ddfef71664db",
+                "size": "10312430"
+            },
+            {
+				"host": "i686-pc-linux-gnu",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.9.zip",
+                "archiveFileName": "LwIP-1.0.9.zip",
+                "checksum": "MD5:8b9a56804962d7b54726ddfef71664db",
+                "size": "10312430"
+            },
+            {
+				"host": "arm-linux-gnueabihf",
+                "url": "https://dev1.teknic.com/files/downloads/LwIP-1.0.9.zip",
+                "archiveFileName": "LwIP-1.0.9.zip",
+                "checksum": "MD5:8b9a56804962d7b54726ddfef71664db",
+                "size": "10312430"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

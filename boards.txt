@@ -1,0 +1,41 @@
+# See: http://code.google.com/p/arduino/wiki/Platforms
+
+menu.cpu=Processor
+
+##############################################################
+
+clearcore.name=Teknic ClearCore
+clearcore.vid.0=0x2890
+clearcore.pid.0=0x0022
+clearcore.vid.1=0x2890
+clearcore.pid.1=0x8022
+
+clearcore.upload.tool=bossac
+clearcore.upload.protocol=sam-ba
+clearcore.upload.maximum_size=507904
+clearcore.upload.use_1200bps_touch=true
+clearcore.upload.wait_for_upload_port=true
+clearcore.upload.native_usb=true
+clearcore.upload.offset=0x4000
+clearcore.tools.bossac.upload.params.verbose=-i -d -a
+
+clearcore.bootloader.tool=openocd
+clearcore.bootloader.unlock_bits=0x3F
+clearcore.bootloader.lock_bits=0x2F
+
+clearcore.build.mcu=cortex-m4
+clearcore.build.float=hard
+clearcore.build.fpu=fpv4-sp-d16
+clearcore.build.f_cpu=120000000L
+clearcore.build.vid=0x2890
+clearcore.build.pid=0x0022
+clearcore.build.usb_product="Teknic ClearCore"
+clearcore.build.usb_manufacturer="Teknic, Inc."
+clearcore.build.board=ARM_ClearCore
+clearcore.build.core=arduino
+clearcore.build.variant=clearcore
+clearcore.build.extra_flags={build.usb_flags} -lc -DDEBUG 
+clearcore.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
+
+##############################################################
+
