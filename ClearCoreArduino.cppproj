@@ -83,7 +83,7 @@
       </ToolNumber>
       <ToolName>Custom Programming Tool</ToolName>
     </custom>
-    <CustomProgrammingToolCommand>"$(MSBuildProjectDirectory)\flash_clearcore.cmd" "$(OutputDirectory)\$(OutputFileName).bin"</CustomProgrammingToolCommand>
+    <CustomProgrammingToolCommand>"$(MSBuildProjectDirectory)\Teknic\Tools\flash_clearcore.cmd" "$(OutputDirectory)\$(OutputFileName).bin"</CustomProgrammingToolCommand>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
@@ -189,8 +189,7 @@
         <armgcccpp.compiler.optimization.DebugLevel>Default (-g2)</armgcccpp.compiler.optimization.DebugLevel>
       </ArmGccCpp>
     </ToolchainSettings>
-    <PostBuildEvent>"$(MSBuildProjectDirectory)\Teknic\Tools\uf2-builder\Release\uf2-builder.exe" "$(OutputDirectory)\$(OutputFileName).bin" "$(OutputDirectory)\$(OutputFileName).uf2"
-"$(MSBuildProjectDirectory)\keywordify.py" -S -p ..\</PostBuildEvent>
+    <PostBuildEvent>"$(MSBuildProjectDirectory)\Teknic\Tools\uf2-builder\Release\uf2-builder.exe" "$(OutputDirectory)\$(OutputFileName).bin" "$(OutputDirectory)\$(OutputFileName).uf2"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -301,8 +300,7 @@
         <armgcccpp.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcccpp.preprocessingassembler.debugging.DebugLevel>
       </ArmGccCpp>
     </ToolchainSettings>
-    <PostBuildEvent>"$(MSBuildProjectDirectory)\Teknic\Tools\uf2-builder\Release\uf2-builder.exe" "$(OutputDirectory)\$(OutputFileName).bin" "$(OutputDirectory)\$(OutputFileName).uf2"
-"$(MSBuildProjectDirectory)\keywordify.py" -S -p ..\</PostBuildEvent>
+    <PostBuildEvent>"$(MSBuildProjectDirectory)\Teknic\Tools\uf2-builder\Release\uf2-builder.exe" "$(OutputDirectory)\$(OutputFileName).bin" "$(OutputDirectory)\$(OutputFileName).uf2"</PostBuildEvent>
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
@@ -859,9 +857,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="cores\README.md">
-      <SubType>compile</SubType>
-    </None>
     <None Include="variants\clearcore\linker_scripts\gcc\flash_without_bootloader.ld">
       <SubType>compile</SubType>
     </None>
