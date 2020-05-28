@@ -36,17 +36,20 @@ void setup() {
 void loop() {
     // Put your main code here, it will run repeatedly:
 
-    // Ramp the current output of IO-0 up to 20mA.
+    // Ramp the current output of IO-0 up to 20 mA. If using an operating
+    // range of 4-20 mA, change the lower bounds of the loops below to 410
+    // instead of 0.
     for (uint16_t value = 0; value < 2047; value++) {
         // ClearCore's analog current output has 11-bit resolution, so we write
-        // values of 0 to 2047 (corresponding to 0-20mA).
+        // values of 0 to 2047 (corresponding to 0-20 mA) or 410 to 2047
+        // (corresponding to 4-20 mA).
         analogWrite(IO0, value, CURRENT);
         delay(2);
     }
 
     // Ramp the current output of IO-0 back down.
-    for (uint16_t value = 0; value < 2047; value++) {
-        analogWrite(IO0, 2047 - value, CURRENT);
+    for (uint16_t value = 2047; value > 0; value--) {
+        analogWrite(IO0, value, CURRENT);
         delay(2);
     }
 }
