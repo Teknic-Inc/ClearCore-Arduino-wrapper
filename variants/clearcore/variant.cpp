@@ -66,6 +66,39 @@ static inline uint32_t mapResolution(uint32_t value,
 }
 
 PinStatus digitalReadClearCore(pin_size_t conNum) {
+    if (conNum >= INAM0 && conNum <= INBM3) {
+        switch (conNum) {
+            case INAM0:
+            case INBM0:
+                conNum = M0;
+                break;
+            case INAM1:
+            case INBM1:
+                conNum = M1;
+                break;
+            case INAM2:
+            case INBM2:
+                conNum = M2;
+                break;
+            case INAM3:
+            case INBM3:
+                conNum = M3;
+                break;
+        }
+        
+        ClearCore::MotorDriver *motor =
+            static_cast<ClearCore::MotorDriver*>(
+                ClearCore::SysMgr.ConnectorByIndex(
+                    static_cast<ClearCorePins>(conNum)));
+                
+        if (conNum >= INAM0 && conNum < INBM0) {
+            return motor->MotorInAState() ? LOW : HIGH;
+        } 
+        else {
+            return motor->MotorInBState() ? LOW : HIGH;
+        }
+    }
+    
     // Get a reference to the appropriate connector
     ClearCore::Connector *connector =
         ClearCore::SysMgr.ConnectorByIndex(
@@ -85,19 +118,53 @@ PinStatus digitalReadClearCore(pin_size_t conNum) {
 
 void digitalWriteClearCore(pin_size_t conNum, PinStatus ulVal) {
     // Get a reference to the appropriate connector
-    ClearCore::Connector *connector =
-        ClearCore::SysMgr.ConnectorByIndex(
-            static_cast<ClearCorePins>(conNum));
+    if (conNum >= INAM0 && conNum <= INBM3) {
+        switch (conNum) {
+            case INAM0:
+            case INBM0:
+            conNum = M0;
+            break;
+            case INAM1:
+            case INBM1:
+            conNum = M1;
+            break;
+            case INAM2:
+            case INBM2:
+            conNum = M2;
+            break;
+            case INAM3:
+            case INBM3:
+            conNum = M3;
+            break;
+        }
+        
+        ClearCore::MotorDriver *motor =
+            static_cast<ClearCore::MotorDriver*>(
+                ClearCore::SysMgr.ConnectorByIndex(
+                    static_cast<ClearCorePins>(conNum)));
+                
+        if (conNum >= INAM0 && conNum < INBM0) {
+            motor->MotorInAState(ulVal);
+        }
+        else {
+            motor->MotorInBState(ulVal);
+        }
+    } 
+    else {
+        ClearCore::Connector *connector =
+            ClearCore::SysMgr.ConnectorByIndex(
+                static_cast<ClearCorePins>(conNum));
 
-    // If connector cannot be written, just return
-    if (!connector || !connector->IsWritable()) {
-        return;
-    }
+        // If connector cannot be written, just return
+        if (!connector || !connector->IsWritable()) {
+            return;
+        }
 
-    connector->Mode(ClearCore::Connector::OUTPUT_DIGITAL);
-    if (connector->Mode() == ClearCore::Connector::OUTPUT_DIGITAL) {
-        connector->State(ulVal);
-    }
+        connector->Mode(ClearCore::Connector::OUTPUT_DIGITAL);
+        if (connector->Mode() == ClearCore::Connector::OUTPUT_DIGITAL) {
+            connector->State(ulVal);
+        }
+    }    
 }
 
 /**
