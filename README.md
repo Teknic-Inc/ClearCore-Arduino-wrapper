@@ -1,6 +1,6 @@
 # ClearCore-Arduino-wrapper
 
-This repository contains the source code that allows users to interact with a Teknic ClearCore as an Arduino board. 
+This repository contains the source code for the ClearCore Arduino Wrapper, which allows users to interact with a Teknic ClearCore using common Arduino functions.
 
 Instead of interfacing directly to the processor pins, the ClearCore Arduino Wrapper uses the ClearCore libraries and provides an interface to the ClearCore connectors. This leverages all of the ClearCore library features with the ease of programming in the Arduino IDE.
 
