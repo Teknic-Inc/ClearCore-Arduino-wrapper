@@ -52,7 +52,7 @@ compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=
 
 compiler.arm.cmsis.c.flags="-I{runtime.tools.CMSIS.path}/CMSIS/Include/" "-I{build.variant.path}/Third Party/SAME53/CMSIS/Device/Include"
-compiler.arm.cmsis.ldflags="-L{runtime.platform.path}/Teknic/libClearCore/Debug" -lClearCore "-L{runtime.platform.path}/Teknic/LwIP/Debug" -lLwIP "-L{runtime.tools.CMSIS.path}/CMSIS/Lib/GCC/" -larm_cortexM4lf_math
+compiler.arm.cmsis.ldflags="-L{runtime.platform.path}/Teknic/libClearCore/Release" -lClearCore "-L{runtime.platform.path}/Teknic/LwIP/Release" -lLwIP "-L{runtime.tools.CMSIS.path}/CMSIS/Lib/GCC/" -larm_cortexM4lf_math
 
 # Compile patterns
 # --------------------
