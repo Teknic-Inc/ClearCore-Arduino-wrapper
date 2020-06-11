@@ -9,7 +9,7 @@ void setup() {
 
 void loop() {
     // Put your main code here, it will run repeatedly:
-    
+
     // Toggle and write the digital output state.
     outputState = !outputState;
     digitalWrite(LED_BUILTIN, outputState);

@@ -88,220 +88,219 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
       <ArmGccCpp>
-        <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
-        <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
-        <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
-        <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
-        <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
-        <armgcc.compiler.symbols.DefSymbols>
-          <ListValues>
-            <Value>USBCON</Value>
-            <Value>__CLEARCORE__</Value>
-            <Value>USB_CONFIG_POWER=0</Value>
-            <Value>__SAME53N19A__</Value>
-            <Value>ARM_MATH_CM4</Value>
-            <Value>DEBUG</Value>
-          </ListValues>
-        </armgcc.compiler.symbols.DefSymbols>
-        <armgcc.compiler.directories.DefaultIncludePath>False</armgcc.compiler.directories.DefaultIncludePath>
-        <armgcc.compiler.directories.IncludePaths>
-          <ListValues>
-            <Value>%24(PackRepoDir)\arm\CMSIS\4.5.0\CMSIS\Include\</Value>
-            <Value>../cores/arduino</Value>
-            <Value>../cores/arduino/api</Value>
-            <Value>../variants/clearcore</Value>
-            <Value>../variants/clearcore/Third Party/SAME53/CMSIS/Device/Include</Value>
-            <Value>../Teknic/libClearCore/inc</Value>
-            <Value>../Teknic/LwIP/LwIP/port/include</Value>
-            <Value>../Teknic/LwIP/LwIP/src/include</Value>
-          </ListValues>
-        </armgcc.compiler.directories.IncludePaths>
-        <armgcc.compiler.optimization.level>Optimize most (-O3)</armgcc.compiler.optimization.level>
-        <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
-        <armgcc.compiler.optimization.PrepareDataForGarbageCollection>True</armgcc.compiler.optimization.PrepareDataForGarbageCollection>
-        <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
-        <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
-        <armgcc.compiler.warnings.ExtraWarnings>True</armgcc.compiler.warnings.ExtraWarnings>
-        <armgcc.compiler.miscellaneous.OtherFlags>-std=gnu11 --param max-inline-insns-single=50 -MMD -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcc.compiler.miscellaneous.OtherFlags>
-        <armgcccpp.compiler.symbols.DefSymbols>
-          <ListValues>
-            <Value>__CLEARCORE__</Value>
-            <Value>USBCON</Value>
-            <Value>USB_CONFIG_POWER=0</Value>
-            <Value>ARM_MATH_CM4</Value>
-            <Value>DEBUG</Value>
-            <Value>__FPU_PRESENT=1</Value>
-          </ListValues>
-        </armgcccpp.compiler.symbols.DefSymbols>
-        <armgcccpp.compiler.directories.DefaultIncludePath>False</armgcccpp.compiler.directories.DefaultIncludePath>
-        <armgcccpp.compiler.directories.IncludePaths>
-          <ListValues>
-            <Value>%24(LOCALAPPDATA)\Arduino15\packages\arduino\tools\CMSIS\4.5.0\CMSIS\Include</Value>
-            <Value>../cores/arduino</Value>
-            <Value>../cores/arduino/api</Value>
-            <Value>../variants/clearcore</Value>
-            <Value>../variants/clearcore/Third Party/SAME53/CMSIS/Device/Include</Value>
-            <Value>../Teknic/LwIP/LwIP/src/include</Value>
-            <Value>../Teknic/LwIP/LwIP/port/include</Value>
-            <Value>../Teknic/libClearCore/inc</Value>
-          </ListValues>
-        </armgcccpp.compiler.directories.IncludePaths>
-        <armgcccpp.compiler.optimization.level>Optimize most (-O3)</armgcccpp.compiler.optimization.level>
-        <armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>
-        <armgcccpp.compiler.optimization.PrepareDataForGarbageCollection>True</armgcccpp.compiler.optimization.PrepareDataForGarbageCollection>
-        <armgcccpp.compiler.optimization.EnableLongCalls>False</armgcccpp.compiler.optimization.EnableLongCalls>
-        <armgcccpp.compiler.warnings.AllWarnings>True</armgcccpp.compiler.warnings.AllWarnings>
-        <armgcccpp.compiler.warnings.ExtraWarnings>True</armgcccpp.compiler.warnings.ExtraWarnings>
-        <armgcccpp.compiler.miscellaneous.OtherFlags>-std=gnu++11 -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -MMD -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcccpp.compiler.miscellaneous.OtherFlags>
-        <armgcccpp.linker.general.AdditionalSpecs>Use rdimon (semihosting) library (--specs=rdimon.specs)</armgcccpp.linker.general.AdditionalSpecs>
-        <armgcccpp.linker.libraries.Libraries>
-          <ListValues>
-            <Value>arm_cortexM4lf_math</Value>
-            <Value>libm</Value>
-          </ListValues>
-        </armgcccpp.linker.libraries.Libraries>
-        <armgcccpp.linker.libraries.LibrarySearchPaths>
-          <ListValues>
-            <Value>%24(LOCALAPPDATA)\Arduino15\packages\arduino\tools\CMSIS\4.5.0\CMSIS\Lib\GCC</Value>
-            <Value>../variants/clearcore/linker_scripts/gcc</Value>
-          </ListValues>
-        </armgcccpp.linker.libraries.LibrarySearchPaths>
-        <armgcccpp.linker.optimization.GarbageCollectUnusedSections>True</armgcccpp.linker.optimization.GarbageCollectUnusedSections>
-        <armgcccpp.linker.memorysettings.ExternalRAM>
-        </armgcccpp.linker.memorysettings.ExternalRAM>
-        <armgcccpp.linker.miscellaneous.LinkerFlags>-Tflash_with_bootloader.ld -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcccpp.linker.miscellaneous.LinkerFlags>
-        <armgcccpp.assembler.general.AssemblerFlags>--fpu=softvfp</armgcccpp.assembler.general.AssemblerFlags>
-        <armgcccpp.assembler.general.IncludePaths>
-          <ListValues>
-            <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.0.127\include</Value>
-            <Value>%24(LOCALAPPDATA)\Arduino15\packages\arduino\tools\CMSIS\4.5.0\CMSIS\Include</Value>
-          </ListValues>
-        </armgcccpp.assembler.general.IncludePaths>
-        <armgcccpp.assembler.debugging.DebugLevel>Default (-g)</armgcccpp.assembler.debugging.DebugLevel>
-        <armgcccpp.preprocessingassembler.general.IncludePaths>
-          <ListValues>
-            <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.0.127\include</Value>
-            <Value>%24(LOCALAPPDATA)\Arduino15\packages\arduino\tools\CMSIS\4.5.0\CMSIS\Include</Value>
-          </ListValues>
-        </armgcccpp.preprocessingassembler.general.IncludePaths>
-        <armgcccpp.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcccpp.preprocessingassembler.debugging.DebugLevel>
-        <armgcc.compiler.optimization.DebugLevel>Default (-g2)</armgcc.compiler.optimization.DebugLevel>
-        <armgcccpp.compiler.optimization.DebugLevel>Default (-g2)</armgcccpp.compiler.optimization.DebugLevel>
-      </ArmGccCpp>
+  <armgcc.common.outputfiles.hex>False</armgcc.common.outputfiles.hex>
+  <armgcc.common.outputfiles.lss>False</armgcc.common.outputfiles.lss>
+  <armgcc.common.outputfiles.eep>False</armgcc.common.outputfiles.eep>
+  <armgcc.common.outputfiles.bin>False</armgcc.common.outputfiles.bin>
+  <armgcc.common.outputfiles.srec>False</armgcc.common.outputfiles.srec>
+  <armgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>USBCON</Value>
+      <Value>__CLEARCORE__</Value>
+      <Value>USB_CONFIG_POWER=0</Value>
+      <Value>__SAME53N19A__</Value>
+      <Value>ARM_MATH_CM4</Value>
+      <Value>DEBUG</Value>
+    </ListValues>
+  </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.DefaultIncludePath>False</armgcc.compiler.directories.DefaultIncludePath>
+  <armgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\4.5.0\CMSIS\Include\</Value>
+      <Value>../cores/arduino</Value>
+      <Value>../cores/arduino/api</Value>
+      <Value>../variants/clearcore</Value>
+      <Value>../variants/clearcore/Third Party/SAME53/CMSIS/Device/Include</Value>
+      <Value>../Teknic/libClearCore/inc</Value>
+      <Value>../Teknic/LwIP/LwIP/port/include</Value>
+      <Value>../Teknic/LwIP/LwIP/src/include</Value>
+    </ListValues>
+  </armgcc.compiler.directories.IncludePaths>
+  <armgcc.compiler.optimization.level>Optimize most (-O3)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.optimization.PrepareDataForGarbageCollection>True</armgcc.compiler.optimization.PrepareDataForGarbageCollection>
+  <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
+  <armgcc.compiler.optimization.DebugLevel>Default (-g2)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.compiler.warnings.ExtraWarnings>True</armgcc.compiler.warnings.ExtraWarnings>
+  <armgcc.compiler.miscellaneous.OtherFlags>-std=gnu11 --param max-inline-insns-single=50 -MMD -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcc.compiler.miscellaneous.OtherFlags>
+  <armgcccpp.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>__CLEARCORE__</Value>
+      <Value>USBCON</Value>
+      <Value>USB_CONFIG_POWER=0</Value>
+      <Value>ARM_MATH_CM4</Value>
+      <Value>DEBUG</Value>
+      <Value>__FPU_PRESENT=1</Value>
+    </ListValues>
+  </armgcccpp.compiler.symbols.DefSymbols>
+  <armgcccpp.compiler.directories.DefaultIncludePath>False</armgcccpp.compiler.directories.DefaultIncludePath>
+  <armgcccpp.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+      <Value>../cores/arduino</Value>
+      <Value>../cores/arduino/api</Value>
+      <Value>../variants/clearcore</Value>
+      <Value>../variants/clearcore/Third Party/SAME53/CMSIS/Device/Include</Value>
+      <Value>../Teknic/libClearCore/inc</Value>
+      <Value>../Teknic/LwIP/LwIP/src/include</Value>
+      <Value>../Teknic/LwIP/LwIP/port/include</Value>
+    </ListValues>
+  </armgcccpp.compiler.directories.IncludePaths>
+  <armgcccpp.compiler.optimization.level>Optimize most (-O3)</armgcccpp.compiler.optimization.level>
+  <armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcccpp.compiler.optimization.PrepareDataForGarbageCollection>True</armgcccpp.compiler.optimization.PrepareDataForGarbageCollection>
+  <armgcccpp.compiler.optimization.EnableLongCalls>False</armgcccpp.compiler.optimization.EnableLongCalls>
+  <armgcccpp.compiler.optimization.DebugLevel>Default (-g2)</armgcccpp.compiler.optimization.DebugLevel>
+  <armgcccpp.compiler.warnings.AllWarnings>True</armgcccpp.compiler.warnings.AllWarnings>
+  <armgcccpp.compiler.warnings.ExtraWarnings>True</armgcccpp.compiler.warnings.ExtraWarnings>
+  <armgcccpp.compiler.miscellaneous.OtherFlags>-std=gnu++11 -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -MMD -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcccpp.compiler.miscellaneous.OtherFlags>
+  <armgcccpp.linker.general.AdditionalSpecs>Use rdimon (semihosting) library (--specs=rdimon.specs)</armgcccpp.linker.general.AdditionalSpecs>
+  <armgcccpp.linker.libraries.Libraries>
+    <ListValues>
+      <Value>arm_cortexM4lf_math</Value>
+      <Value>libm</Value>
+    </ListValues>
+  </armgcccpp.linker.libraries.Libraries>
+  <armgcccpp.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+      <Value>../variants/clearcore/linker_scripts/gcc</Value>
+    </ListValues>
+  </armgcccpp.linker.libraries.LibrarySearchPaths>
+  <armgcccpp.linker.optimization.GarbageCollectUnusedSections>True</armgcccpp.linker.optimization.GarbageCollectUnusedSections>
+  <armgcccpp.linker.memorysettings.ExternalRAM />
+  <armgcccpp.linker.miscellaneous.LinkerFlags>-Tflash_with_bootloader.ld -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcccpp.linker.miscellaneous.LinkerFlags>
+  <armgcccpp.assembler.general.AssemblerFlags>--fpu=softvfp</armgcccpp.assembler.general.AssemblerFlags>
+  <armgcccpp.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+    </ListValues>
+  </armgcccpp.assembler.general.IncludePaths>
+  <armgcccpp.assembler.debugging.DebugLevel>Default (-g)</armgcccpp.assembler.debugging.DebugLevel>
+  <armgcccpp.preprocessingassembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+    </ListValues>
+  </armgcccpp.preprocessingassembler.general.IncludePaths>
+  <armgcccpp.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcccpp.preprocessingassembler.debugging.DebugLevel>
+</ArmGccCpp>
     </ToolchainSettings>
-    <PostBuildEvent>"$(MSBuildProjectDirectory)\Teknic\Tools\uf2-builder\Release\uf2-builder.exe" "$(OutputDirectory)\$(OutputFileName).bin" "$(OutputDirectory)\$(OutputFileName).uf2"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+    <OutputFileName>libClearCoreArduino</OutputFileName>
+    <OutputFileExtension>.a</OutputFileExtension>
+    <OutputType>StaticLibrary</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
       <ArmGccCpp>
-        <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
-        <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
-        <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
-        <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
-        <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
-        <armgcc.compiler.symbols.DefSymbols>
-          <ListValues>
-            <Value>USBCON</Value>
-            <Value>__CLEARCORE__</Value>
-            <Value>USB_CONFIG_POWER=0</Value>
-            <Value>__SAME53N19A__</Value>
-            <Value>ARM_MATH_CM4</Value>
-            <Value>NDEBUG</Value>
-          </ListValues>
-        </armgcc.compiler.symbols.DefSymbols>
-        <armgcc.compiler.directories.DefaultIncludePath>False</armgcc.compiler.directories.DefaultIncludePath>
-        <armgcc.compiler.directories.IncludePaths>
-          <ListValues>
-            <Value>%24(PackRepoDir)\arm\CMSIS\4.5.0\CMSIS\Include\</Value>
-            <Value>../cores/arduino</Value>
-            <Value>../cores/arduino/api</Value>
-            <Value>../variants/clearcore</Value>
-            <Value>../variants/clearcore/Third Party/SAME53/CMSIS/Device/Include</Value>
-            <Value>../Teknic/libClearCore/inc</Value>
-            <Value>../Teknic/LwIP/LwIP/port/include</Value>
-            <Value>../Teknic/LwIP/LwIP/src/include</Value>
-          </ListValues>
-        </armgcc.compiler.directories.IncludePaths>
-        <armgcc.compiler.optimization.level>Optimize most (-O3)</armgcc.compiler.optimization.level>
-        <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
-        <armgcc.compiler.optimization.PrepareDataForGarbageCollection>True</armgcc.compiler.optimization.PrepareDataForGarbageCollection>
-        <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
-        <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
-        <armgcc.compiler.warnings.ExtraWarnings>True</armgcc.compiler.warnings.ExtraWarnings>
-        <armgcc.compiler.miscellaneous.OtherFlags>-std=gnu11 --param max-inline-insns-single=50 -MMD -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcc.compiler.miscellaneous.OtherFlags>
-        <armgcccpp.compiler.symbols.DefSymbols>
-          <ListValues>
-            <Value>__CLEARCORE__</Value>
-            <Value>USBCON</Value>
-            <Value>USB_CONFIG_POWER=0</Value>
-            <Value>ARM_MATH_CM4</Value>
-            <Value>NDEBUG</Value>
-          </ListValues>
-        </armgcccpp.compiler.symbols.DefSymbols>
-        <armgcccpp.compiler.directories.DefaultIncludePath>False</armgcccpp.compiler.directories.DefaultIncludePath>
-        <armgcccpp.compiler.directories.IncludePaths>
-          <ListValues>
-            <Value>%24(LOCALAPPDATA)\Arduino15\packages\arduino\tools\CMSIS\4.5.0\CMSIS\Include</Value>
-            <Value>../cores/arduino</Value>
-            <Value>../cores/arduino/api</Value>
-            <Value>../variants/clearcore</Value>
-            <Value>../variants/clearcore/Third Party/SAME53/CMSIS/Device/Include</Value>
-            <Value>../Teknic/LwIP/LwIP/src/include</Value>
-            <Value>../Teknic/LwIP/LwIP/port/include</Value>
-            <Value>../Teknic/libClearCore/inc</Value>
-          </ListValues>
-        </armgcccpp.compiler.directories.IncludePaths>
-        <armgcccpp.compiler.optimization.level>Optimize most (-O3)</armgcccpp.compiler.optimization.level>
-        <armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>
-        <armgcccpp.compiler.optimization.PrepareDataForGarbageCollection>True</armgcccpp.compiler.optimization.PrepareDataForGarbageCollection>
-        <armgcccpp.compiler.optimization.EnableLongCalls>False</armgcccpp.compiler.optimization.EnableLongCalls>
-        <armgcccpp.compiler.warnings.AllWarnings>True</armgcccpp.compiler.warnings.AllWarnings>
-        <armgcccpp.compiler.warnings.ExtraWarnings>True</armgcccpp.compiler.warnings.ExtraWarnings>
-        <armgcccpp.compiler.miscellaneous.OtherFlags>-std=gnu++11 -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -MMD -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcccpp.compiler.miscellaneous.OtherFlags>
-        <armgcccpp.linker.general.AdditionalSpecs>Use rdimon (semihosting) library (--specs=rdimon.specs)</armgcccpp.linker.general.AdditionalSpecs>
-        <armgcccpp.linker.libraries.Libraries>
-          <ListValues>
-            <Value>arm_cortexM4lf_math</Value>
-            <Value>libm</Value>
-          </ListValues>
-        </armgcccpp.linker.libraries.Libraries>
-        <armgcccpp.linker.libraries.LibrarySearchPaths>
-          <ListValues>
-            <Value>%24(LOCALAPPDATA)\Arduino15\packages\arduino\tools\CMSIS\4.5.0\CMSIS\Lib\GCC</Value>
-            <Value>../variants/clearcore/linker_scripts/gcc</Value>
-          </ListValues>
-        </armgcccpp.linker.libraries.LibrarySearchPaths>
-        <armgcccpp.linker.optimization.GarbageCollectUnusedSections>True</armgcccpp.linker.optimization.GarbageCollectUnusedSections>
-        <armgcccpp.linker.memorysettings.ExternalRAM>
-        </armgcccpp.linker.memorysettings.ExternalRAM>
-        <armgcccpp.linker.miscellaneous.LinkerFlags>-Tflash_with_bootloader.ld -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcccpp.linker.miscellaneous.LinkerFlags>
-        <armgcccpp.assembler.general.AssemblerFlags>--fpu=softvfp</armgcccpp.assembler.general.AssemblerFlags>
-        <armgcccpp.assembler.general.IncludePaths>
-          <ListValues>
-            <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.0.127\include</Value>
-            <Value>%24(LOCALAPPDATA)\Arduino15\packages\arduino\tools\CMSIS\4.5.0\CMSIS\Include</Value>
-          </ListValues>
-        </armgcccpp.assembler.general.IncludePaths>
-        <armgcccpp.assembler.debugging.DebugLevel>Default (-g)</armgcccpp.assembler.debugging.DebugLevel>
-        <armgcccpp.preprocessingassembler.general.IncludePaths>
-          <ListValues>
-            <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.0.127\include</Value>
-            <Value>%24(LOCALAPPDATA)\Arduino15\packages\arduino\tools\CMSIS\4.5.0\CMSIS\Include</Value>
-            <Value>$(MSBuildProjectDirectory)\cores\arduino</Value>
-            <Value>$(MSBuildProjectDirectory)\cores\arduino\api</Value>
-            <Value>$(MSBuildProjectDirectory)\cores\arduino\api\deprecated</Value>
-            <Value>$(MSBuildProjectDirectory)\cores\arduino\api\deprecated-avr-comp\avr</Value>
-            <Value>$(MSBuildProjectDirectory)\cores\arduino\SD</Value>
-            <Value>$(MSBuildProjectDirectory)\cores\arduino\USB</Value>
-            <Value>$(MSBuildProjectDirectory)\variants\clearcore</Value>
-            <Value>$(MSBuildProjectDirectory)\variants\clearcore\Teknic\inc</Value>
-          </ListValues>
-        </armgcccpp.preprocessingassembler.general.IncludePaths>
-        <armgcccpp.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcccpp.preprocessingassembler.debugging.DebugLevel>
-      </ArmGccCpp>
+  <armgcc.common.outputfiles.hex>False</armgcc.common.outputfiles.hex>
+  <armgcc.common.outputfiles.lss>False</armgcc.common.outputfiles.lss>
+  <armgcc.common.outputfiles.eep>False</armgcc.common.outputfiles.eep>
+  <armgcc.common.outputfiles.bin>False</armgcc.common.outputfiles.bin>
+  <armgcc.common.outputfiles.srec>False</armgcc.common.outputfiles.srec>
+  <armgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>USBCON</Value>
+      <Value>__CLEARCORE__</Value>
+      <Value>USB_CONFIG_POWER=0</Value>
+      <Value>__SAME53N19A__</Value>
+      <Value>ARM_MATH_CM4</Value>
+      <Value>NDEBUG</Value>
+    </ListValues>
+  </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.DefaultIncludePath>False</armgcc.compiler.directories.DefaultIncludePath>
+  <armgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\4.5.0\CMSIS\Include\</Value>
+      <Value>../cores/arduino</Value>
+      <Value>../cores/arduino/api</Value>
+      <Value>../variants/clearcore</Value>
+      <Value>../variants/clearcore/Third Party/SAME53/CMSIS/Device/Include</Value>
+      <Value>../Teknic/libClearCore/inc</Value>
+      <Value>../Teknic/LwIP/LwIP/port/include</Value>
+      <Value>../Teknic/LwIP/LwIP/src/include</Value>
+    </ListValues>
+  </armgcc.compiler.directories.IncludePaths>
+  <armgcc.compiler.optimization.level>Optimize most (-O3)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.optimization.PrepareDataForGarbageCollection>True</armgcc.compiler.optimization.PrepareDataForGarbageCollection>
+  <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
+  <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.compiler.warnings.ExtraWarnings>True</armgcc.compiler.warnings.ExtraWarnings>
+  <armgcc.compiler.miscellaneous.OtherFlags>-std=gnu11 --param max-inline-insns-single=50 -MMD -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcc.compiler.miscellaneous.OtherFlags>
+  <armgcccpp.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>__CLEARCORE__</Value>
+      <Value>USBCON</Value>
+      <Value>USB_CONFIG_POWER=0</Value>
+      <Value>ARM_MATH_CM4</Value>
+      <Value>NDEBUG</Value>
+      <Value>__FPU_PRESENT=1</Value>
+    </ListValues>
+  </armgcccpp.compiler.symbols.DefSymbols>
+  <armgcccpp.compiler.directories.DefaultIncludePath>False</armgcccpp.compiler.directories.DefaultIncludePath>
+  <armgcccpp.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+      <Value>../cores/arduino</Value>
+      <Value>../cores/arduino/api</Value>
+      <Value>../variants/clearcore</Value>
+      <Value>../variants/clearcore/Third Party/SAME53/CMSIS/Device/Include</Value>
+      <Value>../Teknic/libClearCore/inc</Value>
+      <Value>../Teknic/LwIP/LwIP/src/include</Value>
+      <Value>../Teknic/LwIP/LwIP/port/include</Value>
+    </ListValues>
+  </armgcccpp.compiler.directories.IncludePaths>
+  <armgcccpp.compiler.optimization.level>Optimize most (-O3)</armgcccpp.compiler.optimization.level>
+  <armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcccpp.compiler.optimization.PrepareDataForGarbageCollection>True</armgcccpp.compiler.optimization.PrepareDataForGarbageCollection>
+  <armgcccpp.compiler.optimization.EnableLongCalls>False</armgcccpp.compiler.optimization.EnableLongCalls>
+  <armgcccpp.compiler.warnings.AllWarnings>True</armgcccpp.compiler.warnings.AllWarnings>
+  <armgcccpp.compiler.warnings.ExtraWarnings>True</armgcccpp.compiler.warnings.ExtraWarnings>
+  <armgcccpp.compiler.miscellaneous.OtherFlags>-std=gnu++11 -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -MMD -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcccpp.compiler.miscellaneous.OtherFlags>
+  <armgcccpp.linker.general.AdditionalSpecs>Use rdimon (semihosting) library (--specs=rdimon.specs)</armgcccpp.linker.general.AdditionalSpecs>
+  <armgcccpp.linker.libraries.Libraries>
+    <ListValues>
+      <Value>arm_cortexM4lf_math</Value>
+      <Value>libm</Value>
+    </ListValues>
+  </armgcccpp.linker.libraries.Libraries>
+  <armgcccpp.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+      <Value>../variants/clearcore/linker_scripts/gcc</Value>
+    </ListValues>
+  </armgcccpp.linker.libraries.LibrarySearchPaths>
+  <armgcccpp.linker.optimization.GarbageCollectUnusedSections>True</armgcccpp.linker.optimization.GarbageCollectUnusedSections>
+  <armgcccpp.linker.memorysettings.ExternalRAM />
+  <armgcccpp.linker.miscellaneous.LinkerFlags>-Tflash_with_bootloader.ld -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcccpp.linker.miscellaneous.LinkerFlags>
+  <armgcccpp.assembler.general.AssemblerFlags>--fpu=softvfp</armgcccpp.assembler.general.AssemblerFlags>
+  <armgcccpp.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+    </ListValues>
+  </armgcccpp.assembler.general.IncludePaths>
+  <armgcccpp.assembler.debugging.DebugLevel>Default (-g)</armgcccpp.assembler.debugging.DebugLevel>
+  <armgcccpp.preprocessingassembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+    </ListValues>
+  </armgcccpp.preprocessingassembler.general.IncludePaths>
+  <armgcccpp.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcccpp.preprocessingassembler.debugging.DebugLevel>
+</ArmGccCpp>
     </ToolchainSettings>
-    <PostBuildEvent>"$(MSBuildProjectDirectory)\Teknic\Tools\uf2-builder\Release\uf2-builder.exe" "$(OutputDirectory)\$(OutputFileName).bin" "$(OutputDirectory)\$(OutputFileName).uf2"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
     <OutputPath>bin\Release\</OutputPath>
+    <OutputFileName>libClearCoreArduino</OutputFileName>
+    <OutputFileExtension>.a</OutputFileExtension>
+    <OutputType>StaticLibrary</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="cores\" />
@@ -511,9 +510,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="cores\arduino\WVariant.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="TestSketch.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="variants\clearcore\pins_arduino.h">
