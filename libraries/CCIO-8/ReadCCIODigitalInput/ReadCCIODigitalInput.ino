@@ -61,7 +61,7 @@ void loop() {
     PinStatus state = digitalRead(CLEARCORE_PIN_CCIOA0);
 
     // Display the state of the input connector.
-    Serial.print("Input state: ");
+    Serial.print("CCIOA0 Input state: ");
     if (state) {
         Serial.println("ON");
     }

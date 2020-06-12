@@ -53,7 +53,7 @@ void loop() {
     state = digitalRead(inputPin);
 
     // Display the state of the input connector.
-    Serial.print("Input state: ");
+    Serial.print("DI-6 Input state: ");
     if (state) {
         Serial.println("ON");
     }
