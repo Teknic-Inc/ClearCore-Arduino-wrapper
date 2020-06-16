@@ -152,7 +152,7 @@ bool CommandVelocity(int commandedVelocity) {
     }
 
     // Delays to send the correct filtered direction.
-    delay(INPUT_A_FILTER);
+    delay(2 + INPUT_A_FILTER);
 
     // Find the scaling factor of our velocity range mapped to the PWM duty
     // cycle range (255 is the max duty cycle).
@@ -164,7 +164,6 @@ bool CommandVelocity(int commandedVelocity) {
     // Command the move.
     motor.MotorInBDuty(dutyRequest);
 
-    Serial.println("Move Done");
     return true;
 }
 //------------------------------------------------------------------------------
