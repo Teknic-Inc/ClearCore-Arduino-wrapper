@@ -24,17 +24,13 @@
  *    for Follow Digital Velocity Command, Unipolar PWM Command mode (In MSP
  *    select Mode>>Velocity>>Follow Digital Velocity Command, then with
  *    "Unipolar PWM Command" selected hit the OK button).
- * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Velocity"
- *    through the MSP software (select Advanced>>High Level Feedback [Mode]...
- *    then choose "All Systems Go (ASG) - Velocity" from the dropdown and hit
- *    the OK button).
- * 4. The ClearPath must have a defined Max Speed configured through the MSP
+ * 3. The ClearPath must have a defined Max Speed configured through the MSP
  *    software (On the main MSP window fill in the "Max Speed (RPM)" box with
  *    your desired maximum speed). Ensure the value of maxSpeed below matches
  *    this Max Speed.
- * 5. Ensure the "Invert PWM Input" checkbox found on the MSP's main window is
+ * 4. Ensure the "Invert PWM Input" checkbox found on the MSP's main window is
  *    unchecked.
- * 6. Ensure the Input A filter in MSP is set to 20ms, (In MSP
+ * 5. Ensure the Input A filter in MSP is set to 20ms, (In MSP
  *    select Advanced>>Input A, B Filtering... then in the Settings box fill in
  *    the textbox labeled "Input A Filter Time Constant (msec)" then hit the OK
  *    button).
@@ -94,9 +90,10 @@ void setup() {
     motor.EnableRequest(true);
     Serial.println("Motor Enabled");
 
-    // Waits for HLFB to assert (waits for homing to complete if applicable)
-    Serial.println("Waiting for HLFB...");
-    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+    // Waits for 5 seconds for motor to come up to speed
+    Serial.println("Waiting for motor to come up to speed...");
+    startTime = millis();
+    while (millis() - startTime < timeout) {
         continue;
     }
     Serial.println("Motor Ready");
@@ -155,7 +152,7 @@ bool CommandVelocity(int commandedVelocity) {
     }
 
     // Delays to send the correct filtered direction.
-    delay(INPUT_A_FILTER);
+    delay(2 + INPUT_A_FILTER);
 
     // Find the scaling factor of our velocity range mapped to the PWM duty
     // cycle range (255 is the max duty cycle).
@@ -167,7 +164,6 @@ bool CommandVelocity(int commandedVelocity) {
     // Command the move.
     motor.MotorInBDuty(dutyRequest);
 
-    Serial.println("Move Done");
     return true;
 }
 //------------------------------------------------------------------------------

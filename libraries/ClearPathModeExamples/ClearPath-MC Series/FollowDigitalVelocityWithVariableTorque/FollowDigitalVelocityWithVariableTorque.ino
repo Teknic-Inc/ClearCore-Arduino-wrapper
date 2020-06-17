@@ -23,18 +23,14 @@
  *    for Follow Digital Velocity Command, Bipolar PWM Command with Variable
  *    Torque mode (In MSP select Mode>>Velocity>>Follow Digital Velocity
  *    Command, then with "Bipolar PWM Command w/ Variable Torque")
- * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Velocity"
- *    through the MSP software (select Advanced>>High Level Feedback [Mode]...
- *    then choose "All Systems Go (ASG) - Velocity" from the dropdown and hit
- *    the OK button).
- * 4. The ClearPath must have a defined Max Speed configured through the MSP
+ * 3. The ClearPath must have a defined Max Speed configured through the MSP
  *    software (On the main MSP window fill in the "Max Speed (RPM)" box with
  *    your desired maximum speed). Ensure the value of maxSpeed below matches
  *    this Max Speed.
- * 5. Set the PWM Deadband in MSP to 2.
- * 6. In MSP, ensure the two checkboxes for "Invert Torque PWM Input" and
+ * 4. Set the PWM Deadband in MSP to 2.
+ * 5. In MSP, ensure the two checkboxes for "Invert Torque PWM Input" and
  *    "Invert Speed PWM Input" are unchecked.
- * 7. A primary Torque Limit and Alternate Torque Limit must be defined using
+ * 6. A primary Torque Limit and Alternate Torque Limit must be defined using
  *    the Torque Limit setup window through the MSP software (To configure,
  *    click the "Setup..." button found under the "Torque Limit" label. Then
  *    fill in the textbox labeled "Alt Torque Limit (% of max)" and hit the
@@ -101,9 +97,10 @@ void setup() {
     motor.EnableRequest(true);
     Serial.println("Motor Enabled");
 
-    // Waits for HLFB to assert (waits for homing to complete if applicable)
-    Serial.println("Waiting for HLFB...");
-    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+    // Waits for 5 seconds for motor to come up to speed
+    Serial.println("Waiting for motor to come up to speed...");
+    startTime = millis();
+    while (millis() - startTime < timeout) {
         continue;
     }
     Serial.println("Motor Ready");
