@@ -1,4 +1,4 @@
-set ver=1.0.14.dev
+set ver=1.0.14
 rem set version=shell git describe --dirty --always --tags
 
 set zipDir=ClearCore-%ver%
@@ -20,6 +20,7 @@ rd /s /q .\TestSketch
 rd /s /q .\Debug
 rd /s /q .\Release
 del .\zipClearCore.cmd
+del .\package_clearcore_index.json
 
 rem Delete all the git repos in the directory structure
 for /d /r . %%d in (.git) do @if exist "%%d" rd /s /q "%%d"
