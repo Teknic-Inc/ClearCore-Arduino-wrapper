@@ -1,0 +1,876 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>7.0</ProjectVersion>
+    <ToolchainName>com.Atmel.ARMGCC.CPP</ToolchainName>
+    <ProjectGuid>{dc06454f-445d-4e8c-a03e-22236431b9de}</ProjectGuid>
+    <avrdevice>ATSAME53N19A</avrdevice>
+    <avrdeviceseries>none</avrdeviceseries>
+    <OutputType>Executable</OutputType>
+    <Language>CPP</Language>
+    <OutputFileName>$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <AssemblyName>ClearCoreArduino</AssemblyName>
+    <Name>ClearCoreArduino</Name>
+    <RootNamespace>ClearCoreArduino</RootNamespace>
+    <ToolchainFlavour>Native</ToolchainFlavour>
+    <KeepTimersRunning>true</KeepTimersRunning>
+    <OverrideVtor>false</OverrideVtor>
+    <CacheFlash>true</CacheFlash>
+    <ProgFlashFromRam>true</ProgFlashFromRam>
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
+    <UncachedRange />
+    <preserveEEPROM>true</preserveEEPROM>
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
+    <BootSegment>2</BootSegment>
+    <ResetRule>0</ResetRule>
+    <eraseonlaunchrule>1</eraseonlaunchrule>
+    <EraseKey />
+    <AsfFrameworkConfig>
+      <framework-data xmlns="">
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.40.0" />
+        </dependencies>
+      </framework-data>
+    </AsfFrameworkConfig>
+    <avrtool>custom</avrtool>
+    <avrtoolserialnumber>
+    </avrtoolserialnumber>
+    <avrdeviceexpectedsignature>0x61830303</avrdeviceexpectedsignature>
+    <avrtoolinterface>
+    </avrtoolinterface>
+    <com_atmel_avrdbg_tool_atmelice>
+      <ToolOptions>
+        <InterfaceProperties>
+          <SwdClock>2000000</SwdClock>
+        </InterfaceProperties>
+        <InterfaceName>SWD</InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.atmelice</ToolType>
+      <ToolNumber>J41800072707</ToolNumber>
+      <ToolName>Atmel-ICE</ToolName>
+    </com_atmel_avrdbg_tool_atmelice>
+    <avrtoolinterfaceclock>2000000</avrtoolinterfaceclock>
+    <com_atmel_avrdbg_tool_samice>
+      <ToolOptions>
+        <InterfaceProperties>
+          <SwdClock>4000000</SwdClock>
+        </InterfaceProperties>
+        <InterfaceName>SWD</InterfaceName>
+        <JlinkConfigFile>C:\git\clearcore_atmelstudio.git\ClearCoreArduino\jlink.config</JlinkConfigFile>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.samice</ToolType>
+      <ToolNumber>504501883</ToolNumber>
+      <ToolName>J-Link</ToolName>
+    </com_atmel_avrdbg_tool_samice>
+    <custom>
+      <ToolOptions>
+        <InterfaceProperties>
+          <SwdClock>4000000</SwdClock>
+        </InterfaceProperties>
+        <InterfaceName>
+        </InterfaceName>
+      </ToolOptions>
+      <ToolType>custom</ToolType>
+      <ToolNumber>
+      </ToolNumber>
+      <ToolName>Custom Programming Tool</ToolName>
+    </custom>
+    <CustomProgrammingToolCommand>"$(MSBuildProjectDirectory)\Teknic\Tools\flash_clearcore.cmd" "$(OutputDirectory)\$(OutputFileName).bin"</CustomProgrammingToolCommand>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <ToolchainSettings>
+      <ArmGccCpp>
+  <armgcc.common.outputfiles.hex>False</armgcc.common.outputfiles.hex>
+  <armgcc.common.outputfiles.lss>False</armgcc.common.outputfiles.lss>
+  <armgcc.common.outputfiles.eep>False</armgcc.common.outputfiles.eep>
+  <armgcc.common.outputfiles.bin>False</armgcc.common.outputfiles.bin>
+  <armgcc.common.outputfiles.srec>False</armgcc.common.outputfiles.srec>
+  <armgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>USBCON</Value>
+      <Value>__CLEARCORE__</Value>
+      <Value>USB_CONFIG_POWER=0</Value>
+      <Value>__SAME53N19A__</Value>
+      <Value>ARM_MATH_CM4</Value>
+      <Value>DEBUG</Value>
+    </ListValues>
+  </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.DefaultIncludePath>False</armgcc.compiler.directories.DefaultIncludePath>
+  <armgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\4.5.0\CMSIS\Include\</Value>
+      <Value>../cores/arduino</Value>
+      <Value>../cores/arduino/api</Value>
+      <Value>../variants/clearcore</Value>
+      <Value>../variants/clearcore/Third Party/SAME53/CMSIS/Device/Include</Value>
+      <Value>../Teknic/libClearCore/inc</Value>
+      <Value>../Teknic/LwIP/LwIP/port/include</Value>
+      <Value>../Teknic/LwIP/LwIP/src/include</Value>
+    </ListValues>
+  </armgcc.compiler.directories.IncludePaths>
+  <armgcc.compiler.optimization.level>Optimize most (-O3)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.optimization.PrepareDataForGarbageCollection>True</armgcc.compiler.optimization.PrepareDataForGarbageCollection>
+  <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
+  <armgcc.compiler.optimization.DebugLevel>Default (-g2)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.compiler.warnings.ExtraWarnings>True</armgcc.compiler.warnings.ExtraWarnings>
+  <armgcc.compiler.miscellaneous.OtherFlags>-std=gnu11 --param max-inline-insns-single=50 -MMD -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcc.compiler.miscellaneous.OtherFlags>
+  <armgcccpp.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>__CLEARCORE__</Value>
+      <Value>USBCON</Value>
+      <Value>USB_CONFIG_POWER=0</Value>
+      <Value>ARM_MATH_CM4</Value>
+      <Value>DEBUG</Value>
+      <Value>__FPU_PRESENT=1</Value>
+    </ListValues>
+  </armgcccpp.compiler.symbols.DefSymbols>
+  <armgcccpp.compiler.directories.DefaultIncludePath>False</armgcccpp.compiler.directories.DefaultIncludePath>
+  <armgcccpp.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+      <Value>../cores/arduino</Value>
+      <Value>../cores/arduino/api</Value>
+      <Value>../variants/clearcore</Value>
+      <Value>../variants/clearcore/Third Party/SAME53/CMSIS/Device/Include</Value>
+      <Value>../Teknic/libClearCore/inc</Value>
+      <Value>../Teknic/LwIP/LwIP/src/include</Value>
+      <Value>../Teknic/LwIP/LwIP/port/include</Value>
+    </ListValues>
+  </armgcccpp.compiler.directories.IncludePaths>
+  <armgcccpp.compiler.optimization.level>Optimize most (-O3)</armgcccpp.compiler.optimization.level>
+  <armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcccpp.compiler.optimization.PrepareDataForGarbageCollection>True</armgcccpp.compiler.optimization.PrepareDataForGarbageCollection>
+  <armgcccpp.compiler.optimization.EnableLongCalls>False</armgcccpp.compiler.optimization.EnableLongCalls>
+  <armgcccpp.compiler.optimization.DebugLevel>Default (-g2)</armgcccpp.compiler.optimization.DebugLevel>
+  <armgcccpp.compiler.warnings.AllWarnings>True</armgcccpp.compiler.warnings.AllWarnings>
+  <armgcccpp.compiler.warnings.ExtraWarnings>True</armgcccpp.compiler.warnings.ExtraWarnings>
+  <armgcccpp.compiler.miscellaneous.OtherFlags>-std=gnu++11 -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -MMD -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcccpp.compiler.miscellaneous.OtherFlags>
+  <armgcccpp.linker.general.AdditionalSpecs>Use rdimon (semihosting) library (--specs=rdimon.specs)</armgcccpp.linker.general.AdditionalSpecs>
+  <armgcccpp.linker.libraries.Libraries>
+    <ListValues>
+      <Value>arm_cortexM4lf_math</Value>
+      <Value>libm</Value>
+    </ListValues>
+  </armgcccpp.linker.libraries.Libraries>
+  <armgcccpp.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+      <Value>../variants/clearcore/linker_scripts/gcc</Value>
+    </ListValues>
+  </armgcccpp.linker.libraries.LibrarySearchPaths>
+  <armgcccpp.linker.optimization.GarbageCollectUnusedSections>True</armgcccpp.linker.optimization.GarbageCollectUnusedSections>
+  <armgcccpp.linker.memorysettings.ExternalRAM />
+  <armgcccpp.linker.miscellaneous.LinkerFlags>-Tflash_with_bootloader.ld -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcccpp.linker.miscellaneous.LinkerFlags>
+  <armgcccpp.assembler.general.AssemblerFlags>--fpu=softvfp</armgcccpp.assembler.general.AssemblerFlags>
+  <armgcccpp.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+    </ListValues>
+  </armgcccpp.assembler.general.IncludePaths>
+  <armgcccpp.assembler.debugging.DebugLevel>Default (-g)</armgcccpp.assembler.debugging.DebugLevel>
+  <armgcccpp.preprocessingassembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+    </ListValues>
+  </armgcccpp.preprocessingassembler.general.IncludePaths>
+  <armgcccpp.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcccpp.preprocessingassembler.debugging.DebugLevel>
+</ArmGccCpp>
+    </ToolchainSettings>
+    <PostBuildEvent>
+    </PostBuildEvent>
+    <OutputFileName>libClearCoreArduino</OutputFileName>
+    <OutputFileExtension>.a</OutputFileExtension>
+    <OutputType>StaticLibrary</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <ToolchainSettings>
+      <ArmGccCpp>
+  <armgcc.common.outputfiles.hex>False</armgcc.common.outputfiles.hex>
+  <armgcc.common.outputfiles.lss>False</armgcc.common.outputfiles.lss>
+  <armgcc.common.outputfiles.eep>False</armgcc.common.outputfiles.eep>
+  <armgcc.common.outputfiles.bin>False</armgcc.common.outputfiles.bin>
+  <armgcc.common.outputfiles.srec>False</armgcc.common.outputfiles.srec>
+  <armgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>USBCON</Value>
+      <Value>__CLEARCORE__</Value>
+      <Value>USB_CONFIG_POWER=0</Value>
+      <Value>__SAME53N19A__</Value>
+      <Value>ARM_MATH_CM4</Value>
+      <Value>NDEBUG</Value>
+    </ListValues>
+  </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.DefaultIncludePath>False</armgcc.compiler.directories.DefaultIncludePath>
+  <armgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\4.5.0\CMSIS\Include\</Value>
+      <Value>../cores/arduino</Value>
+      <Value>../cores/arduino/api</Value>
+      <Value>../variants/clearcore</Value>
+      <Value>../variants/clearcore/Third Party/SAME53/CMSIS/Device/Include</Value>
+      <Value>../Teknic/libClearCore/inc</Value>
+      <Value>../Teknic/LwIP/LwIP/port/include</Value>
+      <Value>../Teknic/LwIP/LwIP/src/include</Value>
+    </ListValues>
+  </armgcc.compiler.directories.IncludePaths>
+  <armgcc.compiler.optimization.level>Optimize most (-O3)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.optimization.PrepareDataForGarbageCollection>True</armgcc.compiler.optimization.PrepareDataForGarbageCollection>
+  <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
+  <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.compiler.warnings.ExtraWarnings>True</armgcc.compiler.warnings.ExtraWarnings>
+  <armgcc.compiler.miscellaneous.OtherFlags>-std=gnu11 --param max-inline-insns-single=50 -MMD -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcc.compiler.miscellaneous.OtherFlags>
+  <armgcccpp.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>__CLEARCORE__</Value>
+      <Value>USBCON</Value>
+      <Value>USB_CONFIG_POWER=0</Value>
+      <Value>ARM_MATH_CM4</Value>
+      <Value>NDEBUG</Value>
+      <Value>__FPU_PRESENT=1</Value>
+    </ListValues>
+  </armgcccpp.compiler.symbols.DefSymbols>
+  <armgcccpp.compiler.directories.DefaultIncludePath>False</armgcccpp.compiler.directories.DefaultIncludePath>
+  <armgcccpp.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+      <Value>../cores/arduino</Value>
+      <Value>../cores/arduino/api</Value>
+      <Value>../variants/clearcore</Value>
+      <Value>../variants/clearcore/Third Party/SAME53/CMSIS/Device/Include</Value>
+      <Value>../Teknic/libClearCore/inc</Value>
+      <Value>../Teknic/LwIP/LwIP/src/include</Value>
+      <Value>../Teknic/LwIP/LwIP/port/include</Value>
+    </ListValues>
+  </armgcccpp.compiler.directories.IncludePaths>
+  <armgcccpp.compiler.optimization.level>Optimize most (-O3)</armgcccpp.compiler.optimization.level>
+  <armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcccpp.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcccpp.compiler.optimization.PrepareDataForGarbageCollection>True</armgcccpp.compiler.optimization.PrepareDataForGarbageCollection>
+  <armgcccpp.compiler.optimization.EnableLongCalls>False</armgcccpp.compiler.optimization.EnableLongCalls>
+  <armgcccpp.compiler.warnings.AllWarnings>True</armgcccpp.compiler.warnings.AllWarnings>
+  <armgcccpp.compiler.warnings.ExtraWarnings>True</armgcccpp.compiler.warnings.ExtraWarnings>
+  <armgcccpp.compiler.miscellaneous.OtherFlags>-std=gnu++11 -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -MMD -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcccpp.compiler.miscellaneous.OtherFlags>
+  <armgcccpp.linker.general.AdditionalSpecs>Use rdimon (semihosting) library (--specs=rdimon.specs)</armgcccpp.linker.general.AdditionalSpecs>
+  <armgcccpp.linker.libraries.Libraries>
+    <ListValues>
+      <Value>arm_cortexM4lf_math</Value>
+      <Value>libm</Value>
+    </ListValues>
+  </armgcccpp.linker.libraries.Libraries>
+  <armgcccpp.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+      <Value>../variants/clearcore/linker_scripts/gcc</Value>
+    </ListValues>
+  </armgcccpp.linker.libraries.LibrarySearchPaths>
+  <armgcccpp.linker.optimization.GarbageCollectUnusedSections>True</armgcccpp.linker.optimization.GarbageCollectUnusedSections>
+  <armgcccpp.linker.memorysettings.ExternalRAM />
+  <armgcccpp.linker.miscellaneous.LinkerFlags>-Tflash_with_bootloader.ld -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16</armgcccpp.linker.miscellaneous.LinkerFlags>
+  <armgcccpp.assembler.general.AssemblerFlags>--fpu=softvfp</armgcccpp.assembler.general.AssemblerFlags>
+  <armgcccpp.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+    </ListValues>
+  </armgcccpp.assembler.general.IncludePaths>
+  <armgcccpp.assembler.debugging.DebugLevel>Default (-g)</armgcccpp.assembler.debugging.DebugLevel>
+  <armgcccpp.preprocessingassembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+    </ListValues>
+  </armgcccpp.preprocessingassembler.general.IncludePaths>
+  <armgcccpp.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcccpp.preprocessingassembler.debugging.DebugLevel>
+</ArmGccCpp>
+    </ToolchainSettings>
+    <PostBuildEvent>
+    </PostBuildEvent>
+    <OutputPath>bin\Release\</OutputPath>
+    <OutputFileName>libClearCoreArduino</OutputFileName>
+    <OutputFileExtension>.a</OutputFileExtension>
+    <OutputType>StaticLibrary</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="cores\" />
+    <Folder Include="cores\arduino\" />
+    <Folder Include="cores\arduino\api\" />
+    <Folder Include="cores\arduino\api\deprecated-avr-comp\" />
+    <Folder Include="cores\arduino\api\deprecated-avr-comp\avr\" />
+    <Folder Include="cores\arduino\api\deprecated\" />
+    <Folder Include="variants\" />
+    <Folder Include="variants\clearcore\" />
+    <Folder Include="variants\clearcore\linker_scripts\" />
+    <Folder Include="variants\clearcore\linker_scripts\gcc\" />
+    <Folder Include="variants\clearcore\Third Party\" />
+    <Folder Include="variants\clearcore\Third Party\SAME53\" />
+    <Folder Include="variants\clearcore\Third Party\SAME53\CMSIS\" />
+    <Folder Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\" />
+    <Folder Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\" />
+    <Folder Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\" />
+    <Folder Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\" />
+    <Folder Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\pio\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="cores\arduino\abi.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\ArduinoAPI.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\ArduinoString.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\Binary.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\Client.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\Common.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\Common.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\deprecated-avr-comp\avr\dtostrf.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\deprecated-avr-comp\avr\interrupt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\deprecated-avr-comp\avr\pgmspace.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\deprecated\Client.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\deprecated\HardwareSerial.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\deprecated\IPAddress.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\deprecated\Print.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\deprecated\Printable.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\deprecated\Server.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\deprecated\Stream.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\deprecated\Udp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\deprecated\WString.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\dtostrf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\HardwareI2C.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\HardwareSerial.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\Interrupts.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\IPAddress.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\IPAddress.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\itoa.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\Print.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\Print.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\Printable.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\Server.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\SPI.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\SPI.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\Stream.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\Stream.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\String.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\Udp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\api\WCharacter.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\Arduino.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\delay.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\delay.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\Ethernet.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\Ethernet.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\EthernetClient.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\EthernetServer.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\EthernetUDP.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\hooks.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\main.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\new.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\Reset.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\Reset.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\SERCOM.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\SERCOM.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\startup_same53.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\Tone.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\Uart.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\Uart.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\Udp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\wiring_analog.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\wiring_digital.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\wiring_digital.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\wiring_shift.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\WMath.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cores\arduino\WVariant.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\pins_arduino.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\sync.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component-version.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\ac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\adc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\aes.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\ccl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\cmcc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\dac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\dmac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\dsu.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\eic.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\evsys.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\freqm.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\gclk.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\gmac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\hmatrixb.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\i2s.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\icm.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\mclk.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\nvmctrl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\osc32kctrl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\oscctrl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\pac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\pcc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\pdec.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\pm.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\port.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\qspi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\ramecc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\rstc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\rtc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\sdhc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\sercom.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\supc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\tc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\tcc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\trng.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\usb.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\component\wdt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\ac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\adc0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\adc1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\aes.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\ccl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\cmcc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\dac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\dmac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\dsu.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\eic.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\evsys.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\freqm.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\gclk.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\gmac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\hmatrix.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\i2s.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\icm.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\mclk.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\nvmctrl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\osc32kctrl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\oscctrl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\pac.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\pcc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\pdec.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\pm.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\port.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\pukcc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\qspi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\ramecc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\rstc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\rtc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\sdhc0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\sdhc1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\sercom0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\sercom1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\sercom2.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\sercom3.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\sercom4.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\sercom5.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\sercom6.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\sercom7.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\supc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\tc0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\tc1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\tc2.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\tc3.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\tc4.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\tc5.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\tc6.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\tc7.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\tcc0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\tcc1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\tcc2.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\tcc3.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\tcc4.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\trng.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\usb.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\instance\wdt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\pio\same53j18a.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\pio\same53j19a.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\pio\same53j20a.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\pio\same53n19a.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\pio\same53n20a.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\sam.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\same53.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\same53j18a.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\same53j19a.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\same53j20a.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\same53n19a.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\same53n20a.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\Third Party\SAME53\CMSIS\Device\Include\system_same53.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\variant.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="variants\clearcore\variant.h">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="variants\clearcore\linker_scripts\gcc\flash_without_bootloader.ld">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="variants\clearcore\linker_scripts\gcc\flash_with_bootloader.ld">
+      <SubType>compile</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Teknic\libClearCore\ClearCore.cppproj">
+      <Name>ClearCore</Name>
+      <Project>{2530d5b1-8a40-4a55-95ca-2ec0b63e2088}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Teknic\LwIP\LwIP.cppproj">
+      <Name>LwIP</Name>
+      <Project>{c373696c-5d45-4b91-ad62-a21552361596}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
+</Project>

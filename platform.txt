@@ -1,0 +1,151 @@
+
+# Teknic Sam Core and platform.
+# ------------------------------
+#
+# For more info:
+# https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5-3rd-party-Hardware-specification
+
+name=Teknic ClearCore board
+version=1.0.1
+
+# SAM compile variables
+# ---------------------
+
+compiler.warning_flags=-w
+compiler.warning_flags.none=-w
+compiler.warning_flags.default=
+compiler.warning_flags.more=-Wall
+compiler.warning_flags.all=-Wall -Wextra
+
+# Default "compiler.path" is correct, change only if you want to override the initial value
+compiler.path={runtime.tools.arm-none-eabi-gcc.path}/bin/
+compiler.opt_flags=-O3
+compiler.c.cmd=arm-none-eabi-gcc
+compiler.c.flags=-c -g {compiler.opt_flags} {compiler.warning_flags} -ffunction-sections -fdata-sections -std=gnu11 -mthumb -mcpu={build.mcu} -mfloat-abi={build.float} -mfpu={build.fpu} --param max-inline-insns-single=50 -MMD --specs=nosys.specs
+compiler.c.elf.cmd=arm-none-eabi-g++
+compiler.c.elf.flags= -Wl,--gc-sections
+compiler.S.cmd=arm-none-eabi-gcc
+compiler.S.flags=-c -g -x assembler-with-cpp -MMD
+compiler.cpp.cmd=arm-none-eabi-g++
+compiler.cpp.flags=-mthumb -mcpu={build.mcu} -mfloat-abi={build.float} -mfpu={build.fpu} -c -g {compiler.opt_flags} {compiler.warning_flags} -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD
+compiler.ar.cmd=arm-none-eabi-ar
+compiler.ar.flags=rcs
+compiler.objcopy.cmd=arm-none-eabi-objcopy
+compiler.objcopy.eep.flags=-O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0
+compiler.elf2hex.flags=-O binary
+compiler.elf2hex.cmd=arm-none-eabi-objcopy
+compiler.ldflags=-mthumb -mcpu={build.mcu} -mfloat-abi={build.float} -mfpu={build.fpu} -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -Wl,-Map,output.map
+compiler.size.cmd=arm-none-eabi-size
+
+# This can be overridden in boards.txt
+build.extra_flags=
+
+compiler.libsam.c.flags=-DUSBCON -DUSB_CONFIG_POWER=0 -D__CLEARCORE__ -D__SAME53N19A__ -DARM_MATH_CM4 "-I{build.core.path}/api" {compiler.arm.cmsis.c.flags} "-I{runtime.platform.path}/Teknic/libClearCore/inc" "-I{runtime.platform.path}/Teknic/LwIP/LwIP/src/include" "-I{runtime.platform.path}/Teknic/LwIP/LwIP/port/include" 
+
+# These can be overridden in platform.local.txt
+compiler.c.extra_flags=
+compiler.c.elf.extra_flags=
+compiler.S.extra_flags=
+compiler.cpp.extra_flags=-D__ARM_FEATURE_DSP=1 -DCPPUTEST_USE_MEM_LEAK_DETECTION=0
+compiler.ar.extra_flags=
+compiler.objcopy.eep.extra_flags=
+compiler.elf2hex.extra_flags=
+
+compiler.arm.cmsis.c.flags="-I{runtime.tools.CMSIS.path}/CMSIS/Include/" "-I{build.variant.path}/Third Party/SAME53/CMSIS/Device/Include"
+compiler.arm.cmsis.ldflags="-L{runtime.platform.path}/Teknic/libClearCore/Release" -lClearCore "-L{runtime.platform.path}/Teknic/LwIP/Release" -lLwIP "-L{runtime.tools.CMSIS.path}/CMSIS/Lib/GCC/" -larm_cortexM4lf_math
+
+# Compile patterns
+# --------------------
+
+## Compile c files
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} -DF_CPU={build.f_cpu} -D__FPU_PRESENT=1 -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {compiler.libsam.c.flags} {includes} "{source_file}" -o "{object_file}"
+
+## Compile c++ files
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} -DF_CPU={build.f_cpu}  -D__FPU_PRESENT=1 -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {compiler.libsam.c.flags} {includes} "{source_file}" -o "{object_file}"
+
+## Compile S files
+recipe.S.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.S.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.S.extra_flags} {build.extra_flags} {compiler.libsam.c.flags} {includes} "{source_file}" -o "{object_file}"
+
+## Create archives
+# archive_file_path is needed for backwards compatibility with IDE 1.6.5 or older, IDE 1.6.6 or newer overrides this value
+archive_file_path={build.path}/{archive_file}
+recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
+
+## Linker: Combine gc-sections, archives, and objects
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mthumb -mcpu={build.mcu} -mfloat-abi={build.float} -mfpu={build.fpu} {compiler.c.elf.extra_flags} -specs=rdimon.specs -o "{build.path}/{build.project_name}.elf" "-T{build.variant.path}/{build.ldscript}" {object_files} "{build.path}/{archive_file}" {compiler.arm.cmsis.ldflags} -lm -Xlinker -Map={build.path}/{build.project_name}.map
+
+## Create output files (.eep and .bin)
+recipe.objcopy.eep.pattern="{compiler.path}{compiler.objcopy.cmd}" {compiler.objcopy.eep.flags} {compiler.objcopy.eep.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.eep"
+recipe.objcopy.hex.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flags} {compiler.elf2hex.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
+
+## Compute size
+recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
+recipe.size.regex=^(?:\.text|\.data|\.bootloader)\s+([0-9]+).*
+recipe.size.regex.data=^(?:\.data|\.bss|\.noinit)\s+([0-9]+).*
+recipe.size.regex.eeprom=^(?:\.eeprom)\s+([0-9]+).*
+
+## Save hex
+recipe.output.tmp_file={build.project_name}.hex
+recipe.output.save_file={build.project_name}.{build.variant}.hex
+
+## Preprocessor
+#preproc.includes.flags=-w -x c++ -M -MG -MP
+#recipe.preproc.includes="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.includes.flags} -mcpu={build.mcu} -mfloat-abi={build.float} -mfpu={build.fpu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {includes} "{source_file}" -save-temps -D__FPU_PRESENT=1
+
+#preproc.macros.flags=-w -x c++ -E -CC
+#recipe.preproc.macros="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.macros.flags} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {compiler.libsam.c.flags} {includes} "{source_file}" -o "{preprocessed_file_path}"
+#-mmcu={build.mcu}
+
+# SAM Uploader/Programmers tools
+# ------------------------------
+
+# BOSSA
+
+tools.bossac.path={runtime.tools.bossac.path}
+#tools.bossac.path={runtime.platform.path}/Teknic/Tools/bossac
+tools.bossac.cmd=bossac
+tools.bossac.cmd.windows=bossac.exe
+tools.bossac.cmd.path={path}bossac
+
+tools.bossac.upload.params.verbose=-i -d
+tools.bossac.upload.params.quiet=
+tools.bossac.upload.pattern="{path}/{cmd}" {upload.verbose} --port={serial.port.file} -U -e -w -v --offset={upload.offset} "{build.path}/{build.project_name}.bin" -R
+tools.bossac.upload.native_usb=true
+#tools.bossac_remote.upload.pattern=/usr/bin/run-bossac {upload.verbose} --port=ttyATH0 -U -e -w -v -b /tmp/sketch.bin -R
+
+#tools.bossac.upload.network_pattern="{network_cmd}" -address {serial.port} -port 65280 -username arduino -password "{network.password}" -sketch "{build.path}/{build.project_name}.bin" -upload /sketch -b
+#tools.bossac.upload.verify=
+#tools.bossac.upload.params.noverify=-V
+#tools.bossac.network_cmd={runtime.tools.arduinoOTA.path}/bin/arduinoOTA
+
+# OpenOCD sketch upload
+
+tools.openocd.path={runtime.tools.openocd.path}
+tools.openocd.cmd=bin/openocd
+tools.openocd.cmd.windows=bin/openocd.exe
+
+tools.openocd.upload.params.verbose=-d2
+tools.openocd.upload.params.quiet=-d0
+tools.openocd.upload.pattern="{path}/{cmd}" {upload.verbose} -s "{path}/share/openocd/scripts/" -f "{runtime.platform.path}/variants/{build.variant}/{build.openocdscript}" -c "telnet_port disabled; program {build.path}/{build.project_name}.bin verify reset {bootloader.size}; shutdown"
+
+#tools.openocd.network_cmd={runtime.tools.arduinoOTA.path}/bin/arduinoOTA
+#tools.openocd.upload.network_pattern={network_cmd} -address {serial.port} -port 65280 -username arduino -password "{network.password}" -sketch "{build.path}/{build.project_name}.bin" -upload /sketch -b
+
+tools.openocd.program.params.verbose=-d2
+tools.openocd.program.params.quiet=-d0
+tools.openocd.program.pattern="{path}/{cmd}" {program.verbose} -s "{path}/share/openocd/scripts/" -f "{runtime.platform.path}/variants/{build.variant}/{build.openocdscript}" -c "telnet_port disabled; program {build.path}/{build.project_name}.elf verify reset; shutdown"
+
+tools.openocd.erase.params.verbose=-d3
+tools.openocd.erase.params.quiet=-d0
+tools.openocd.erase.pattern=
+
+tools.openocd.bootloader.params.verbose=-d2
+tools.openocd.bootloader.params.quiet=-d0
+tools.openocd.bootloader.pattern="{path}/{cmd}" {bootloader.verbose} -s "{path}/share/openocd/scripts/" -f "{runtime.platform.path}/variants/{build.variant}/{build.openocdscript}" -c "telnet_port disabled; init; halt; at91samd bootloader 0; program {runtime.platform.path}/bootloaders/{bootloader.file} verify; reset; shutdown"
+
+
+## USB Default Flags
+## Default blank usb manufacturer will be filled in at compile time
+## - from numeric vendor ID, set to Unknown otherwise
+#build.usb_manufacturer="Unknown"
+build.usb_flags=-DUSB_VID={build.vid} -DUSB_PID={build.pid} '-DUSB_MANUFACTURER={build.usb_manufacturer}' '-DUSB_PRODUCT={build.usb_product}'

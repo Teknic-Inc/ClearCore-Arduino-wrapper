@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+.vs/
+Release/
+Debug/
+drivers/signinf.cmd
+drivers/verifyinf.cmd
+*.zip
+*.componentinfo.xml
+jlink.*
