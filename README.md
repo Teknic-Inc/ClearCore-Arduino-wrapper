@@ -6,9 +6,9 @@ Instead of interfacing directly to the processor pins, the ClearCore Arduino Wra
 
 Installation of the ClearCore board within the Arduino IDE should be performed using the Arduino board manager. This repository is intended for building new packages for use with the board manager.
 
-### Installation Procedure
+#### Installers and Resources
 
-https://www.teknic.com/files/downloads/manual_install_instructions_arduino.pdf
+https://www.teknic.com/downloads/
 
 ### Example Programs
 
