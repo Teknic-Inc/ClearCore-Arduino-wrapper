@@ -1,6 +1,5 @@
 /**
  * \file XBee AT SerialBreak
- * \author Alex Livings
  *
  * Uses a Serial Break to force the connected XBee device to AT Command Mode
  * with a 9600 baud rate. Changes the XBee device's baud rate setting to match
