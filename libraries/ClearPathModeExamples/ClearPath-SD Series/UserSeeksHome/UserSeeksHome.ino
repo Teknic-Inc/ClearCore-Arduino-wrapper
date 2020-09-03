@@ -119,6 +119,10 @@ void setup() {
         continue;
     }
     Serial.println("Homing Complete. Motor Ready.");
+ 
+    // Zero the motor's reference position after homing to allow for accurate
+    // absolute position moves
+    motor.PositionRefSet(0);     
 }
 
 void loop() {
