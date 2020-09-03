@@ -94,7 +94,7 @@ void loop() {
         }
 
         Serial.print("At velocity target:\t");
-        if (statusReg.bit.AtVelTarget) {
+        if (statusReg.bit.AtTargetVelocity) {
             Serial.println('1');
         }
         else {
