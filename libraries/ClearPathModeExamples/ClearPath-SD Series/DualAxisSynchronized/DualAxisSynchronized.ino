@@ -16,10 +16,10 @@
  *    Connector M-1.
  * 2. The connected ClearPath motors must be configured through the MSP software
  *    for Step and Direction mode (In MSP select Mode>>Step and Direction).
- * 3. The ClearPath motors must be set to use the HLFB mode "ASG-Position"
- *    through the MSP software (select Advanced>>High Level Feedback [Mode]...
- *    then choose "All Systems Go (ASG) - Position" from the dropdown and hit
- *    the OK button).
+ * 3. The connected ClearPath motors must have their HLFB modes set to ASG 
+ *    Position with measured torque through the MSP software (select
+ *    Advanced>>High Level Feedback [Mode]... then choose
+ *    "ASG-Position, w/Measured Torque".
  * 4. If the two motors must spin in opposite directions (i.e. they are mounted
  *    facing different directions), check the "Reverse Direction" checkbox of
  *    one motor in MSP.
@@ -151,11 +151,26 @@ void SynchronizedMove(int distance) {
     // Wait until both motors complete their moves
     uint32_t lastStatusTime = millis();
     while (!motor0.StepsComplete() || motor0.HlfbState() != MotorDriver::HLFB_ASSERTED ||
-            !motor1.StepsComplete() || motor1.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+           !motor1.StepsComplete() || motor1.HlfbState() != MotorDriver::HLFB_ASSERTED) {
         // Periodically print out why the application is waiting
         if (millis() - lastStatusTime > 100) {
             Serial.println("Waiting for HLFB to assert on both motors");
             lastStatusTime = millis();
+        }
+        
+        // Use HLFB to monitor whether one of the motors has shut down. If so,
+        // disable both motors and abort the sketch.
+        if (motor0.HlfbState() == MotorDriver::HLFB_DEASSERTED ||
+            motor1.HlfbState() == MotorDriver::HLFB_DEASSERTED) {
+            Serial.println("Motor shutdown detected. Disabling both motors.");
+            Serial.println("Future move commands will not get issued.");
+            motor0.EnableRequest(false);
+            motor1.EnableRequest(false);
+            
+            // The end
+            while (true) {
+                continue;
+            }
         }
     }
 
