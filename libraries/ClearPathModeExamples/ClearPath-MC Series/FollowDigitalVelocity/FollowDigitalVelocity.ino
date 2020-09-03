@@ -6,12 +6,12 @@
  *    Follow Digital Velocity Command, Unipolar PWM Command.
  *
  * Description:
- *    This example enables a ClearPath motor and executes a repeating pattern of
- *    bidirectional velocity moves. During operation, various move statuses are
- *    written to the USB serial port.
+ *    This example enables a ClearPath motor and executes velocity moves based
+ *    on the state of an analog input sensor. During operation, various move
+ *    statuses are written to the USB serial port.
  *    This example does not use HLFB for motor feedback. It is possible your
  *    commanded velocity is not reached before a new velocity is commanded.
- *    The resolution for PWM outputs is 8-bit, meaning only 256 discrete speeds
+ *    The resolution for PWM outputs is 8-bit, meaning 256 discrete speeds
  *    can be commanded in each direction. The motor's actual commanded speed may
  *    differ from what you input below because of this.
  *    Consider using Manual Velocity Control mode if greater velocity command
@@ -34,6 +34,8 @@
  *    select Advanced>>Input A, B Filtering... then in the Settings box fill in
  *    the textbox labeled "Input A Filter Time Constant (msec)" then hit the OK
  *    button).
+ * 6. An analog sensor connected to one of the analog inputs (A-9 through A-12)
+ *    to control motor velocity. Define the appropriate connector below.
  *
  *
  * Links:
@@ -51,6 +53,9 @@
 
 // Defines the motor's connector as ConnectorM0
 #define motor ConnectorM0
+
+// Defines the analog input to control commanded position
+#define AnalogSensor ConnectorA9
 
 // The INPUT_A_FILTER must match the Input A filter setting in MSP
 // (Advanced >> Input A, B Filtering...)
@@ -71,6 +76,9 @@ bool CommandVelocity(int commandedVelocity);
 
 void setup() {
     // Put your setup code here, it will only run once:
+    
+    // Set up an analog sensor to control commanded position.
+    AnalogSensor.Mode(Connector::INPUT_ANALOG);
 
     // Sets all motor connectors to the correct mode for Follow Digital
     // Velocity, Unipolar PWM mode.
@@ -101,23 +109,15 @@ void setup() {
 
 
 void loop() {
-    // Put your main code here, it will run repeatedly:
+    // Read the voltage on the analog sensor (0-10V).
+    float analogVoltage = AnalogSensor.AnalogVoltage();
+    // Convert the voltage measured to a position within the valid range.
+    int32_t commandedVelocity =
+        static_cast<int32_t>(round(analogVoltage / 10 * maxSpeed));
 
-    // Move at +100 RPM (CCW).
-    CommandVelocity(100);    // See below for the detailed function definition.
+    // Move at the commanded velocity.
+    CommandVelocity(commandedVelocity);    // See below for the detailed function definition.
     // Wait 5000ms.
-    delay(5000);
-
-    CommandVelocity(300); // Move at +300 RPM (CCW).
-    delay(5000);
-
-    CommandVelocity(-500); // Move at -500 RPM (CW).
-    delay(5000);
-
-    CommandVelocity(-300); // Move at -300 RPM (CW).
-    delay(5000);
-
-    CommandVelocity(100); // Move at +100 RPM (CCW).
     delay(5000);
 }
 
