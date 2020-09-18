@@ -1,5 +1,5 @@
 /*
- * Title: SingleAxis
+ * Title: MovePositionRelative
  *
  * Objective:
  *    This example demonstrates control of a ClearPath motor in Step and
