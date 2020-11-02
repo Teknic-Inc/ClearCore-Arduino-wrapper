@@ -3,14 +3,14 @@
  *
  * Objective:
  *    This example demonstrates control of a ClearPath motor in Step and
- *    Direction mode.
+ *    Direction mode using hardstop homing and absolute position moves.
  *
  * Description:
- *    This example enables a ClearPath then commands a series of repeating
- *    absolute position moves to the motor.
+ *    This example enables a ClearPath, homes to a hardstop, then commands 
+ *    a series of repeating absolute position moves to the motor.
  *
  * Requirements:
- * 1. A ClearPath motor must be connected to Connector M-0.
+ * 1. A ClearPath-SD motor must be connected to Connector M-0.
  * 2. The connected ClearPath motor must be configured through the MSP software
  *    for Step and Direction mode (In MSP select Mode>>Step and Direction).
  * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Position"
@@ -18,22 +18,36 @@
  *    then choose "All Systems Go (ASG) - Position" from the dropdown and hit
  *    the OK button).
  * 4. Set the Input Format in MSP for "Step + Direction".
- *
- * ** Note: Homing is optional, and not required in this operational mode or in
- *    this example. This example makes its first move in the positive direction,
+ * 5. Configure ClearPath to use automatic hardstop homing. "Enable" homing 
+ *    in the homing field, and click "Setup..." and in that window:
+ *      - Use "Normal" homing
+ *      - Select "ClearPath Homes Automatically"
+ *      - Set to home "Upon every Enable"
+ *      - Set the appropriate homing direction (see note below on move direction)
+ *      - Enter your desired "Physical Home Clearance"
+ *      - It is recommended to use a "Home Offset Move Distance" of 0 so MSP and 
+ *      ClearCore both have the same 0 position.
+ *      
+ * ** This example makes moves to positive absolute positions,
  *    assuming any homing move occurs in the negative direction.
+ *    Change the target positions to negative if homing is positive.
+ *
+ * ** Note: Homing is optional, and not required in this operational mode.
+ *    However, homing is typically recommended when making
+ *    absolute position moves to ensure an absolute position on the output
+ *    mechanics corresponds to a consistent absolute position for ClearCore
+ *    and ClearPath.
  *
  * ** Note: Set the Input Resolution in MSP the same as your motor's Positioning
  *    Resolution spec if you'd like the pulses sent by ClearCore to command a
  *    move of the same number of Encoder Counts, a 1:1 ratio.
  *
  * Links:
- * ** web link to doxygen (all Examples)
- * ** web link to ClearCore Manual (all Examples)  <<FUTURE links to Getting started webpage/ ClearCore videos>>
- * ** web link to ClearPath Operational mode video (Only ClearPath Examples)
- * ** web link to ClearPath manual (Only ClearPath Examples)
+ * ** ClearCore Documentation: https://teknic-inc.github.io/ClearCore-library/
+ * ** ClearCore Manual: https://www.teknic.com/files/downloads/clearcore_user_manual.pdf
+ * ** ClearPath Manual (DC Power): https://www.teknic.com/files/downloads/clearpath_user_manual.pdf
+ * ** ClearPath Manual (AC Power): https://www.teknic.com/files/downloads/ac_clearpath-mc-sd_manual.pdf
  *
- * Last Modified: 1/21/2020
  * Copyright (c) 2020 Teknic Inc. This work is free to use, copy and distribute under the terms of
  * the standard MIT permissive software license which can be found at https://opensource.org/licenses/MIT
  */
@@ -86,8 +100,8 @@ void setup() {
     motor.EnableRequest(true);
     Serial.println("Motor Enabled");
 
-    // Waits for HLFB to assert (waits for homing to complete if applicable)
-    Serial.println("Waiting for HLFB...");
+    // Waits for HLFB to assert (waits for homing to complete)
+    Serial.println("Homing. Waiting for HLFB...");
     while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
         continue;
     }
@@ -97,16 +111,17 @@ void setup() {
 void loop() {
     // Put your main code here, it will run repeatedly:
 
-    // Move to +10000 counts (positive direction), then wait 2000ms
-    MoveAbsolutePosition(10000);
+    // This example makes moves to positive absolute positions,
+    // assuming any homing move occurs in the negative direction.
+    // Change the target positions to negative if homing is positive.
+
+    // Move to +6400 counts then wait 2000ms
+    MoveAbsolutePosition(6400);
     delay(2000);
-    // Move to -19200 counts (negative direction), then wait 2000ms
-    MoveAbsolutePosition(-19200);
+    // Move to +12800 counts, then wait 2000ms
+    MoveAbsolutePosition(12800);
     delay(2000);
-    // Move to -12800 counts, then wait 2000ms
-    MoveAbsolutePosition(-12800);
-    delay(2000);
-    // Move back to "home", then wait 2000ms
+    // Move back to "software home", then wait 2000ms
     MoveAbsolutePosition(0);
     delay(2000);
 }
