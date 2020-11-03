@@ -3,7 +3,7 @@
  *
  * Objective:
  *    This example demonstrates control of a ClearPath motor in Step and
- *    Direction mode.
+ *    Direction mode, making velocity moves.
  *
  * Description:
  *    This example enables a ClearPath then commands a series of repeating
@@ -19,21 +19,17 @@
  *    the OK button).
  * 4. Set the Input Format in MSP for "Step + Direction".
  *
- * ** Note: Homing is optional, and not required in this operational mode or in
- *    this example. This example makes its first move in the positive direction,
- *    assuming any homing move occurs in the negative direction.
- *
  * ** Note: Set the Input Resolution in MSP the same as your motor's Positioning
- *    Resolution spec if you'd like the pulses sent by ClearCore to command a
- *    move of the same number of Encoder Counts, a 1:1 ratio.
+ *    Resolution spec if you'd like the pulse frequency sent by ClearCore to 
+ *    command the same frequency in motor encoder counts/sec, a 1:1 ratio.
  *
  * Links:
- * ** web link to doxygen (all Examples)
- * ** web link to ClearCore Manual (all Examples)  <<FUTURE links to Getting started webpage/ ClearCore videos>>
- * ** web link to ClearPath Operational mode video (Only ClearPath Examples)
- * ** web link to ClearPath manual (Only ClearPath Examples)
+ * ** ClearCore Documentation: https://teknic-inc.github.io/ClearCore-library/
+ * ** ClearCore Manual: https://www.teknic.com/files/downloads/clearcore_user_manual.pdf
+ * ** ClearPath Manual (DC Power): https://www.teknic.com/files/downloads/clearpath_user_manual.pdf
+ * ** ClearPath Manual (AC Power): https://www.teknic.com/files/downloads/ac_clearpath-mc-sd_manual.pdf
  *
- * Last Modified: 1/21/2020
+ *
  * Copyright (c) 2020 Teknic Inc. This work is free to use, copy and distribute under the terms of
  * the standard MIT permissive software license which can be found at https://opensource.org/licenses/MIT
  */
@@ -48,7 +44,6 @@
 #define baudRate 9600
 
 // Define the velocity and acceleration limits to be used for each move
-int velocityLimit = 10000; // pulses per sec
 int accelerationLimit = 100000; // pulses per sec^2
 
 // Declares our user-defined helper function, which is used to command moves to
@@ -66,9 +61,6 @@ void setup() {
     // Sets all motor connectors into step and direction mode.
     MotorMgr.MotorModeSet(MotorManager::MOTOR_ALL,
                           Connector::CPM_MODE_STEP_AND_DIR);
-
-    // Sets the maximum velocity for each move
-    motor.VelMax(velocityLimit);
 
     // Set the maximum acceleration for each move
     motor.AccelMax(accelerationLimit);
@@ -97,17 +89,17 @@ void setup() {
 void loop() {
     // Put your main code here, it will run repeatedly:
 
-    // Move at 20,000 counts/sec, then wait 2000ms
-    MoveAtVelocity(20000);
-    delay(2000);
-    // Move at -40,000 counts/sec, then wait 2000ms
-    MoveAtVelocity(-40000);
-    delay(2000);
     // Move at 10,000 counts/sec, then wait 2000ms
     MoveAtVelocity(10000);
     delay(2000);
-    // Increase speed to 15,000 counts/sec, then wait 2000ms
-    MoveAtVelocity(15000);
+    // Move at -5,000 counts/sec, then wait 2000ms
+    MoveAtVelocity(-5000);
+    delay(2000);
+    // Move at 7,000 counts/sec, then wait 2000ms
+    MoveAtVelocity(7000);
+    delay(2000);
+    // Move at -10,000 counts/sec, then wait 2000ms
+    MoveAtVelocity(-10000);
     delay(2000);
     // Command a 0 counts/sec velocity to stop motion, then wait 2000ms
     MoveAtVelocity(0);
@@ -117,7 +109,7 @@ void loop() {
 /*------------------------------------------------------------------------------
  * MoveAtVelocity
  *
- *    Command the motor to move at the specified "velocity", in steps/second.
+ *    Command the motor to move at the specified "velocity", in pulses/second.
  *    Prints the move status to the USB serial port
  *
  * Parameters:
