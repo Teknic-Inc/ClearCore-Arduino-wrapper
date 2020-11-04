@@ -10,31 +10,28 @@
  *    positions within a range defined in the MSP software based on the state
  *    of an analog sensor. During operation, various move statuses are written
  *    to the USB serial port.
- *    The resolution for PWM outputs is 8-bit, meaning only 256 discrete
- *    positions can be commanded. The motor's actual commanded position may
- *    differ from what you input below because of this.
  *
  * Requirements:
  * 1. A ClearPath motor must be connected to Connector M-0.
- * 2. The connected ClearPath motor must be configured through the MSP software
+ * 2. An analog sensor must be connected to Connector A-9 to control motor 
+ *    position.
+ * 3. The connected ClearPath motor must be configured through the MSP software
  *    for Follow Digital Position Command, Unipolar PWM Command mode (In MSP
  *    select Mode>>Position>>Follow Digital Position Command, then with
  *    "Unipolar PWM Command" selected hit the OK button).
- * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Position"
+ * 4. The ClearPath motor must be set to use the HLFB mode "ASG-Position"
  *    through the MSP software (select Advanced>>High Level Feedback [Mode]...
  *    then choose "All Systems Go (ASG) - Position" from the dropdown and hit
  *    the OK button).
- * 4. The ClearPath must have defined positions for 0% and 100% PWM (On the
+ * 5. The ClearPath must have defined positions for 0% and 100% PWM (On the
  *    main MSP window check the "Position Range Setup (cnts)" box and fill in
  *    the two text boxes labeled "Posn at 0% PWM" and "Posn at 100% PWM").
  *    Change the "PositionZeroPWM" and "PositionMaxPWM" variables in the sketch
  *    below to match.
- * 5. Homing must be configured in the MSP software for your mechanical
+ * 6. Homing must be configured in the MSP software for your mechanical
  *    system (e.g. homing direction, torque limit, etc.). This example does
  *    not use the ClearPath's Input A as a homing sensor, although that may
  *    be configured in this mode through MSP.
- * 6. An analog sensor connected to one of the analog inputs (A-9 through A-12)
- *    to control motor position. Define the appropriate connector below.
  * 7. (Optional) An input source, such as a switch, connected to DI-6 to control
  *    the Command Lock or Home Sensor (configured in MSP).
  *
@@ -43,8 +40,9 @@
  * ** ClearCore Manual: https://www.teknic.com/files/downloads/clearcore_user_manual.pdf
  * ** ClearPath Manual (DC Power): https://www.teknic.com/files/downloads/clearpath_user_manual.pdf
  * ** ClearPath Manual (AC Power): https://www.teknic.com/files/downloads/ac_clearpath-mc-sd_manual.pdf
+ * ** ClearPath Mode Informational Video: https://www.teknic.com/watch-video/#OpMode12
  *
- *
+ * 
  * Copyright (c) 2020 Teknic Inc. This work is free to use, copy and distribute under the terms of
  * the standard MIT permissive software license which can be found at https://opensource.org/licenses/MIT
  */
