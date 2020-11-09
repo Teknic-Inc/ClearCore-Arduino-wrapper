@@ -13,9 +13,9 @@
  *    commanded velocity is not reached before a new velocity is commanded.
  *    The resolution for PWM outputs is 8-bit, meaning 256 discrete speeds
  *    can be commanded in each direction. The motor's actual commanded speed may
- *    differ from what you input below because of this.
+ *    differ from what is printed to the serial port below because of this.
  *    Consider using Manual Velocity Control mode if greater velocity command
- *    resolution is required, or if HLFB is needed for "move done/at speed"
+ *    resolution is required, or if HLFB is needed for "move done" or "at speed"
  *    status feedback.
  *
  * Requirements:
@@ -30,8 +30,8 @@
  *    this Max Speed.
  * 4. Ensure the "Invert PWM Input" checkbox found on the MSP's main window is
  *    unchecked.
- * 5. Ensure the Input A filter in MSP is set to 20ms, (In MSP
- *    select Advanced>>Input A, B Filtering... then in the Settings box fill in
+ * 5. Ensure the Input A filter in MSP is set to 20ms, (In MSP select
+ *    Advanced>>Input A, B Filtering... then in the Settings box fill in
  *    the textbox labeled "Input A Filter Time Constant (msec)" then hit the OK
  *    button).
  * 6. An analog sensor connected to one of the analog inputs (A-9 through A-12)
@@ -42,6 +42,7 @@
  * ** ClearCore Manual: https://www.teknic.com/files/downloads/clearcore_user_manual.pdf
  * ** ClearPath Manual (DC Power): https://www.teknic.com/files/downloads/clearpath_user_manual.pdf
  * ** ClearPath Manual (AC Power): https://www.teknic.com/files/downloads/ac_clearpath-mc-sd_manual.pdf
+ * ** ClearPath Mode Informational Video: https://www.teknic.com/watch-video/#OpMode8
  *
  *
  * Copyright (c) 2020 Teknic Inc. This work is free to use, copy and distribute under the terms of
@@ -68,10 +69,10 @@
 // max speed here and in MSP.
 double maxSpeed = 510;
 
-// Declares our user-defined helper function, which is used to command speed and
-// direction. The definition/implementation of this function is at the bottom of
-// the sketch.
-bool CommandVelocity(int commandedVelocity);
+// Declares our user-defined helper function, which is used to command speed 
+// The definition/implementation of this function is at the bottom of
+// this example.
+bool CommandSpeed(long commandedSpeed);
 
 void setup() {
     // Put your setup code here, it will only run once:
@@ -79,6 +80,9 @@ void setup() {
     // Set up an analog sensor to control commanded position.
     AnalogSensor.Mode(Connector::INPUT_ANALOG);
 
+    // Set the clock rate to output the highest resolution PWM.
+    MotorMgr.MotorInputClocking(MotorManager::CLOCK_RATE_HIGH);
+    
     // Sets all motor connectors to the correct mode for Follow Digital
     // Velocity, Unipolar PWM mode.
     MotorMgr.MotorModeSet(MotorManager::MOTOR_ALL,
@@ -97,13 +101,12 @@ void setup() {
     motor.EnableRequest(true);
     Serial.println("Motor Enabled");
 
-    // Waits for 5 seconds for motor to come up to speed
-    Serial.println("Waiting for motor to come up to speed...");
-    startTime = millis();
-    while (millis() - startTime < timeout) {
-        continue;
-    }
-    Serial.println("Motor Ready");
+    // Change ClearPath's Input A state to change direction.
+    motor.MotorInAState(false);
+    //motor.MotorInAState(true);
+
+    // Delays to send the correct filtered direction.
+    delay(2 + INPUT_A_FILTER);
 }
 
 
@@ -111,54 +114,51 @@ void loop() {
     // Read the voltage on the analog sensor (0-10V).
     float analogVoltage = AnalogSensor.AnalogVoltage();
     // Convert the voltage measured to a position within the valid range.
-    int32_t commandedVelocity =
+    long commandedSpeed =
         static_cast<int32_t>(round(analogVoltage / 10 * maxSpeed));
 
     // Move at the commanded velocity.
-    CommandVelocity(commandedVelocity);    // See below for the detailed function definition.
-    // Wait 5000ms.
-    delay(5000);
+    CommandSpeed(commandedSpeed);    // See below for the detailed function definition.
 }
 
 /*------------------------------------------------------------------------------
- * CommandVelocity
+ * CommandSpeed
  *
- *    Command the motor to move using a velocity of commandedVelocity
+ *    Command the motor to move using a speed of commandedSpeed
  *    Prints the move status to the USB serial port
- *    Returns when HLFB asserts (indicating the motor has reached the commanded
- *    velocity)
  *
  * Parameters:
- *    int commandedVelocity  - The velocity to command
+ *    int commandedSpeed  - The speed to command
  *
  * Returns: True/False depending on whether the velocity was successfully
  * commanded.
  */
-bool CommandVelocity(int commandedVelocity) {
-    if (abs(commandedVelocity) > abs(maxSpeed)) {
-        Serial.println("Move rejected, requested velocity over the limit.");
+bool CommandSpeed(long commandedSpeed) {
+    
+    if (abs(commandedSpeed) >= abs(maxSpeed)) {
+        Serial.println("Move rejected, requested velocity at or over the limit.");
         return false;
     }
-    Serial.print("Commanding velocity: ");
-    Serial.println(commandedVelocity);
+    Serial.print("Commanding speed: ");
+    Serial.println(commandedSpeed);
 
-    // Change ClearPath's Input A state to change direction
-    if (commandedVelocity > 0) {
-        motor.MotorInAState(false);
-    }
-    else {
-        motor.MotorInAState(true);
-    }
-
-    // Delays to send the correct filtered direction.
-    delay(2 + INPUT_A_FILTER);
+//  Uncomment the lines below if you would like to pass this function signed velocity values directly
+//    // Change ClearPath's Input A state to change direction.
+//    if (commandedSpeed > 0) {
+//        motor.MotorInAState(false);
+//    }
+//    else {
+//        motor.MotorInAState(true);
+//    }
+//    // Delays to send the correct filtered direction.
+//    delay(2 + INPUT_A_FILTER);
 
     // Find the scaling factor of our velocity range mapped to the PWM duty
     // cycle range (255 is the max duty cycle).
     double scaleFactor = 255 / maxSpeed;
 
     // Scale the velocity command to our duty cycle range.
-    int dutyRequest = abs(commandedVelocity) * scaleFactor;
+    int dutyRequest = abs(commandedSpeed) * scaleFactor;
 
     // Command the move.
     motor.MotorInBDuty(dutyRequest);
