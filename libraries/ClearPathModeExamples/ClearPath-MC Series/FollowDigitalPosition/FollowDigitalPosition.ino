@@ -132,7 +132,7 @@ void loop() {
  *
  *    Move to position number commandedPosition (counts in MSP)
  *    Prints the move status to the USB serial port
- *    Returns when the command has been updated.
+ *    Returns whether the command has been updated.
  *
  * Parameters:
  *    int commandedPosition  - The position, in counts, to command
