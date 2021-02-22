@@ -1,3 +1,4 @@
+
 /*
  * Title: FollowDigitalPosition
  *
@@ -8,30 +9,33 @@
  * Description:
  *    This example enables and then moves a ClearPath motor between various
  *    positions within a range defined in the MSP software based on the state
- *    of an analog sensor. During operation, various move statuses are written
+ *    of an analog input. During operation, various move statuses are written
  *    to the USB serial port.
+ *    To achieve better positioning resolution (i.e. more commandable positions),  
+ *    consider using the ClearPath operational modes "Pulse Burst Positioning"
+ *    or "Move Incremental Distance" instead.
  *
  * Requirements:
  * 1. A ClearPath motor must be connected to Connector M-0.
- * 2. An analog sensor must be connected to Connector A-9 to control motor 
- *    position.
- * 3. The connected ClearPath motor must be configured through the MSP software
+ * 2. The connected ClearPath motor must be configured through the MSP software
  *    for Follow Digital Position Command, Unipolar PWM Command mode (In MSP
  *    select Mode>>Position>>Follow Digital Position Command, then with
  *    "Unipolar PWM Command" selected hit the OK button).
- * 4. The ClearPath motor must be set to use the HLFB mode "ASG-Position"
+ * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Position"
  *    through the MSP software (select Advanced>>High Level Feedback [Mode]...
  *    then choose "All Systems Go (ASG) - Position" from the dropdown and hit
  *    the OK button).
- * 5. The ClearPath must have defined positions for 0% and 100% PWM (On the
+ * 4. The ClearPath must have defined positions for 0% and 100% PWM (On the
  *    main MSP window check the "Position Range Setup (cnts)" box and fill in
  *    the two text boxes labeled "Posn at 0% PWM" and "Posn at 100% PWM").
- *    Change the "PositionZeroPWM" and "PositionMaxPWM" variables in the sketch
+ *    Change the "PositionZeroPWM" and "PositionMaxPWM" variables in the example
  *    below to match.
- * 6. Homing must be configured in the MSP software for your mechanical
+ * 5. Homing must be configured in the MSP software for your mechanical
  *    system (e.g. homing direction, torque limit, etc.). This example does
  *    not use the ClearPath's Input A as a homing sensor, although that may
  *    be configured in this mode through MSP.
+ * 6. An analog input source connected to Connector A-9 to control motor 
+ *    position.
  * 7. (Optional) An input source, such as a switch, connected to DI-6 to control
  *    the Command Lock or Home Sensor (configured in MSP).
  *
@@ -49,7 +53,7 @@
 
 #include "ClearCore.h"
 
-// Defines the motor's connector as ConnectorM0
+// Defines the motor's connector
 #define motor ConnectorM0
 
 // Defines the command lock sensor connector
@@ -121,8 +125,6 @@ void loop() {
     int32_t commandedPosition =
         static_cast<int32_t>(round(analogVoltage / 10 * positionMaxPWM));
     CommandPosition(commandedPosition);    // See below for the detailed function definition.
-    // Wait 2000ms.
-    delay(2000);
 }
 
 /*------------------------------------------------------------------------------
@@ -130,14 +132,11 @@ void loop() {
  *
  *    Move to position number commandedPosition (counts in MSP)
  *    Prints the move status to the USB serial port
- *    Returns when HLFB asserts (indicating the motor has reached the commanded
- *    position)
+ *    Returns when the command has been updated.
  *
  * Parameters:
  *    int commandedPosition  - The position, in counts, to command
  *
- * Returns: True/False depending on whether the position was successfully
- * commanded.
  */
 bool CommandPosition(int commandedPosition) {
     if (abs(commandedPosition) > abs(positionMaxPWM) || 
@@ -157,18 +156,7 @@ bool CommandPosition(int commandedPosition) {
 
     // Command the move.
     motor.MotorInBDuty(dutyRequest);
-
-    // Waits for HLFB to assert (signaling the move has successfully completed)
-    Serial.println("Moving... Waiting for HLFB");
-
-    // Delay to give HLFB time to change according to the new command
-    delay(2);
-
-    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-        continue;
-    }
-
-    Serial.println("Move Done");
+    
     return true;
 }
 //------------------------------------------------------------------------------
