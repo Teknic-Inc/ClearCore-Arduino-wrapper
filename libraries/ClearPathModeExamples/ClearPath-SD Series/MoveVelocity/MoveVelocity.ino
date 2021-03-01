@@ -88,20 +88,20 @@ void setup() {
 
 void loop() {
     // Put your main code here, it will run repeatedly:
-
-    // Move at 10,000 counts/sec, then wait 2000ms
-    MoveAtVelocity(10000);
+        
+    // Move at 1,000 steps/sec for 2000ms
+    MoveAtVelocity(1000);
     delay(2000);
-    // Move at -5,000 counts/sec, then wait 2000ms
+    // Move at -5,000 steps/sec for 2000ms
     MoveAtVelocity(-5000);
     delay(2000);
-    // Move at 7,000 counts/sec, then wait 2000ms
-    MoveAtVelocity(7000);
+    // Move at 10,000 steps/sec for 2000ms
+    MoveAtVelocity(10000);
     delay(2000);
-    // Move at -10,000 counts/sec, then wait 2000ms
+    // Move at -10,000 steps/sec for 2000ms
     MoveAtVelocity(-10000);
     delay(2000);
-    // Command a 0 counts/sec velocity to stop motion, then wait 2000ms
+    // Command a 0 steps/sec velocity to stop motion for 2000ms
     MoveAtVelocity(0);
     delay(2000);
 }
@@ -123,5 +123,15 @@ void MoveAtVelocity(int velocity) {
 
     // Command the velocity move
     motor.MoveVelocity(velocity);
+
+    // Waits for the step command to ramp up/down to the commanded velocity. 
+    // This time will depend on your Acceleration Limit.
+    Serial.println("Ramping to speed...");
+    while (!motor.CruiseVelocityReached()) {
+      continue;
+    }
+
+    Serial.println("At Speed");
+    
 }
 //------------------------------------------------------------------------------
