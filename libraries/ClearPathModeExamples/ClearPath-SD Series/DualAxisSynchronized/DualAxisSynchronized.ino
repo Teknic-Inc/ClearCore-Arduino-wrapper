@@ -76,8 +76,8 @@ void setup() {
 
     // Put the motor connectors into the HLFB mode to read bipolar PWM (the
     // correct mode for ASG w/ Measured Torque)
-	motor0.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
-	motor1.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
+    motor0.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
+    motor1.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
     
     // Sets the maximum velocity for each move
     motor0.VelMax(velocityLimit);
