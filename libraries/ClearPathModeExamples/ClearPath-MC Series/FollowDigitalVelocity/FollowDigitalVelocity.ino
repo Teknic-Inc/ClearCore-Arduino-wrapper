@@ -118,12 +118,18 @@ void loop() {
  * Returns: True/False depending on whether the velocity was successfully
  * commanded.
  */
-bool CommandVelocity(long commandedVelocity) {
-    
+bool CommandVelocity(long commandedVelocity) {  
     if (abs(commandedVelocity) >= abs(maxSpeed)) {
         Serial.println("Move rejected, requested velocity at or over the limit.");
         return false;
     }
+
+    // Check if an alert is currently preventing motion
+    if (motor.StatusReg().bit.AlertsPresent) {
+        SerialPort.SendLine("Motor status: 'In Alert'. Move Canceled.");
+        return false;
+    }
+
     Serial.print("Commanding Velocity: ");
     Serial.println(commandedVelocity);
 
