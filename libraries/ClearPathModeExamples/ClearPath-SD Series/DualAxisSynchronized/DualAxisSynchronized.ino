@@ -16,12 +16,12 @@
  *    Connector M-1.
  * 2. The connected ClearPath motors must be configured through the MSP software
  *    for Step and Direction mode (In MSP select Mode>>Step and Direction).
- * 3. The connected ClearPath motors must have their HLFB modes set to ASG 
- *    Position with measured torque through the MSP software (select
- *    Advanced>>High Level Feedback [Mode]... then choose
- *    "ASG-Position, w/Measured Torque" from the dropdown and hit
- *    the OK button).
- *    Select a 482 Hz PWM Carrier Frequency in this menu.
+ * 3. The ClearPath motors must be set to use the HLFB mode "ASG-Position
+ *    w/Measured Torque" with a PWM carrier frequency of 482 Hz through the MSP
+ *    software (select Advanced>>High Level Feedback [Mode]... then choose
+ *    "ASG-Position w/Measured Torque" from the dropdown, make sure that 482 Hz
+ *    is selected in the "PWM Carrier Frequency" dropdown, and hit the OK
+ *    button).
  * 4. If the two motors must spin in opposite directions (i.e. they are mounted
  *    facing different directions), check the "Reverse Direction" checkbox of
  *    one motor in MSP.
@@ -79,6 +79,10 @@ void setup() {
     // correct mode for ASG w/ Measured Torque)
     motor0.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
     motor1.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
+ 
+    // Set the HFLB carrier frequencies to 482 Hz
+    motor0.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
+    motor1.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
     
     // Sets the maximum velocity for each move
     motor0.VelMax(velocityLimit);
@@ -148,6 +152,16 @@ void loop() {
  * Returns: None
  */
 void SynchronizedMove(int distance) {
+    // Check if an alert is currently preventing motion
+    if (motor0.StatusReg().bit.AlertsPresent) {
+        SerialPort.SendLine("Motor 0 status: 'In Alert'. Move Canceled.");
+        return false;
+    }
+    if (motor1.StatusReg().bit.AlertsPresent) {
+        SerialPort.SendLine("Motor 1 status: 'In Alert'. Move Canceled.");
+        return false;
+    }
+    
     Serial.print("Moving distance: ");
     Serial.println(distance);
 
@@ -182,5 +196,6 @@ void SynchronizedMove(int distance) {
     }
 
     Serial.println("Move Done");
+    return true;
 }
 //------------------------------------------------------------------------------
