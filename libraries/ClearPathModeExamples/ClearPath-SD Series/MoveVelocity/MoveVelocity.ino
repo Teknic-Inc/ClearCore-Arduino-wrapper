@@ -140,7 +140,7 @@ bool MoveAtVelocity(int velocity) {
     // Waits for the step command to ramp up/down to the commanded velocity. 
     // This time will depend on your Acceleration Limit.
     Serial.println("Ramping to speed...");
-    while (!motor.CruiseVelocityReached()) {
+    while (!motor.StatusReg().bit.AtTargetVelocity) {
         continue;
     }
 
