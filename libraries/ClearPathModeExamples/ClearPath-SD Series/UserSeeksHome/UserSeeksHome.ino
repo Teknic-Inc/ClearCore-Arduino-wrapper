@@ -100,7 +100,7 @@ void setup() {
     // Check if an alert would prevent motion
     if (motor.StatusReg().bit.AlertsPresent) {
         // In this case, we can't proceed with homing. Print the alert and bail.
-        SerialPort.SendLine("Motor status: 'In Alert'. Move Canceled.");
+        Serial.println("Motor status: 'In Alert'. Move Canceled.");
         // The end...
         while (true) {
             continue;

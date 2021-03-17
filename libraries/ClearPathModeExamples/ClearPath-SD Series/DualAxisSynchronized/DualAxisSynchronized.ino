@@ -154,11 +154,11 @@ void loop() {
 void SynchronizedMove(int distance) {
     // Check if an alert is currently preventing motion
     if (motor0.StatusReg().bit.AlertsPresent) {
-        SerialPort.SendLine("Motor 0 status: 'In Alert'. Move Canceled.");
+        Serial.println("Motor 0 status: 'In Alert'. Move Canceled.");
         return false;
     }
     if (motor1.StatusReg().bit.AlertsPresent) {
-        SerialPort.SendLine("Motor 1 status: 'In Alert'. Move Canceled.");
+        Serial.println("Motor 1 status: 'In Alert'. Move Canceled.");
         return false;
     }
     

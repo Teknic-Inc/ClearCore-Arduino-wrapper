@@ -127,7 +127,7 @@ void loop() {
 bool MoveAtVelocity(int velocity) {
     // Check if an alert is currently preventing motion
     if (motor.StatusReg().bit.AlertsPresent) {
-        SerialPort.SendLine("Motor status: 'In Alert'. Move Canceled.");
+        Serial.println("Motor status: 'In Alert'. Move Canceled.");
         return false;
     }
 
