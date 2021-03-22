@@ -1,4 +1,4 @@
-set ver=1.0.14
+set ver=1.0.15
 rem set version=shell git describe --dirty --always --tags
 
 set zipDir=ClearCore-%ver%
