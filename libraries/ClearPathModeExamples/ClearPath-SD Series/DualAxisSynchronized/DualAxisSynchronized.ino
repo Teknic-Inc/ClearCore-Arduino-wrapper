@@ -62,7 +62,7 @@ int accelerationLimit = 100000; // pulses per sec^2
 // Declares our user-defined helper function, which is used to move both motors
 // synchronously. The definition/implementation of this function is at the
 // bottom of the example.
-void SynchronizedMove(int distance);
+bool SynchronizedMove(int distance);
 
 void setup() {
     // Put your setup code here, it will only run once:
@@ -151,7 +151,7 @@ void loop() {
  *
  * Returns: None
  */
-void SynchronizedMove(int distance) {
+bool SynchronizedMove(int distance) {
     // Check if an alert is currently preventing motion
     if (motor0.StatusReg().bit.AlertsPresent) {
         Serial.println("Motor 0 status: 'In Alert'. Move Canceled.");
