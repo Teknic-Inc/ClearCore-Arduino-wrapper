@@ -41,13 +41,13 @@
         {
           "name": "ClearCore",
           "architecture": "sam",
-          "version": "1.1.0",
+          "version": "1.1.1",
           "category": "Contributed",
           "help": { "online": "https://teknic-inc.github.io/ClearCore-library/" },
-          "url": "https://www.teknic.com/files/downloads/ClearCore-1.1.0.zip",
-          "archiveFileName": "ClearCore-1.1.0.zip",
-          "checksum": "MD5:975a526fb176189387986010e81a4da5",
-          "size": "6362705",
+          "url": "https://www.teknic.com/files/downloads/ClearCore-1.1.1.zip",
+          "archiveFileName": "ClearCore-1.1.1.zip",
+          "checksum": "MD5:f55b44cc0a880cce4eb8981a6fe564a6",
+          "size": "6441471",
           "boards": [
             {"name": "ClearCore"}
           ],
