@@ -16,10 +16,12 @@
  *    for Move Incremental Distance, 2 Increments (Home to Switch) mode (In MSP
  *    select Mode>>Position>>Move Incremental Distance, then with "2 Increments
  *    (Home to Switch)" selected hit the OK button).
- * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Position"
- *    through the MSP software (select Advanced>>High Level Feedback [Mode]...
- *    then choose "All Systems Go (ASG) - Position" from the dropdown and hit
- *    the OK button).
+ * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Position
+ *    w/Measured Torque" with a PWM carrier frequency of 482 Hz through the MSP
+ *    software (select Advanced>>High Level Feedback [Mode]... then choose
+ *    "ASG-Position w/Measured Torque" from the dropdown, make sure that 482 Hz
+ *    is selected in the "PWM Carrier Frequency" dropdown, and hit the OK
+ *    button).
  * 4. If the ClearPath is configured for sensor-based homing, ensure that the
  *    homing sensor is wired to Connector DI-6 (homing is optional, not required
  *    in this operational mode or in this example).
@@ -27,9 +29,11 @@
  *    software which match the #define values below (On the main MSP window
  *    check the "Position Increment Setup (cnts)" box and fill in the two text
  *    boxes labeled "A off" and "A on").
- * 6. Set the Trigger Pulse Time in MSP to 25ms. To configure, click the
- *    "Setup..." button found under the "Trigger Pulse" label on the MSP's
- *    main window, fill in the text box, and hit the OK button.
+ * 6. Ensure the Trigger Pulse Time in MSP is set to 20ms. To configure, click
+ *    the "Setup..." button found under the "Trigger Pulse" label on the MSP's
+ *    main window, fill in the text box, and hit the OK button. Setting this to 
+ *    20ms allows trigger pulses to be as long as 60ms, which will accommodate 
+ *    our 25ms pulses used later.
  * 7. Ensure the Input A & B filters in MSP are both set to 20ms (In MSP
  *    select Advanced>>Input A, B Filtering... then in the Settings box fill in
  *    the textboxes labeled "Input A Filter Time Constant (msec)" and "Input B
@@ -41,12 +45,12 @@
  *    end of travel limits
  *
  * Links:
- * ** web link to doxygen (all Examples)
- * ** web link to ClearCore Manual (all Examples)  <<FUTURE links to Getting started webpage/ ClearCore videos>>
- * ** web link to ClearPath Operational mode video (Only ClearPath Examples)
- * ** web link to ClearPath manual (Only ClearPath Examples)
+ * ** ClearCore Documentation: https://teknic-inc.github.io/ClearCore-library/
+ * ** ClearCore Manual: https://www.teknic.com/files/downloads/clearcore_user_manual.pdf
+ * ** ClearPath Manual (DC Power): https://www.teknic.com/files/downloads/clearpath_user_manual.pdf
+ * ** ClearPath Manual (AC Power): https://www.teknic.com/files/downloads/ac_clearpath-mc-sd_manual.pdf
  *
- * Last Modified: 1/21/2020
+ *
  * Copyright (c) 2020 Teknic Inc. This work is free to use, copy and distribute under the terms of
  * the standard MIT permissive software license which can be found at https://opensource.org/licenses/MIT
  */
@@ -66,8 +70,8 @@
 
 // Increments defined below must be set identically to the position increments
 // set in MSP
-#define POSITION_INCREMENT_1 100  // Input A "off" setup selection, 100 counts (CCW)
-#define POSITION_INCREMENT_2 -100 // Input A "on" setup selection, -100 counts (CW)
+#define POSITION_INCREMENT_1 1000  // Input A "off" setup selection, 1000 counts (CCW)
+#define POSITION_INCREMENT_2 -1000 // Input A "on" setup selection, -1000 counts (CW)
 
 // Specify the home sensor connector
 #define HomingSensor DI6
@@ -88,6 +92,11 @@ void setup() {
     // mode.
     MotorMgr.MotorModeSet(MotorManager::MOTOR_ALL,
                           Connector::CPM_MODE_A_DIRECT_B_DIRECT);
+
+    // Set the motor's HLFB mode to bipolar PWM
+    motor.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
+    // Set the HFLB carrier frequency to 482 Hz
+    motor.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
 
     // Enforces the state of the motor's A and B inputs before enabling the motor
     motor.MotorInAState(false);
@@ -126,13 +135,13 @@ void setup() {
 void loop() {
     // Put your main code here, it will run repeatedly:
 
-    // Move a distance equal to 1 * POSITION_INCREMENT_1 = 100 counts.
+    // Move a distance equal to 1 * POSITION_INCREMENT_1 = 1000 counts.
     // See below for the detailed function definition.
     MoveIncrements(1, POSITION_INCREMENT_1);
     // Stay settled for 1 second before moving again.
     delay(1000);
 
-    // Move a distance equal to 1 * POSITION_INCREMENT_2 = -100 counts.
+    // Move a distance equal to 1 * POSITION_INCREMENT_2 = -1000 counts.
     MoveIncrements(1, POSITION_INCREMENT_2);
     delay(1000);
 
@@ -140,11 +149,11 @@ void loop() {
     // an active move before deceleration begins, then the moves will be
     // seamlessly combined into one continuous move
 
-    // Move a distance equal to 4 * POSITION_INCREMENT_1 = 400 counts.
+    // Move a distance equal to 4 * POSITION_INCREMENT_1 = 4000 counts.
     MoveIncrements(4, POSITION_INCREMENT_1);
     delay(1000);
 
-    // Move a distance equal to 4 * POSITION_INCREMENT_2 = -400 counts.
+    // Move a distance equal to 4 * POSITION_INCREMENT_2 = -4000 counts.
     MoveIncrements(4, POSITION_INCREMENT_2);
     delay(1000);
 }
@@ -165,6 +174,12 @@ void loop() {
  * Returns: True/False depending on whether the move was successfully triggered.
  */
 bool MoveIncrements(int numberOfIncrements, int positionIncrement) {
+    // Check if an alert is currently preventing motion
+    if (motor.StatusReg().bit.AlertsPresent) {
+        Serial.println("Motor status: 'In Alert'. Move Canceled.");
+        return false;
+    }
+
     Serial.print("Moving ");
     Serial.print(numberOfIncrements);
     Serial.print(" * ");

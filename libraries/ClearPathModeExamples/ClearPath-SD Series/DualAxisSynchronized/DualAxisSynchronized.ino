@@ -16,10 +16,12 @@
  *    Connector M-1.
  * 2. The connected ClearPath motors must be configured through the MSP software
  *    for Step and Direction mode (In MSP select Mode>>Step and Direction).
- * 3. The ClearPath motors must be set to use the HLFB mode "ASG-Position"
- *    through the MSP software (select Advanced>>High Level Feedback [Mode]...
- *    then choose "All Systems Go (ASG) - Position" from the dropdown and hit
- *    the OK button).
+ * 3. The ClearPath motors must be set to use the HLFB mode "ASG-Position
+ *    w/Measured Torque" with a PWM carrier frequency of 482 Hz through the MSP
+ *    software (select Advanced>>High Level Feedback [Mode]... then choose
+ *    "ASG-Position w/Measured Torque" from the dropdown, make sure that 482 Hz
+ *    is selected in the "PWM Carrier Frequency" dropdown, and hit the OK
+ *    button).
  * 4. If the two motors must spin in opposite directions (i.e. they are mounted
  *    facing different directions), check the "Reverse Direction" checkbox of
  *    one motor in MSP.
@@ -33,12 +35,12 @@
  *    move of the same number of Encoder Counts, a 1:1 ratio.
  *
  * Links:
- * ** web link to doxygen (all Examples)
- * ** web link to ClearCore Manual (all Examples)  <<FUTURE links to Getting started webpage/ ClearCore videos>>
- * ** web link to ClearPath Operational mode video (Only ClearPath Examples)
- * ** web link to ClearPath manual (Only ClearPath Examples)
+ * ** ClearCore Documentation: https://teknic-inc.github.io/ClearCore-library/
+ * ** ClearCore Manual: https://www.teknic.com/files/downloads/clearcore_user_manual.pdf
+ * ** ClearPath Manual (DC Power): https://www.teknic.com/files/downloads/clearpath_user_manual.pdf
+ * ** ClearPath Manual (AC Power): https://www.teknic.com/files/downloads/ac_clearpath-mc-sd_manual.pdf
  *
- * Last Modified: 1/21/2020
+ *
  * Copyright (c) 2020 Teknic Inc. This work is free to use, copy and distribute under the terms of
  * the standard MIT permissive software license which can be found at https://opensource.org/licenses/MIT
  */
@@ -60,7 +62,7 @@ int accelerationLimit = 100000; // pulses per sec^2
 // Declares our user-defined helper function, which is used to move both motors
 // synchronously. The definition/implementation of this function is at the
 // bottom of the example.
-void SynchronizedMove(int distance);
+bool SynchronizedMove(int distance);
 
 void setup() {
     // Put your setup code here, it will only run once:
@@ -73,6 +75,15 @@ void setup() {
     MotorMgr.MotorModeSet(MotorManager::MOTOR_ALL,
                           Connector::CPM_MODE_STEP_AND_DIR);
 
+    // Put the motor connectors into the HLFB mode to read bipolar PWM (the
+    // correct mode for ASG w/ Measured Torque)
+    motor0.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
+    motor1.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
+ 
+    // Set the HFLB carrier frequencies to 482 Hz
+    motor0.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
+    motor1.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
+    
     // Sets the maximum velocity for each move
     motor0.VelMax(velocityLimit);
     motor1.VelMax(velocityLimit);
@@ -140,7 +151,17 @@ void loop() {
  *
  * Returns: None
  */
-void SynchronizedMove(int distance) {
+bool SynchronizedMove(int distance) {
+    // Check if an alert is currently preventing motion
+    if (motor0.StatusReg().bit.AlertsPresent) {
+        Serial.println("Motor 0 status: 'In Alert'. Move Canceled.");
+        return false;
+    }
+    if (motor1.StatusReg().bit.AlertsPresent) {
+        Serial.println("Motor 1 status: 'In Alert'. Move Canceled.");
+        return false;
+    }
+    
     Serial.print("Moving distance: ");
     Serial.println(distance);
 
@@ -151,14 +172,30 @@ void SynchronizedMove(int distance) {
     // Wait until both motors complete their moves
     uint32_t lastStatusTime = millis();
     while (!motor0.StepsComplete() || motor0.HlfbState() != MotorDriver::HLFB_ASSERTED ||
-            !motor1.StepsComplete() || motor1.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+           !motor1.StepsComplete() || motor1.HlfbState() != MotorDriver::HLFB_ASSERTED) {
         // Periodically print out why the application is waiting
         if (millis() - lastStatusTime > 100) {
             Serial.println("Waiting for HLFB to assert on both motors");
             lastStatusTime = millis();
         }
+        
+        // Use HLFB to monitor whether one of the motors has shut down. If so,
+        // disable both motors and abort the sketch.
+        if (motor0.HlfbState() == MotorDriver::HLFB_DEASSERTED ||
+            motor1.HlfbState() == MotorDriver::HLFB_DEASSERTED) {
+            Serial.println("Motor shutdown detected. Disabling both motors.");
+            Serial.println("Future move commands will not get issued.");
+            motor0.EnableRequest(false);
+            motor1.EnableRequest(false);
+            
+            // The end
+            while (true) {
+                continue;
+            }
+        }
     }
 
     Serial.println("Move Done");
+    return true;
 }
 //------------------------------------------------------------------------------

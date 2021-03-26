@@ -1,34 +1,28 @@
-/*
- * Title: PulseBurstPositioning
+ /*
+ * Title: MovePositionAbsolute
  *
  * Objective:
- *    This example demonstrates control of the ClearPath-MCPV operational mode
- *    Pulse Burst Positioning.
+ *    This example demonstrates control of a ClearPath motor in Step and
+ *    Direction mode.
  *
  * Description:
- *    This example enables a ClearPath motor and executes a repeating pattern of
- *    positional move commands. During operation, various move statuses are
- *    written to the USB serial port.
+ *    This example enables a ClearPath then commands a series of repeating
+ *    absolute position moves to the motor.
  *
  * Requirements:
  * 1. A ClearPath motor must be connected to Connector M-0.
  * 2. The connected ClearPath motor must be configured through the MSP software
- *    for Pulse Burst Positioning mode (In MSP select Mode>>Position>>Pulse
- *    Burst Positioning, then hit the OK button).
+ *    for Step and Direction mode (In MSP select Mode>>Step and Direction).
  * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Position
  *    w/Measured Torque" with a PWM carrier frequency of 482 Hz through the MSP
  *    software (select Advanced>>High Level Feedback [Mode]... then choose
  *    "ASG-Position w/Measured Torque" from the dropdown, make sure that 482 Hz
  *    is selected in the "PWM Carrier Frequency" dropdown, and hit the OK
  *    button).
- * 4. Ensure the Trigger Pulse Time in MSP is set to 20ms. To configure, click
- *    the "Setup..." button found under the "Trigger Pulse" label on the MSP's
- *    main window, fill in the text box, and hit the OK button. Setting this to 
- *    20ms allows trigger pulses to be as long as 60ms, which will accommodate 
- *    our 25ms pulses used later.
+ * 4. Set the Input Format in MSP for "Step + Direction".
  *
  * ** Note: Homing is optional, and not required in this operational mode or in
- *    this example. This example makes its first move in the positive direction,
+ *    this example. This example makes positive absolute position moves,
  *    assuming any homing move occurs in the negative direction.
  *
  * ** Note: Set the Input Resolution in MSP the same as your motor's Positioning
@@ -41,36 +35,35 @@
  * ** ClearPath Manual (DC Power): https://www.teknic.com/files/downloads/clearpath_user_manual.pdf
  * ** ClearPath Manual (AC Power): https://www.teknic.com/files/downloads/ac_clearpath-mc-sd_manual.pdf
  *
- *
+ * 
  * Copyright (c) 2020 Teknic Inc. This work is free to use, copy and distribute under the terms of
  * the standard MIT permissive software license which can be found at https://opensource.org/licenses/MIT
  */
 
 #include "ClearCore.h"
 
-// Defines the motor's connector as ConnectorM0
+// Specifies which motor to move.
+// Options are: ConnectorM0, ConnectorM1, ConnectorM2, or ConnectorM3.
 #define motor ConnectorM0
 
-// The TRIGGER_PULSE_TIME is set to 25ms to ensure it is within the
-// Trigger Pulse Range defined in the MSP software (Default is 20ms, which 
-// allows a range of pulses up to 60ms)
-#define TRIGGER_PULSE_TIME 25
-
-// Select the baud rate to match the target device.
+// Select the baud rate to match the target serial device
 #define baudRate 9600
 
+// Define the velocity and acceleration limits to be used for each move
+int velocityLimit = 10000; // pulses per sec
+int accelerationLimit = 100000; // pulses per sec^2
+
 // Declares our user-defined helper function, which is used to command moves to
-// the motor. The definition/implementation of this function is at the bottom
-// of the example.
-bool MoveDistance(int pulseNum);
+// the motor. The definition/implementation of this function is at the  bottom
+// of the example
+bool MoveAbsolutePosition(int32_t position);
 
 void setup() {
-    // Put your setup code here, it will run once:
+    // Put your setup code here, it will only run once:
 
-    // To command for Pulse Burst Positioning, use the step and direction
-    // interface with the acceleration and velocity limits set to their
-    // maximum values. The ClearPath will then take the pulses and enforce
-    // the motion profile constraints.
+    // Sets the input clocking rate. This normal rate is ideal for ClearPath
+    // step and direction applications.
+    MotorMgr.MotorInputClocking(MotorManager::CLOCK_RATE_NORMAL);
 
     // Sets all motor connectors into step and direction mode.
     MotorMgr.MotorModeSet(MotorManager::MOTOR_ALL,
@@ -82,10 +75,10 @@ void setup() {
     motor.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
 
     // Sets the maximum velocity for each move
-    motor.VelMax(INT32_MAX);
+    motor.VelMax(velocityLimit);
 
     // Set the maximum acceleration for each move
-    motor.AccelMax(INT32_MAX);
+    motor.AccelMax(accelerationLimit);
 
     // Sets up serial communication and waits up to 5 seconds for a port to open.
     // Serial communication is not required for this example to run.
@@ -96,8 +89,7 @@ void setup() {
         continue;
     }
 
-    // Enables the motor; homing will begin automatically if homing is enabled
-    // in MSP.
+    // Enables the motor; homing will begin automatically if enabled
     motor.EnableRequest(true);
     Serial.println("Motor Enabled");
 
@@ -112,57 +104,46 @@ void setup() {
 void loop() {
     // Put your main code here, it will run repeatedly:
 
-    // Move 6400 counts (positive direction) then wait 1000ms
-    MoveDistance(6400);
-    delay(1000);
-    // Move 19200 counts farther positive, then wait 1000ms
-    MoveDistance(19200);
-    delay(1000);
-
-    // Generates a trigger pulse on the enable line so the next move uses the
-    // Alt Speed Limit.
-    motor.EnableTriggerPulse(1, TRIGGER_PULSE_TIME, true);
-
-    // Move back 12800 counts (negative direction), then wait 1000ms
-    MoveDistance(-12800);
-    delay(1000);
-    // Move back 6400 counts (negative direction), then wait 1000ms
-    MoveDistance(-6400);
-    delay(1000);
-    // Move back to the start (negative 6400 pulses), then wait 1000ms
-    MoveDistance(-6400);
-    delay(1000);
+    // Move to +10000 counts (positive direction), then wait 2000ms
+    MoveAbsolutePosition(10000);
+    delay(2000);
+    // Move to 19200 counts, then wait 2000ms
+    MoveAbsolutePosition(19200);
+    delay(2000);
+    // Move to 12800 counts, then wait 2000ms
+    MoveAbsolutePosition(12800);
+    delay(2000);
+    // Move back to "home", then wait 2000ms
+    MoveAbsolutePosition(0);
+    delay(2000);
 }
 
 /*------------------------------------------------------------------------------
- * MoveDistance
+ * MoveAbsolutePosition
  *
- *    Command "distance" number of step pulses away from the current position
+ *    Command step pulses to move the motor's current position to the absolute
+ *    position specified by "position"
  *    Prints the move status to the USB serial port
  *    Returns when HLFB asserts (indicating the motor has reached the commanded
  *    position)
  *
  * Parameters:
- *    int distance  - The distance, in step pulses, to move
+ *    int position  - The absolute position, in step pulses, to move to
  *
  * Returns: True/False depending on whether the move was successfully triggered.
  */
-bool MoveDistance(int distance) {
+bool MoveAbsolutePosition(int position) {
     // Check if an alert is currently preventing motion
     if (motor.StatusReg().bit.AlertsPresent) {
         Serial.println("Motor status: 'In Alert'. Move Canceled.");
         return false;
     }
 
-    Serial.print("Commanding ");
-    Serial.print(distance);
-    Serial.println(" pulses");
+    Serial.print("Moving to absolute position: ");
+    Serial.println(position);
 
-    // Command the move of incremental distance
-    motor.Move(distance);
-
-    // Add a short delay to allow HLFB to update
-    delay(2);
+    // Command the move of absolute distance
+    motor.Move(position, MotorDriver::MOVE_TARGET_ABSOLUTE);
 
     // Waits for HLFB to assert (signaling the move has successfully completed)
     Serial.println("Moving.. Waiting for HLFB");

@@ -1,4 +1,4 @@
-/*
+/* 
  * Title: FollowDigitalVelocity
  *
  * Objective:
@@ -6,17 +6,13 @@
  *    Follow Digital Velocity Command, Unipolar PWM Command.
  *
  * Description:
- *    This example enables a ClearPath motor and executes a repeating pattern of
- *    bidirectional velocity moves. During operation, various move statuses are
- *    written to the USB serial port.
- *    This example does not use HLFB for motor feedback. It is possible your
- *    commanded velocity is not reached before a new velocity is commanded.
- *    The resolution for PWM outputs is 8-bit, meaning only 256 discrete speeds
- *    can be commanded in each direction. The motor's actual commanded speed may
- *    differ from what you input below because of this.
- *    Consider using Manual Velocity Control mode if greater velocity command
- *    resolution is required, or if HLFB is needed for "move done/at speed"
- *    status feedback.
+ *    This example enables a ClearPath motor and executes velocity moves based
+ *    on the state of an analog input sensor. During operation, various move
+ *    statuses are written to the USB serial port.
+ *    Consider using Manual Velocity Control mode instead if you do not wish to 
+ *    use an analog sensor to command velocity, if you require greater velocity 
+ *    command resolution (i.e. more commandable positions), or if HLFB is needed 
+ *    for "move done/at speed" status feedback.
  *
  * Requirements:
  * 1. A ClearPath motor must be connected to Connector M-0.
@@ -34,15 +30,17 @@
  *    select Advanced>>Input A, B Filtering... then in the Settings box fill in
  *    the textbox labeled "Input A Filter Time Constant (msec)" then hit the OK
  *    button).
- *
+ * 6. An analog input source (0-10V) connected to ConnectorA9 to control
+ *    motor velocity.
  *
  * Links:
- * ** web link to doxygen (all Examples)
- * ** web link to ClearCore Manual (all Examples)  <<FUTURE links to Getting started webpage/ ClearCore videos>>
- * ** web link to ClearPath Operational mode video (Only ClearPath Examples)
- * ** web link to ClearPath manual (Only ClearPath Examples)
+ * ** ClearCore Documentation: https://teknic-inc.github.io/ClearCore-library/
+ * ** ClearCore Manual: https://www.teknic.com/files/downloads/clearcore_user_manual.pdf
+ * ** ClearPath Manual (DC Power): https://www.teknic.com/files/downloads/clearpath_user_manual.pdf
+ * ** ClearPath Manual (AC Power): https://www.teknic.com/files/downloads/ac_clearpath-mc-sd_manual.pdf
+ * ** ClearPath Mode Informational Video: https://www.teknic.com/watch-video/#OpMode8
  *
- * Last Modified: 2/10/2020
+ *
  * Copyright (c) 2020 Teknic Inc. This work is free to use, copy and distribute under the terms of
  * the standard MIT permissive software license which can be found at https://opensource.org/licenses/MIT
  */
@@ -52,6 +50,9 @@
 // Defines the motor's connector as ConnectorM0
 #define motor ConnectorM0
 
+// Defines the analog input to control commanded velocity
+#define AnalogSensor ConnectorA9
+
 // The INPUT_A_FILTER must match the Input A filter setting in MSP
 // (Advanced >> Input A, B Filtering...)
 #define INPUT_A_FILTER 20
@@ -59,19 +60,22 @@
 // Select the baud rate to match the target device.
 #define baudRate 9600
 
-// This is the commanded speed limit (must match the MSP value). This speed
+// This is the commanded speed limit in RPM (must match the MSP value). This speed
 // cannot actually be commanded, so use something slightly higher than your real
 // max speed here and in MSP.
 double maxSpeed = 510;
 
-// Declares our user-defined helper function, which is used to command speed and
-// direction. The definition/implementation of this function is at the bottom of
-// the sketch.
-bool CommandVelocity(int commandedVelocity);
+// Declares our user-defined helper function, which is used to command velocity 
+// The definition/implementation of this function is at the bottom of
+// this example.
+bool CommandVelocity(long commandedVelocity);
 
 void setup() {
     // Put your setup code here, it will only run once:
-
+    
+    // Set up an analog sensor to control commanded velocity.
+    AnalogSensor.Mode(Connector::INPUT_ANALOG);
+    
     // Sets all motor connectors to the correct mode for Follow Digital
     // Velocity, Unipolar PWM mode.
     MotorMgr.MotorModeSet(MotorManager::MOTOR_ALL,
@@ -89,36 +93,17 @@ void setup() {
     // Enables the motor
     motor.EnableRequest(true);
     Serial.println("Motor Enabled");
-
-    // Waits for 5 seconds for motor to come up to speed
-    Serial.println("Waiting for motor to come up to speed...");
-    startTime = millis();
-    while (millis() - startTime < timeout) {
-        continue;
-    }
-    Serial.println("Motor Ready");
 }
 
-
 void loop() {
-    // Put your main code here, it will run repeatedly:
+    // Read the voltage on the analog sensor (0-10V).
+    float analogVoltage = AnalogSensor.AnalogVoltage();
+    // Convert the voltage measured to a velocity within the valid range.
+    long commandedVelocity =
+        static_cast<int32_t>(round(analogVoltage / 10 * maxSpeed));
 
-    // Move at +100 RPM (CCW).
-    CommandVelocity(100);    // See below for the detailed function definition.
-    // Wait 5000ms.
-    delay(5000);
-
-    CommandVelocity(300); // Move at +300 RPM (CCW).
-    delay(5000);
-
-    CommandVelocity(-500); // Move at -500 RPM (CW).
-    delay(5000);
-
-    CommandVelocity(-300); // Move at -300 RPM (CW).
-    delay(5000);
-
-    CommandVelocity(100); // Move at +100 RPM (CCW).
-    delay(5000);
+    // Move at the commanded velocity.
+    CommandVelocity(commandedVelocity);    // See below for the detailed function definition.
 }
 
 /*------------------------------------------------------------------------------
@@ -126,8 +111,6 @@ void loop() {
  *
  *    Command the motor to move using a velocity of commandedVelocity
  *    Prints the move status to the USB serial port
- *    Returns when HLFB asserts (indicating the motor has reached the commanded
- *    velocity)
  *
  * Parameters:
  *    int commandedVelocity  - The velocity to command
@@ -135,22 +118,31 @@ void loop() {
  * Returns: True/False depending on whether the velocity was successfully
  * commanded.
  */
-bool CommandVelocity(int commandedVelocity) {
-    if (abs(commandedVelocity) > abs(maxSpeed)) {
-        Serial.println("Move rejected, requested velocity over the limit.");
+bool CommandVelocity(long commandedVelocity) {  
+    if (abs(commandedVelocity) >= abs(maxSpeed)) {
+        Serial.println("Move rejected, requested velocity at or over the limit.");
         return false;
     }
-    Serial.print("Commanding velocity: ");
+
+    // Check if an alert is currently preventing motion
+    if (motor.StatusReg().bit.AlertsPresent) {
+        Serial.println("Motor status: 'In Alert'. Move Canceled.");
+        return false;
+    }
+
+    Serial.print("Commanding Velocity: ");
     Serial.println(commandedVelocity);
 
-    // Change ClearPath's Input A state to change direction
-    if (commandedVelocity > 0) {
+    // Change ClearPath's Input A state to change direction.
+    // Note: this section of code was included so this commandVelocity function 
+    // could be used to command negative (opposite direction) velocity. However the 
+    // analog signal used by this example only commands positive velocities.
+    if (commandedVelocity >= 0) {
         motor.MotorInAState(false);
     }
     else {
         motor.MotorInAState(true);
     }
-
     // Delays to send the correct filtered direction.
     delay(2 + INPUT_A_FILTER);
 

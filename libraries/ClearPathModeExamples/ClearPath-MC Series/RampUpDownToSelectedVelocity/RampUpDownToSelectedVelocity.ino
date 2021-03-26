@@ -16,10 +16,12 @@
  *    for Ramp Up/Down to Selected Velocity mode (In MSP
  *    select Mode>>Velocity>>Ramp Up/Down to Selected Velocity, then hit the OK
  *    button).
- * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Velocity"
- *    through the MSP software (select Advanced>>High Level Feedback [Mode]...
- *    then choose "All Systems Go (ASG) - Velocity" from the dropdown and hit
- *    the OK button).
+ * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Velocity
+ *    w/Measured Torque" with a PWM carrier frequency of 482 Hz through the MSP
+ *    software (select Advanced>>High Level Feedback [Mode]... then choose
+ *    "ASG-Velocity w/Measured Torque" from the dropdown, make sure that 482 Hz
+ *    is selected in the "PWM Carrier Frequency" dropdown, and hit the OK
+ *    button).
  * 4. The ClearPath must have defined Velocity Selections through the MSP
  *    software (On the main MSP window check the "Velocity Selection Setup
  *    (RPM)" box and fill in the four text boxes labeled "A off B off", "A on B
@@ -30,12 +32,12 @@
  *    Filter Time Constant (msec)" then hit the OK button).
  *
  * Links:
- * ** web link to doxygen (all Examples)
- * ** web link to ClearCore Manual (all Examples)  <<FUTURE links to Getting started webpage/ ClearCore videos>>
- * ** web link to ClearPath Operational mode video (Only ClearPath Examples)
- * ** web link to ClearPath manual (Only ClearPath Examples)
+ * ** ClearCore Documentation: https://teknic-inc.github.io/ClearCore-library/
+ * ** ClearCore Manual: https://www.teknic.com/files/downloads/clearcore_user_manual.pdf
+ * ** ClearPath Manual (DC Power): https://www.teknic.com/files/downloads/clearpath_user_manual.pdf
+ * ** ClearPath Manual (AC Power): https://www.teknic.com/files/downloads/ac_clearpath-mc-sd_manual.pdf
  *
- * Last Modified: 1/21/2020
+ *
  * Copyright (c) 2020 Teknic Inc. This work is free to use, copy and distribute under the terms of
  * the standard MIT permissive software license which can be found at https://opensource.org/licenses/MIT
  */
@@ -65,6 +67,11 @@ void setup() {
     MotorMgr.MotorModeSet(MotorManager::MOTOR_ALL,
                           Connector::CPM_MODE_A_DIRECT_B_DIRECT);
 
+    // Set the motor's HLFB mode to bipolar PWM
+    motor.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
+    // Set the HFLB carrier frequency to 482 Hz
+    motor.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
+
     // Enforces the state of the motor's A and B inputs before enabling the motor
     motor.MotorInAState(false);
     motor.MotorInBState(false);
@@ -78,7 +85,7 @@ void setup() {
         continue;
     }
 
-    // Enables the motor; homing will begin automatically.
+    // Enables the motor
     motor.EnableRequest(true);
     Serial.println("Motor Enabled");
 
@@ -92,7 +99,7 @@ void setup() {
 
 
 void loop() {
-    // Move to Position 1 defined in MSP (Inputs A off, B off).
+    // Move to Velocity 1 defined in MSP (Inputs A off, B off).
     // See below for the detailed function definition.
     RampToVelocitySelection(1);
 
@@ -125,12 +132,18 @@ void loop() {
  *    velocity)
  *
  * Parameters:
- *    int velocityIndex  - The position number to command (defined in MSP)
+ *    int velocityIndex  - The velocity number to command (defined in MSP)
  *
  * Returns: True/False depending on whether the velocity selection was
  * successfully commanded.
  */
 bool RampToVelocitySelection(int velocityIndex) {
+    // Check if an alert is currently preventing motion
+    if (motor.StatusReg().bit.AlertsPresent) {
+        Serial.println("Motor status: 'In Alert'. Move Canceled.");
+        return false;
+    }
+
     Serial.print("Moving to Velocity Selection: ");
     Serial.print(velocityIndex);
 

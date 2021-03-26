@@ -1,3 +1,4 @@
+
 /*
  * Title: FollowDigitalPosition
  *
@@ -7,11 +8,12 @@
  *
  * Description:
  *    This example enables and then moves a ClearPath motor between various
- *    repeating positions within a range defined in the MSP software. During
- *    operation, various move statuses are written to the USB serial port.
- *    The resolution for PWM outputs is 8-bit, meaning only 256 discrete
- *    positions can be commanded. The motor's actual commanded position may
- *    differ from what you input below because of this.
+ *    positions within a range defined in the MSP software based on the state
+ *    of an analog input. During operation, various move statuses are written
+ *    to the USB serial port.
+ *    To achieve better positioning resolution (i.e. more commandable positions),  
+ *    consider using the ClearPath operational modes "Pulse Burst Positioning"
+ *    or "Move Incremental Distance" instead.
  *
  * Requirements:
  * 1. A ClearPath motor must be connected to Connector M-0.
@@ -19,40 +21,48 @@
  *    for Follow Digital Position Command, Unipolar PWM Command mode (In MSP
  *    select Mode>>Position>>Follow Digital Position Command, then with
  *    "Unipolar PWM Command" selected hit the OK button).
- * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Position"
- *    through the MSP software (select Advanced>>High Level Feedback [Mode]...
- *    then choose "All Systems Go (ASG) - Position" from the dropdown and hit
- *    the OK button).
- * 3. The ClearPath must have defined positions for 0% and 100% PWM (On the
+ * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Position
+ *    w/Measured Torque" with a PWM carrier frequency of 482 Hz through the MSP
+ *    software (select Advanced>>High Level Feedback [Mode]... then choose
+ *    "ASG-Position w/Measured Torque" from the dropdown, make sure that 482 Hz
+ *    is selected in the "PWM Carrier Frequency" dropdown, and hit the OK
+ *    button).
+ * 4. The ClearPath must have defined positions for 0% and 100% PWM (On the
  *    main MSP window check the "Position Range Setup (cnts)" box and fill in
  *    the two text boxes labeled "Posn at 0% PWM" and "Posn at 100% PWM").
- *    Change the "PositionZeroPWM" and "PositionMaxPWM" variables in the sketch
+ *    Change the "PositionZeroPWM" and "PositionMaxPWM" variables in the example
  *    below to match.
- * 4. Homing must be configured in the MSP software for your mechanical
+ * 5. Homing must be configured in the MSP software for your mechanical
  *    system (e.g. homing direction, torque limit, etc.). This example does
  *    not use the ClearPath's Input A as a homing sensor, although that may
  *    be configured in this mode through MSP.
- * 5. (Optional) An input source, such as a switch, connected to DI-6 to control
+ * 6. An analog input source (0-10V) connected to Connector A-9 to control motor 
+ *    position.
+ * 7. (Optional) An input source, such as a switch, connected to DI-6 to control
  *    the Command Lock or Home Sensor (configured in MSP).
  *
  * Links:
- * ** web link to doxygen (all Examples)
- * ** web link to ClearCore Manual (all Examples)  <<FUTURE links to Getting started webpage/ ClearCore videos>>
- * ** web link to ClearPath Operational mode video (Only ClearPath Examples)
- * ** web link to ClearPath manual (Only ClearPath Examples)
+ * ** ClearCore Documentation: https://teknic-inc.github.io/ClearCore-library/
+ * ** ClearCore Manual: https://www.teknic.com/files/downloads/clearcore_user_manual.pdf
+ * ** ClearPath Manual (DC Power): https://www.teknic.com/files/downloads/clearpath_user_manual.pdf
+ * ** ClearPath Manual (AC Power): https://www.teknic.com/files/downloads/ac_clearpath-mc-sd_manual.pdf
+ * ** ClearPath Mode Informational Video: https://www.teknic.com/watch-video/#OpMode12
  *
- * Last Modified: 1/21/2020
+ * 
  * Copyright (c) 2020 Teknic Inc. This work is free to use, copy and distribute under the terms of
  * the standard MIT permissive software license which can be found at https://opensource.org/licenses/MIT
  */
 
 #include "ClearCore.h"
 
-// Defines the motor's connector as ConnectorM0
+// Defines the motor's connector
 #define motor ConnectorM0
 
 // Defines the command lock sensor connector
 #define LockSensor DI6
+
+// Defines the analog input to control commanded position
+#define AnalogSensor ConnectorA9
 
 // Select the baud rate to match the target device.
 #define baudRate 9600
@@ -70,11 +80,19 @@ bool CommandPosition(int commandedPosition);
 
 void setup() {
     // Put your setup code here, it will only run once:
+    
+    // Set up an analog sensor to control commanded position.
+    AnalogSensor.Mode(Connector::INPUT_ANALOG);
 
     // Sets all motor connectors to the correct mode for Follow Digital
     // Position mode.
     MotorMgr.MotorModeSet(MotorManager::MOTOR_ALL,
                           Connector::CPM_MODE_A_DIRECT_B_PWM);
+
+    // Set the motor's HLFB mode to bipolar PWM
+    motor.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
+    // Set the HFLB carrier frequency to 482 Hz
+    motor.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
 
     // This section attaches the interrupt callback to the locking sensor pin,
     // set to trigger on any change of sensor state
@@ -108,22 +126,12 @@ void setup() {
 void loop() {
     // Put your main code here, it will run repeatedly:
 
-    // Move to position +5000.
-    CommandPosition(5000);    // See below for the detailed function definition.
-    // Wait 2000ms.
-    delay(2000);
-
-    CommandPosition(4000);
-    delay(2000);
-
-    CommandPosition(1500);
-    delay(2000);
-
-    CommandPosition(9000);
-    delay(2000);
-
-    CommandPosition(1000);
-    delay(2000);
+    // Read the voltage on the analog sensor (0-10V).
+    float analogVoltage = AnalogSensor.AnalogVoltage();
+    // Convert the voltage measured to a position within the valid range.
+    int32_t commandedPosition =
+        static_cast<int32_t>(round(analogVoltage / 10 * positionMaxPWM));
+    CommandPosition(commandedPosition);    // See below for the detailed function definition.
 }
 
 /*------------------------------------------------------------------------------
@@ -131,20 +139,25 @@ void loop() {
  *
  *    Move to position number commandedPosition (counts in MSP)
  *    Prints the move status to the USB serial port
- *    Returns when HLFB asserts (indicating the motor has reached the commanded
- *    position)
+ *    Returns whether the command has been updated.
  *
  * Parameters:
  *    int commandedPosition  - The position, in counts, to command
  *
- * Returns: True/False depending on whether the position was successfully
- * commanded.
  */
 bool CommandPosition(int commandedPosition) {
-    if (abs(commandedPosition) > abs(positionMaxPWM) || abs(commandedPosition) < abs(positionZeroPWM)) {
+    if (abs(commandedPosition) > abs(positionMaxPWM) || 
+        abs(commandedPosition) < abs(positionZeroPWM)) {
         Serial.println("Move rejected, invalid position requested");
         return false;
     }
+
+    // Check if an alert is currently preventing motion
+    if (motor.StatusReg().bit.AlertsPresent) {
+        Serial.println("Motor status: 'In Alert'. Move Canceled.");
+        return false;
+    }
+
     Serial.print("Moving to position: ");
     Serial.println(commandedPosition);
 
@@ -157,18 +170,7 @@ bool CommandPosition(int commandedPosition) {
 
     // Command the move.
     motor.MotorInBDuty(dutyRequest);
-
-    // Waits for HLFB to assert (signaling the move has successfully completed)
-    Serial.println("Moving... Waiting for HLFB");
-
-    // Delay to give HLFB time to change according to the new command
-    delay(2);
-
-    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-        continue;
-    }
-
-    Serial.println("Move Done");
+    
     return true;
 }
 //------------------------------------------------------------------------------

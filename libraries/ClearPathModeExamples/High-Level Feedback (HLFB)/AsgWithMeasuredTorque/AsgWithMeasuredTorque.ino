@@ -28,14 +28,15 @@
  *    measured torque through the MSP software (select Advanced>>High Level
  *    Feedback [Mode]... then choose "ASG-Position, w/Measured Torque" or
  *    "ASG-Velocity, w/ Measured Torque" and hit the OK button).
- *    Select a 45 Hz PWM Carrier Frequency in this menu for the most accurate
- *    torque measurements.
+ *    Select a 482 Hz PWM Carrier Frequency in this menu.
  *
  * Links:
- * ** web link to doxygen (all Examples)
- * ** web link to ClearCore Manual (all Examples)  <<FUTURE links to Getting started webpage/ ClearCore videos>>
+ * ** ClearCore Documentation: https://teknic-inc.github.io/ClearCore-library/
+ * ** ClearCore Manual: https://www.teknic.com/files/downloads/clearcore_user_manual.pdf
+ * ** ClearPath Manual (DC Power): https://www.teknic.com/files/downloads/clearpath_user_manual.pdf
+ * ** ClearPath Manual (AC Power): https://www.teknic.com/files/downloads/ac_clearpath-mc-sd_manual.pdf
  *
- * Last Modified: 1/21/2020
+ *
  * Copyright (c) 2020 Teknic Inc. This work is free to use, copy and distribute under the terms of
  * the standard MIT permissive software license which can be found at https://opensource.org/licenses/MIT
  */
@@ -55,6 +56,8 @@ void setup() {
     // Put the motor connector into the HLFB mode to read bipolar PWM (the
     // correct mode for ASG w/ Measured Torque)
     motor.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
+    // Set the HFLB carrier frequency to 482 Hz
+    motor.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
 
     // Set up serial communication and wait up to 5 seconds for a port to open
     // HLFB states are written to the serial port
