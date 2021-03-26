@@ -1,42 +1,29 @@
-/*
+ /*
  * Title: MovePositionAbsolute
  *
  * Objective:
  *    This example demonstrates control of a ClearPath motor in Step and
- *    Direction mode using hardstop homing and absolute position moves.
+ *    Direction mode.
  *
  * Description:
- *    This example enables a ClearPath, homes to a hardstop, then commands 
- *    a series of repeating absolute position moves to the motor.
+ *    This example enables a ClearPath then commands a series of repeating
+ *    absolute position moves to the motor.
  *
  * Requirements:
- * 1. A ClearPath-SD motor must be connected to Connector M-0.
+ * 1. A ClearPath motor must be connected to Connector M-0.
  * 2. The connected ClearPath motor must be configured through the MSP software
  *    for Step and Direction mode (In MSP select Mode>>Step and Direction).
- * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Position"
- *    through the MSP software (select Advanced>>High Level Feedback [Mode]...
- *    then choose "All Systems Go (ASG) - Position" from the dropdown and hit
- *    the OK button).
+ * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Position
+ *    w/Measured Torque" with a PWM carrier frequency of 482 Hz through the MSP
+ *    software (select Advanced>>High Level Feedback [Mode]... then choose
+ *    "ASG-Position w/Measured Torque" from the dropdown, make sure that 482 Hz
+ *    is selected in the "PWM Carrier Frequency" dropdown, and hit the OK
+ *    button).
  * 4. Set the Input Format in MSP for "Step + Direction".
- * 5. Configure ClearPath to use automatic hardstop homing. "Enable" homing 
- *    in the homing field, and click "Setup..." and in that window:
- *      - Use "Normal" homing
- *      - Select "ClearPath Homes Automatically"
- *      - Set to home "Upon every Enable"
- *      - Set the appropriate homing direction (see note below on move direction)
- *      - Enter your desired "Physical Home Clearance"
- *      - It is recommended to use a "Home Offset Move Distance" of 0 so MSP and 
- *      ClearCore both have the same 0 position.
- *      
- * ** This example makes moves to positive absolute positions,
- *    assuming any homing move occurs in the negative direction.
- *    Change the target positions to negative if homing is positive.
  *
- * ** Note: Homing is optional, and not required in this operational mode.
- *    However, homing is typically recommended when making
- *    absolute position moves to ensure an absolute position on the output
- *    mechanics corresponds to a consistent absolute position for ClearCore
- *    and ClearPath.
+ * ** Note: Homing is optional, and not required in this operational mode or in
+ *    this example. This example makes positive absolute position moves,
+ *    assuming any homing move occurs in the negative direction.
  *
  * ** Note: Set the Input Resolution in MSP the same as your motor's Positioning
  *    Resolution spec if you'd like the pulses sent by ClearCore to command a
@@ -48,6 +35,7 @@
  * ** ClearPath Manual (DC Power): https://www.teknic.com/files/downloads/clearpath_user_manual.pdf
  * ** ClearPath Manual (AC Power): https://www.teknic.com/files/downloads/ac_clearpath-mc-sd_manual.pdf
  *
+ * 
  * Copyright (c) 2020 Teknic Inc. This work is free to use, copy and distribute under the terms of
  * the standard MIT permissive software license which can be found at https://opensource.org/licenses/MIT
  */
@@ -68,7 +56,7 @@ int accelerationLimit = 100000; // pulses per sec^2
 // Declares our user-defined helper function, which is used to command moves to
 // the motor. The definition/implementation of this function is at the  bottom
 // of the example
-void MoveAbsolutePosition(int32_t position);
+bool MoveAbsolutePosition(int32_t position);
 
 void setup() {
     // Put your setup code here, it will only run once:
@@ -80,6 +68,11 @@ void setup() {
     // Sets all motor connectors into step and direction mode.
     MotorMgr.MotorModeSet(MotorManager::MOTOR_ALL,
                           Connector::CPM_MODE_STEP_AND_DIR);
+
+    // Set the motor's HLFB mode to bipolar PWM
+    motor.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
+    // Set the HFLB carrier frequency to 482 Hz
+    motor.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
 
     // Sets the maximum velocity for each move
     motor.VelMax(velocityLimit);
@@ -100,8 +93,8 @@ void setup() {
     motor.EnableRequest(true);
     Serial.println("Motor Enabled");
 
-    // Waits for HLFB to assert (waits for homing to complete)
-    Serial.println("Homing. Waiting for HLFB...");
+    // Waits for HLFB to assert (waits for homing to complete if applicable)
+    Serial.println("Waiting for HLFB...");
     while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
         continue;
     }
@@ -111,17 +104,16 @@ void setup() {
 void loop() {
     // Put your main code here, it will run repeatedly:
 
-    // This example makes moves to positive absolute positions,
-    // assuming any homing move occurs in the negative direction.
-    // Change the target positions to negative if homing is positive.
-
-    // Move to +6400 counts then wait 2000ms
-    MoveAbsolutePosition(6400);
+    // Move to +10000 counts (positive direction), then wait 2000ms
+    MoveAbsolutePosition(10000);
     delay(2000);
-    // Move to +12800 counts, then wait 2000ms
+    // Move to 19200 counts, then wait 2000ms
+    MoveAbsolutePosition(19200);
+    delay(2000);
+    // Move to 12800 counts, then wait 2000ms
     MoveAbsolutePosition(12800);
     delay(2000);
-    // Move back to "software home", then wait 2000ms
+    // Move back to "home", then wait 2000ms
     MoveAbsolutePosition(0);
     delay(2000);
 }
@@ -138,9 +130,15 @@ void loop() {
  * Parameters:
  *    int position  - The absolute position, in step pulses, to move to
  *
- * Returns: None
+ * Returns: True/False depending on whether the move was successfully triggered.
  */
-void MoveAbsolutePosition(int position) {
+bool MoveAbsolutePosition(int position) {
+    // Check if an alert is currently preventing motion
+    if (motor.StatusReg().bit.AlertsPresent) {
+        Serial.println("Motor status: 'In Alert'. Move Canceled.");
+        return false;
+    }
+
     Serial.print("Moving to absolute position: ");
     Serial.println(position);
 
@@ -154,5 +152,6 @@ void MoveAbsolutePosition(int position) {
     }
 
     Serial.println("Move Done");
+    return true;
 }
 //------------------------------------------------------------------------------

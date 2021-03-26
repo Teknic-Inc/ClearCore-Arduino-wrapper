@@ -13,10 +13,12 @@
  * 1. A ClearPath motor must be connected to Connector M-0.
  * 2. The connected ClearPath motor must be configured through the MSP software
  *    for Step and Direction mode (In MSP select Mode>>Step and Direction).
- * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Position"
- *    through the MSP software (select Advanced>>High Level Feedback [Mode]...
- *    then choose "All Systems Go (ASG) - Position" from the dropdown and hit
- *    the OK button).
+ * 3. The ClearPath motor must be set to use the HLFB mode "ASG-Position
+ *    w/Measured Torque" with a PWM carrier frequency of 482 Hz through the MSP
+ *    software (select Advanced>>High Level Feedback [Mode]... then choose
+ *    "ASG-Position w/Measured Torque" from the dropdown, make sure that 482 Hz
+ *    is selected in the "PWM Carrier Frequency" dropdown, and hit the OK
+ *    button).
  * 4. Set the Input Format in MSP for "Step + Direction".
  *
  * ** Note: Set the Input Resolution in MSP the same as your motor's Positioning
@@ -49,7 +51,7 @@ int accelerationLimit = 100000; // pulses per sec^2
 // Declares our user-defined helper function, which is used to command moves to
 // the motor. The definition/implementation of this function is at the  bottom
 // of the example
-void MoveAtVelocity(int32_t velocity);
+bool MoveAtVelocity(int32_t velocity);
 
 void setup() {
     // Put your setup code here, it will only run once:
@@ -61,6 +63,11 @@ void setup() {
     // Sets all motor connectors into step and direction mode.
     MotorMgr.MotorModeSet(MotorManager::MOTOR_ALL,
                           Connector::CPM_MODE_STEP_AND_DIR);
+
+    // Set the motor's HLFB mode to bipolar PWM
+    motor.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
+    // Set the HFLB carrier frequency to 482 Hz
+    motor.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
 
     // Set the maximum acceleration for each move
     motor.AccelMax(accelerationLimit);
@@ -88,20 +95,20 @@ void setup() {
 
 void loop() {
     // Put your main code here, it will run repeatedly:
-
-    // Move at 10,000 counts/sec, then wait 2000ms
-    MoveAtVelocity(10000);
+        
+    // Move at 1,000 steps/sec for 2000ms
+    MoveAtVelocity(1000);
     delay(2000);
-    // Move at -5,000 counts/sec, then wait 2000ms
+    // Move at -5,000 steps/sec for 2000ms
     MoveAtVelocity(-5000);
     delay(2000);
-    // Move at 7,000 counts/sec, then wait 2000ms
-    MoveAtVelocity(7000);
+    // Move at 10,000 steps/sec for 2000ms
+    MoveAtVelocity(10000);
     delay(2000);
-    // Move at -10,000 counts/sec, then wait 2000ms
+    // Move at -10,000 steps/sec for 2000ms
     MoveAtVelocity(-10000);
     delay(2000);
-    // Command a 0 counts/sec velocity to stop motion, then wait 2000ms
+    // Command a 0 steps/sec velocity to stop motion for 2000ms
     MoveAtVelocity(0);
     delay(2000);
 }
@@ -115,13 +122,29 @@ void loop() {
  * Parameters:
  *    int velocity  - The velocity, in step pulses/sec, to command
  *
- * Returns: None
+ * Returns: True/False depending on whether the move was successfully triggered.
  */
-void MoveAtVelocity(int velocity) {
+bool MoveAtVelocity(int velocity) {
+    // Check if an alert is currently preventing motion
+    if (motor.StatusReg().bit.AlertsPresent) {
+        Serial.println("Motor status: 'In Alert'. Move Canceled.");
+        return false;
+    }
+
     Serial.print("Moving at velocity: ");
     Serial.println(velocity);
 
     // Command the velocity move
     motor.MoveVelocity(velocity);
+
+    // Waits for the step command to ramp up/down to the commanded velocity. 
+    // This time will depend on your Acceleration Limit.
+    Serial.println("Ramping to speed...");
+    while (!motor.StatusReg().bit.AtTargetVelocity) {
+        continue;
+    }
+
+    Serial.println("At Speed");
+    return true; 
 }
 //------------------------------------------------------------------------------

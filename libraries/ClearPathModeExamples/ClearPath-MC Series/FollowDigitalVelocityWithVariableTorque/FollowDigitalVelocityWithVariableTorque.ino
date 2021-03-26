@@ -150,6 +150,13 @@ bool CommandVelocity(int commandedVelocity) {
         Serial.println("Move rejected, invalid velocity requested.");
         return false;
     }
+
+    // Check if an alert is currently preventing motion
+    if (motor.StatusReg().bit.AlertsPresent) {
+        Serial.println("Motor status: 'In Alert'. Move Canceled.");
+        return false;
+    }
+
     Serial.print("Commanding velocity: ");
     Serial.println(commandedVelocity);
 
