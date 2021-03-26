@@ -1,5 +1,7 @@
-set ver=1.0.15
+set ver=1.1.1
 rem set version=shell git describe --dirty --always --tags
+
+.\keywordify.py -S -p .\ 
 
 set zipDir=ClearCore-%ver%
 
@@ -16,7 +18,6 @@ rd /s /q .\%zipDir%
 
 rem Remove various files not intended for release
 rd /s /q .\Style
-rd /s /q .\TestSketch
 rd /s /q .\Debug
 rd /s /q .\Release
 del .\zipClearCore.cmd
