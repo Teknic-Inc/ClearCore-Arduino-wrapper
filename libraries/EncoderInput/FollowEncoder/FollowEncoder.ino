@@ -65,10 +65,22 @@ bool swapDirection = false;
 // rather than the rising edge.
 bool indexInverted = false;
 
-int main(void) {
+// Variables for printing info to the serial port
+char info[100];
+uint32_t timeout;
+uint32_t startTime;
+
+// Variables to store encoder state
+int32_t position = 0;
+int32_t velocity = 0;
+int32_t indexPosition = 0;
+int32_t lastIndexPosition = 0;
+bool quadratureError = false;
+
+void setup() {
     // Set up serial communication and wait up to 5 seconds for a port to open
-    uint32_t timeout = 5000;
-    uint32_t startTime = millis();
+    timeout = 5000;
+    startTime = millis();
     Serial.begin(9600);
     while (!Serial && millis() - startTime < timeout) {
         continue;
@@ -106,62 +118,61 @@ int main(void) {
     }
     Serial.println("Motor Ready");
 
-    // Variables to store encoder state
-    int32_t position = 0;
-    int32_t velocity = 0;
-    int32_t indexPosition = 0;
-    int32_t lastIndexPosition = 0;
-    bool quadratureError = false;
-
     // Use a timeout to print out encoder information every 500 ms.
-    char info[100];
     timeout = 500;
     startTime = millis();
+}
 
-    while (!quadratureError) {
-        position = EncoderIn.Position();
-        velocity = EncoderIn.Velocity();
-        indexPosition = EncoderIn.IndexPosition();
-        quadratureError = EncoderIn.QuadratureError();
+void loop() {
+    position = EncoderIn.Position();
+    velocity = EncoderIn.Velocity();
+    indexPosition = EncoderIn.IndexPosition();
+    quadratureError = EncoderIn.QuadratureError();
 
-        // Print out encoder info at a fixed timeout rate
-        if (millis() - startTime >= timeout) {
-            if (followPosition) {
-                snprintf(info, 100, "Encoder position: %ld counts", position);
-            }
-            else {
-                snprintf(info, 100, "Encoder velocity: %ld counts/sec", velocity);
-            }
-            Serial.println(info);
-            startTime = millis();
-        }
-
-        if (indexPosition != lastIndexPosition) {
-            snprintf(info, 100, "Detected index at position: %ld",
-            EncoderIn.IndexPosition());
-            Serial.println(info);
-        }
-
-        lastIndexPosition = indexPosition;
-
-        // Check if an alert is currently preventing motion
-        if (ConnectorM0.StatusReg().bit.AlertsPresent) {
-            Serial.println("Motor status: 'In Alert'. Move Canceled.");
-            continue;
-        }
-
+    // Print out encoder info at a fixed timeout rate
+    if (millis() - startTime >= timeout) {
         if (followPosition) {
-            // Move the motor to the current position read by the encoder
-            ConnectorM0.Move(position, MotorDriver::MOVE_TARGET_ABSOLUTE);
+            snprintf(info, 100, "Encoder position: %ld counts", position);
         }
         else {
-            // Command the motor to follow the encoder's velocity
-            ConnectorM0.MoveVelocity(velocity);
+            snprintf(info, 100, "Encoder velocity: %ld counts/sec", velocity);
         }
+        Serial.println(info);
+        startTime = millis();
     }
 
-    // We detected a quadrature error!
-    ConnectorM0.MoveVelocity(0);
-    ConnectorM0.EnableRequest(false);
-    Serial.println("Quadrature error detected. Stopping motion...");
+    if (indexPosition != lastIndexPosition) {
+        snprintf(info, 100, "Detected index at position: %ld",
+        EncoderIn.IndexPosition());
+        Serial.println(info);
+    }
+
+    lastIndexPosition = indexPosition;
+
+    // Check if an alert is currently preventing motion
+    if (ConnectorM0.StatusReg().bit.AlertsPresent) {
+        Serial.println("Motor status: 'In Alert'. Move Canceled.");
+        return;
+    }
+
+    if (followPosition) {
+        // Move the motor to the current position read by the encoder
+        ConnectorM0.Move(position, MotorDriver::MOVE_TARGET_ABSOLUTE);
+    }
+    else {
+        // Command the motor to follow the encoder's velocity
+        ConnectorM0.MoveVelocity(velocity);
+    }
+    
+    if (quadratureError) {
+         // We detected a quadrature error!
+        ConnectorM0.MoveVelocity(0);
+        ConnectorM0.EnableRequest(false);
+        Serial.println("Quadrature error detected. Stopping motion...");
+        
+        while (true) {
+            // End of sketch
+            continue;
+        }
+    }
 }
