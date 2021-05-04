@@ -1,4 +1,4 @@
-set ver=1.1.1
+set ver=1.1.2
 rem set version=shell git describe --dirty --always --tags
 
 .\keywordify.py -S -p .\ 
