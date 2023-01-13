@@ -113,12 +113,30 @@ void setup() {
     delay(2000);
     // Then slows down to 1000 pulses/sec until clamping into the hard stop
     motor.MoveVelocity(1000);
+	
+	// Check if an alert occurred during motion
+    if (motor.StatusReg().bit.AlertsPresent) {
+        // In this case, we can't proceed with homing. Print the alert and bail.
+        Serial.println("Motor alert occurred during motion. Homing canceled.");
+        // The end...
+        while (true) {
+            continue;
+        }
+    }	
+
 
     // Delay so HLFB has time to deassert
     delay(10);
     // Waits for HLFB to assert again, meaning the hardstop has been reached
     while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-        continue;
+        if (motor.StatusReg().bit.AlertsPresent) {
+			// In this case, we can't proceed with homing. Print the alert and bail.
+			Serial.println("Motor alert detected. Homing canceled.");
+			// The end...
+			while (true) {
+				continue;
+			}
+		}
     }
 
     // Stop the velocity move now that the hardstop is reached
@@ -135,8 +153,18 @@ void setup() {
     while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
         continue;
     }
-    Serial.println("Homing Complete. Motor Ready.");
- 
+	
+	// Check if an alert occurred during offset move
+    if (motor.StatusReg().bit.AlertsPresent) {
+        // In this case, we can't proceed with homing. Print the alert and bail.
+        Serial.println("Motor alert occurred during offset move. Homing canceled.");
+        // The end...
+        while (true) {
+            continue;
+        }
+    } else {
+		Serial.println("Homing Complete. Motor Ready.");
+	}
     // Zero the motor's reference position after homing to allow for accurate
     // absolute position moves
     motor.PositionRefSet(0);     

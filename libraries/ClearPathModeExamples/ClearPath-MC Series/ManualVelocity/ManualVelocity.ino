@@ -55,6 +55,16 @@
 // Select the baud rate to match the target device.
 #define baudRate 9600
 
+// This example has built-in functionality to automatically clear motor faults. 
+//	Any uncleared fault will cancel and disallow motion.
+// WARNING: enabling automatic fault handling will clear faults immediately when 
+//	encountered and return a motor to a state in which motion is allowed. Before 
+//	enabling this functionality, be sure to understand this behavior and ensure 
+//	your system will not enter an unsafe state. 
+// To enable automatic fault handling, #define HANDLE_MOTOR_FAULTS (1)
+// To disable automatic fault handling, #define HANDLE_MOTOR_FAULTS (0)
+#define HANDLE_MOTOR_FAULTS (0)
+
 // This is the variable used to keep track of the current commanded velocity
 double commandedVelocity = 0;
 
@@ -68,10 +78,10 @@ int maxVelocityCCW = 1000;
 // command velocity with a finer resolution
 double velocityResolution = 2.0;
 
-// Declares our user-defined helper function, which is used to send a velocity
-// command. The definition/implementation of this function is at the bottom of
-// the sketch.
+// Declares user-defined helper functions.
+// The definition/implementations of these functions are at the bottom of the sketch.
 bool MoveAtVelocity(double velocity);
+void HandleMotorFaults();
 
 void setup() {
     // Put your setup code here, it will run once:
@@ -104,12 +114,26 @@ void setup() {
     motor.EnableRequest(true);
     Serial.println("Motor Enabled");
 
-    // Waits for HLFB to assert.
+    // Waits for HLFB to assert 
     Serial.println("Waiting for HLFB...");
-    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED &&
+			!motor.StatusReg().bit.MotorInFault) {
         continue;
     }
-    Serial.println("Motor Ready");
+	// Check if a motor faulted during enabling
+	// Clear fault if configured to do so 
+    if (motor.StatusReg().bit.MotorInFault) {
+		Serial.println("Motor fault detected.");		
+		if(HANDLE_MOTOR_FAULTS){
+			HandleMotorFaults();
+		} else {
+			Serial.println("Enable automatic fault handling by setting HANDLE_MOTOR_FAULTS to 1.");
+		}
+		Serial.println("Enabling may not have completed as expected. Proceed with caution.");		
+ 		Serial.println();
+	} else {
+		Serial.println("Motor Ready");	
+	}
 }
 
 void loop() {
@@ -164,9 +188,15 @@ bool MoveAtVelocity(double velocity) {
         return false;
     }
 
-    // Check if an alert is currently preventing motion
-    if (motor.StatusReg().bit.AlertsPresent) {
-        Serial.println("Motor status: 'In Alert'. Move Canceled.");
+    // Check if a motor fault is currently preventing motion
+	// Clear fault if configured to do so 
+    if (motor.StatusReg().bit.MotorInFault) {
+		if(HANDLE_MOTOR_FAULTS){
+			Serial.println("Motor fault detected. Move canceled.");
+			HandleMotorFaults();
+		} else {
+			Serial.println("Motor fault detected. Move canceled. Enable automatic fault handling by setting HANDLE_MOTOR_FAULTS to 1.");
+		}
         return false;
     }
 
@@ -214,11 +244,47 @@ bool MoveAtVelocity(double velocity) {
     Serial.println("Ramping Speed... Waiting for HLFB");
     // Wait for some time so HLFB has time to transition.
     delay(1);
-    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED &&
+			!motor.StatusReg().bit.MotorInFault) {
         continue;
     }
-
-    Serial.println("Target Velocity Reached");
-    return true;
+	// Check if a motor faulted during move
+	// Clear fault if configured to do so 
+    if (motor.StatusReg().bit.MotorInFault) {
+		Serial.println("Motor fault detected.");		
+		if(HANDLE_MOTOR_FAULTS){
+			HandleMotorFaults();
+		} else {
+			Serial.println("Enable automatic fault handling by setting HANDLE_MOTOR_FAULTS to 1.");
+		}
+		Serial.println("Motion may not have completed as expected. Proceed with caution.");
+		Serial.println();
+		return false;
+    } else {
+		Serial.println("Move Done");
+		return true;
+	}
+}
+//------------------------------------------------------------------------------
+ 
+/*------------------------------------------------------------------------------
+ * HandleMotorFaults
+ *
+ *    Clears motor faults by cycling enable to the motor.
+ *    Assumes motor is in fault 
+ *      (this function is called when motor.StatusReg.MotorInFault == true)
+ *
+ * Parameters:
+ *    requires "motor" to be defined as a ClearCore motor connector
+ *
+ * Returns: 
+ *    none
+ */
+ void HandleMotorFaults(){
+ 	Serial.println("Handling fault: clearing faults by cycling enable signal to motor.");
+	motor.EnableRequest(false);
+	Delay_ms(10);
+	motor.EnableRequest(true);
+	Delay_ms(100);
 }
 //------------------------------------------------------------------------------

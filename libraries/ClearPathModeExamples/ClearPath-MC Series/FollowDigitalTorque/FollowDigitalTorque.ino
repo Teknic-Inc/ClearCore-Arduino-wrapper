@@ -135,13 +135,7 @@ bool CommandTorque(int commandedTorque) {
         Serial.println("Move rejected, invalid torque requested");
         return false;
     }
-
-    // Check if an alert is currently preventing motion
-    if (motor.StatusReg().bit.AlertsPresent) {
-        Serial.println("Motor status: 'In Alert'. Move Canceled.");
-        return false;
-    }
-
+	
     Serial.print("Commanding torque: ");
     Serial.println(commandedTorque);
 

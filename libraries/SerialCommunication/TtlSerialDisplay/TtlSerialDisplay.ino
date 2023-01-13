@@ -40,7 +40,7 @@ void SetCursor(uint8_t row, uint8_t column);
 void setup() {
     // Put your setup code here, it will run once:
 
-    Serial0.begin(9600);
+    Serial0.begin(57600);
     Serial0.ttl(true);
 
     // The COM port is now configured and ready to send commands and

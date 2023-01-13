@@ -38,6 +38,8 @@ bool risen, fallen;
 void setup() {
     // Put your setup code here, it will run once:
 
+    pinMode(DI6, INPUT); //Set connector as an Input
+
     // Set up serial communication at a baud rate of 9600 bps then wait up to
     // 5 seconds for a port to open.
     // Serial communication is not required for this example to run, however the

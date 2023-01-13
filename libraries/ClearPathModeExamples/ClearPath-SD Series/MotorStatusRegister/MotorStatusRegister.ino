@@ -66,80 +66,120 @@ void loop() {
     for (uint8_t i = 0; i < motorConnectorCount; i++) {
         MotorDriver *motor = motorConnectors[i];
         volatile const MotorDriver::StatusRegMotor &statusReg = motor->StatusReg();
-
-        Serial.print("Motor Status Register for ");
-        Serial.print(motorConnectorNames[i]);
-        Serial.println(":");
-
-        Serial.print("Enabled:\t\t");
-        if (statusReg.bit.Enabled) {
-            Serial.println('1');
-        }
-        else {
-            Serial.println('0');
-        }
-
-        Serial.print("Move direction:\t\t");
-        if (statusReg.bit.MoveDirection) {
-            Serial.println('+');
-        }
-        else {
-            Serial.println('-');
-        }
-
-        Serial.print("Steps active:\t\t");
-        if (statusReg.bit.StepsActive) {
-            Serial.println('1');
-        }
-        else {
-            Serial.println('0');
-        }
-
-        Serial.print("At velocity target:\t");
-        if (statusReg.bit.AtTargetVelocity) {
-            Serial.println('1');
-        }
-        else {
-            Serial.println('0');
-        }
-
-        Serial.print("Ready state:\t\t");
-        readyStateStr = ReadyStateString(statusReg.bit.ReadyState);
-        Serial.println(readyStateStr);
-
+        volatile const MotorDriver::AlertRegMotor &alertReg = motor->AlertReg();
+        
+        Serial.print("Motor status register for motor M");
+      Serial.print(i);
+      Serial.print(": ");
+      Serial.println(statusReg.reg, 2); // prints the status register in binary
+      
+      Serial.print("AtTargetPosition:  ");
+      Serial.println(statusReg.bit.AtTargetPosition);
+    
+      Serial.print("StepsActive:       ");
+      Serial.println(statusReg.bit.StepsActive);
+    
+      Serial.print("AtTargetVelocity:  ");
+      Serial.println(statusReg.bit.AtTargetVelocity);
+    
+      Serial.print("MoveDirection:     ");
+      Serial.println(statusReg.bit.MoveDirection);
+    
+      Serial.print("MotorInFault:      ");
+      Serial.println(statusReg.bit.MotorInFault);
+    
+      Serial.print("Enabled:           ");
+      Serial.println(statusReg.bit.Enabled);
+    
+      Serial.print("PositionalMove:    ");
+      Serial.println(statusReg.bit.PositionalMove);
+    
+      Serial.print("HLFB State:    ");
+      switch (statusReg.bit.HlfbState) {
+        case 0:
+          Serial.println("HLFB_DEASSERTED");
+          break;
+        case 1:
+          Serial.println("HLFB_ASSERTED");
+          break;
+        case 2:
+          Serial.println("HLFB_HAS_MEASUREMENT");
+          break;
+        case 3:
+          Serial.println("HLFB_UNKNOWN");
+          break;
+        default:
+          // something has gone wrong if this is printed
+          Serial.println("???");
+      }
+    
+      Serial.print("AlertsPresent:     ");
+      Serial.println(statusReg.bit.AlertsPresent);
+    
+      Serial.print("Ready state:   ");
+      switch (statusReg.bit.ReadyState) {
+        case MotorDriver::MOTOR_DISABLED:
+          Serial.println("Disabled");
+          break;
+        case MotorDriver::MOTOR_ENABLING:
+          Serial.println("Enabling");
+          break;
+        case MotorDriver::MOTOR_FAULTED:
+          Serial.println("Faulted");
+          break;
+        case MotorDriver::MOTOR_READY:
+          Serial.println("Ready");
+          break;
+        case MotorDriver::MOTOR_MOVING:
+          Serial.println("Moving");
+          break;
+        default:
+          // something has gone wrong if this is printed
+          Serial.println("???");
+      }
+      
+      Serial.print("Triggering:        ");
+      Serial.println(statusReg.bit.Triggering);
+    
+      Serial.print("InPositiveLimit:   ");
+      Serial.println(statusReg.bit.InPositiveLimit);
+    
+      Serial.print("InNegativeLimit:   ");
+      Serial.println(statusReg.bit.InNegativeLimit);
+    
+      Serial.print("InEStopSensor:     ");
+      Serial.println(statusReg.bit.InEStopSensor); 
+    
+      Serial.println("--------------------------------");
+      
+        
+      if (statusReg.bit.AlertsPresent){
+        Serial.print("Alert register:  ");
+        Serial.println(alertReg.reg, 2); // prints the alert register in binary
+    
+        Serial.print("MotionCanceledInAlert:         ");
+        Serial.println(alertReg.bit.MotionCanceledInAlert);
+    
+        Serial.print("MotionCanceledPositiveLimit:   ");
+        Serial.println(alertReg.bit.MotionCanceledPositiveLimit);
+    
+        Serial.print("MotionCanceledNegativeLimit:   ");
+        Serial.println(alertReg.bit.MotionCanceledNegativeLimit);
+    
+        Serial.print("MotionCanceledSensorEStop:     ");
+        Serial.println(alertReg.bit.MotionCanceledSensorEStop);
+    
+        Serial.print("MotionCanceledMotorDisabled:   ");
+        Serial.println(alertReg.bit.MotionCanceledMotorDisabled);
+    
+        Serial.print("MotorFaulted:                  ");
+        Serial.println(alertReg.bit.MotorFaulted);
+    
         Serial.println("--------------------------------");
+      }
     }
-
     // Wait a few seconds then repeat...
     delay(5000);
 }
 
-/*------------------------------------------------------------------------------
- * ReadyStateString
- *
- *    Converts the state of a motor status register bit into a user-readable
- *    format so it may be printed to a serial port.
- *
- * Parameters:
- *    MotorReadyStates readyState  - The current state of the ReadyState bit
- *
- * Returns: Text describing the state of the status bit.
- */
-char *ReadyStateString(MotorDriver::MotorReadyStates readyState) {
-    switch (readyState) {
-        case MotorDriver::MOTOR_DISABLED:
-            return (char *)"Disabled";
-        case MotorDriver::MOTOR_ENABLING:
-            return (char *)"Enabling";
-        case MotorDriver::MOTOR_FAULTED:
-            return (char *)"Faulted";
-        case MotorDriver::MOTOR_READY:
-            return (char *)"Ready";
-        case MotorDriver::MOTOR_MOVING:
-            return (char *)"Moving";
-        default:
-            // Something has gone wrong if this is printed
-            return (char *)"???";
-    }
-}
 //------------------------------------------------------------------------------

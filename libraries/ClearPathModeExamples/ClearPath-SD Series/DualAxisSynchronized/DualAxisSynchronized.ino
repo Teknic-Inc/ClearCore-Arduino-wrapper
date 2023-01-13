@@ -55,14 +55,25 @@
 // Select the baud rate to match the target serial device
 #define baudRate 9600
 
+// This example has built-in functionality to automatically clear motor alerts, 
+//	including motor shutdowns. Any uncleared alert will cancel and disallow motion.
+// WARNING: enabling automatic alert handling will clear alerts immediately when 
+//	encountered and return a motor to a state in which motion is allowed. Before 
+//	enabling this functionality, be sure to understand this behavior and ensure 
+//	your system will not enter an unsafe state. 
+// To enable automatic alert handling, #define HANDLE_ALERTS (1)
+// To disable automatic alert handling, #define HANDLE_ALERTS (0)
+#define HANDLE_ALERTS (0)
+
 // Define the velocity and acceleration limits to be used for each move
 int velocityLimit = 10000; // pulses per sec
 int accelerationLimit = 100000; // pulses per sec^2
 
-// Declares our user-defined helper function, which is used to move both motors
-// synchronously. The definition/implementation of this function is at the
-// bottom of the example.
+// Declares user-defined helper functions.
+// The definition/implementations of these functions are at the bottom of the sketch.
 bool SynchronizedMove(int distance);
+void PrintAlerts();
+void HandleAlerts();
 
 void setup() {
     // Put your setup code here, it will only run once:
@@ -107,17 +118,36 @@ void setup() {
     motor1.EnableRequest(true);
     Serial.println("Motor 1 Enabled");
 
+	
     // Waits for both motors to finish enabling
     uint32_t lastStatusTime = millis();
-    while (motor0.HlfbState() != MotorDriver::HLFB_ASSERTED ||
-            motor1.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-        // Periodically prints out why the application is waiting
+    Serial.println("Waiting for HLFB...");
+    while (motor0.HlfbState() != MotorDriver::HLFB_ASSERTED &&
+			motor1.HlfbState() != MotorDriver::HLFB_ASSERTED &&
+			!motor0.StatusReg().bit.AlertsPresent && 
+			!motor1.StatusReg().bit.AlertsPresent) {
+		// Periodically prints out why the application is waiting
         if (millis() - lastStatusTime > 100) {
             Serial.println("Waiting for HLFB to assert on both motors");
             lastStatusTime = millis();
-        }
-    }
-    Serial.println("Motors Ready");
+        }    
+	}
+	// Check if motor alert occurred during enabling
+	// Clear alert if configured to do so 
+    if (motor0.StatusReg().bit.AlertsPresent || 
+		motor1.StatusReg().bit.AlertsPresent) {
+		Serial.println("Motor alert detected.");		
+		PrintAlerts();
+		if(HANDLE_ALERTS){
+			HandleAlerts();
+		} else {
+			Serial.println("Enable automatic alert handling by setting HANDLE_ALERTS to 1.");
+		}
+		Serial.println("Enabling may not have completed as expected. Proceed with caution.");		
+ 		Serial.println();
+	} else {
+		Serial.println("Motors Ready");	
+	}
 }
 
 void loop() {
@@ -149,20 +179,27 @@ void loop() {
  * Parameters:
  *    int distance  - The distance, in counts, to move
  *
- * Returns: None
+ * Returns: True/False depending on whether the moves were successfully
+ *    triggered.
  */
 bool SynchronizedMove(int distance) {
-    // Check if an alert is currently preventing motion
-    if (motor0.StatusReg().bit.AlertsPresent) {
-        Serial.println("Motor 0 status: 'In Alert'. Move Canceled.");
+    // Check if a motor alert is currently preventing motion
+	// Clear alert if configured to do so 
+    if (motor0.StatusReg().bit.AlertsPresent || motor1.StatusReg().bit.AlertsPresent ) {
+		Serial.println("Motor alert detected.");		
+		PrintAlerts();
+		if(HANDLE_ALERTS){
+			HandleAlerts();
+		} else {
+			Serial.println("Enable automatic alert handling by setting HANDLE_ALERTS to 1.");
+		}
+		Serial.println("Move canceled.");		
+		Serial.println();
         return false;
     }
-    if (motor1.StatusReg().bit.AlertsPresent) {
-        Serial.println("Motor 1 status: 'In Alert'. Move Canceled.");
-        return false;
-    }
-    
-    Serial.print("Moving distance: ");
+	
+	
+	Serial.print("Moving distance: ");
     Serial.println(distance);
 
     // Move both motors the same distance
@@ -171,31 +208,118 @@ bool SynchronizedMove(int distance) {
 
     // Wait until both motors complete their moves
     uint32_t lastStatusTime = millis();
-    while (!motor0.StepsComplete() || motor0.HlfbState() != MotorDriver::HLFB_ASSERTED ||
-           !motor1.StepsComplete() || motor1.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+    while ( (!motor0.StepsComplete() || motor0.HlfbState() != MotorDriver::HLFB_ASSERTED ||
+           !motor1.StepsComplete() || motor1.HlfbState() != MotorDriver::HLFB_ASSERTED) &&
+		   !motor0.StatusReg().bit.AlertsPresent && !motor1.StatusReg().bit.AlertsPresent ){
         // Periodically print out why the application is waiting
         if (millis() - lastStatusTime > 100) {
             Serial.println("Waiting for HLFB to assert on both motors");
             lastStatusTime = millis();
         }
         
-        // Use HLFB to monitor whether one of the motors has shut down. If so,
-        // disable both motors and abort the sketch.
-        if (motor0.HlfbState() == MotorDriver::HLFB_DEASSERTED ||
-            motor1.HlfbState() == MotorDriver::HLFB_DEASSERTED) {
-            Serial.println("Motor shutdown detected. Disabling both motors.");
-            Serial.println("Future move commands will not get issued.");
-            motor0.EnableRequest(false);
-            motor1.EnableRequest(false);
-            
-            // The end
-            while (true) {
-                continue;
-            }
-        }
-    }
-
-    Serial.println("Move Done");
-    return true;
+        // Check if motor alert occurred during move
+		// Clear alert if configured to do so 
+        if (motor0.StatusReg().bit.AlertsPresent || motor1.StatusReg().bit.AlertsPresent){
+            motor0.MoveStopAbrupt();
+            motor1.MoveStopAbrupt();
+			Serial.println("Motor alert detected.");		
+			PrintAlerts();
+			if(HANDLE_ALERTS){
+				HandleAlerts();
+			} else {
+				Serial.println("Enable automatic fault handling by setting HANDLE_ALERTS to 1.");
+			}
+			Serial.println("Motion may not have completed as expected. Proceed with caution.");
+			Serial.println();
+			return false;
+		} else {
+			Serial.println("Move Done");
+			return true;
+		}
+   }
 }
 //------------------------------------------------------------------------------
+
+
+/*------------------------------------------------------------------------------
+ * PrintAlerts
+ *
+ *    Prints active alerts.
+ *
+ * Parameters:
+ *    requires "motor0" and "motor1" to be defined as ClearCore motor connectors
+ *
+ * Returns: 
+ *    none
+ */
+ void PrintAlerts(){
+	// report status of alerts on motor0
+ 	Serial.println("Alerts present on motor0: ");
+	if(motor0.AlertReg().bit.MotionCanceledInAlert){
+		Serial.println("    MotionCanceledInAlert "); }
+	if(motor0.AlertReg().bit.MotionCanceledPositiveLimit){
+		Serial.println("    MotionCanceledPositiveLimit "); }
+	if(motor0.AlertReg().bit.MotionCanceledNegativeLimit){
+		Serial.println("    MotionCanceledNegativeLimit "); }
+	if(motor0.AlertReg().bit.MotionCanceledSensorEStop){
+		Serial.println("    MotionCanceledSensorEStop "); }
+	if(motor0.AlertReg().bit.MotionCanceledMotorDisabled){
+		Serial.println("    MotionCanceledMotorDisabled "); }
+	if(motor0.AlertReg().bit.MotorFaulted){
+		Serial.println("    MotorFaulted ");
+	}
+	
+	// report status of alerts on motor1
+ 	Serial.println("Alerts present on motor1: ");
+	if(motor1.AlertReg().bit.MotionCanceledInAlert){
+		Serial.println("    MotionCanceledInAlert "); }
+	if(motor1.AlertReg().bit.MotionCanceledPositiveLimit){
+		Serial.println("    MotionCanceledPositiveLimit "); }
+	if(motor1.AlertReg().bit.MotionCanceledNegativeLimit){
+		Serial.println("    MotionCanceledNegativeLimit "); }
+	if(motor1.AlertReg().bit.MotionCanceledSensorEStop){
+		Serial.println("    MotionCanceledSensorEStop "); }
+	if(motor1.AlertReg().bit.MotionCanceledMotorDisabled){
+		Serial.println("    MotionCanceledMotorDisabled "); }
+	if(motor1.AlertReg().bit.MotorFaulted){
+		Serial.println("    MotorFaulted ");
+	}
+ }
+//------------------------------------------------------------------------------
+
+
+/*------------------------------------------------------------------------------
+ * HandleAlerts
+ *
+ *    Clears alerts, including motor faults. 
+ *    Faults are cleared by cycling enable to the motor.
+ *    Alerts are cleared by clearing the ClearCore alert register directly.
+ *
+ * Parameters:
+ *    requires "motor0" and "motor1" to be defined as ClearCore motor connectors
+ *
+ * Returns: 
+ *    none
+ */
+ void HandleAlerts(){
+	// for each motor, if a motor fault is present, clear it by cycling enable
+	if(motor0.AlertReg().bit.MotorFaulted){
+		Serial.println("Faults present on motor0. Cycling enable signal to motor to clear faults.");
+		motor0.EnableRequest(false);
+		Delay_ms(10);
+		motor0.EnableRequest(true);
+	}
+	if(motor1.AlertReg().bit.MotorFaulted){
+		Serial.println("Faults present on motor1. Cycling enable signal to motor to clear faults.");
+		motor1.EnableRequest(false);
+		Delay_ms(10);
+		motor1.EnableRequest(true);
+	}
+	// clear alerts
+	Serial.println("Clearing alerts on both motors.");
+	motor0.ClearAlerts();
+	motor1.ClearAlerts();
+ }
+//------------------------------------------------------------------------------
+
+ 

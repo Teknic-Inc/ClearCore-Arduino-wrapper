@@ -124,12 +124,6 @@ bool CommandVelocity(long commandedVelocity) {
         return false;
     }
 
-    // Check if an alert is currently preventing motion
-    if (motor.StatusReg().bit.AlertsPresent) {
-        Serial.println("Motor status: 'In Alert'. Move Canceled.");
-        return false;
-    }
-
     Serial.print("Commanding Velocity: ");
     Serial.println(commandedVelocity);
 

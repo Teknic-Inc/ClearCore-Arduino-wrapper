@@ -34,6 +34,8 @@ PinStatus state;
 void setup() {
     // Put your setup code here, it will run once:
 
+    pinMode(inputPin, INPUT); // Set the pin as an INPUT
+    
     // Set up serial communication at a baud rate of 9600 bps then wait up to
     // 5 seconds for a port to open.
     // Serial communication is not required for this example to run, however the
