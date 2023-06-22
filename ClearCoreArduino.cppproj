@@ -29,16 +29,16 @@
     <eraseonlaunchrule>1</eraseonlaunchrule>
     <EraseKey />
     <AsfFrameworkConfig>
-      <framework-data xmlns="">
-        <options />
-        <configurations />
-        <files />
-        <documentation help="" />
-        <offline-documentation help="" />
-        <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.40.0" />
-        </dependencies>
-      </framework-data>
+      <framework-data>
+  <options />
+  <configurations />
+  <files />
+  <documentation help="" />
+  <offline-documentation help="" />
+  <dependencies>
+    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.44.1" />
+  </dependencies>
+</framework-data>
     </AsfFrameworkConfig>
     <avrtool>custom</avrtool>
     <avrtoolserialnumber>
@@ -114,6 +114,8 @@
       <Value>../Teknic/libClearCore/inc</Value>
       <Value>../Teknic/LwIP/LwIP/port/include</Value>
       <Value>../Teknic/LwIP/LwIP/src/include</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
   <armgcc.compiler.optimization.level>Optimize most (-O3)</armgcc.compiler.optimization.level>
@@ -145,6 +147,8 @@
       <Value>../Teknic/libClearCore/inc</Value>
       <Value>../Teknic/LwIP/LwIP/src/include</Value>
       <Value>../Teknic/LwIP/LwIP/port/include</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
     </ListValues>
   </armgcccpp.compiler.directories.IncludePaths>
   <armgcccpp.compiler.optimization.level>Optimize most (-O3)</armgcccpp.compiler.optimization.level>
@@ -176,6 +180,7 @@
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
       <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
     </ListValues>
   </armgcccpp.assembler.general.IncludePaths>
   <armgcccpp.assembler.debugging.DebugLevel>Default (-g)</armgcccpp.assembler.debugging.DebugLevel>
@@ -183,6 +188,7 @@
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
       <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
     </ListValues>
   </armgcccpp.preprocessingassembler.general.IncludePaths>
   <armgcccpp.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcccpp.preprocessingassembler.debugging.DebugLevel>
@@ -223,6 +229,8 @@
       <Value>../Teknic/libClearCore/inc</Value>
       <Value>../Teknic/LwIP/LwIP/port/include</Value>
       <Value>../Teknic/LwIP/LwIP/src/include</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
   <armgcc.compiler.optimization.level>Optimize most (-O3)</armgcc.compiler.optimization.level>
@@ -253,6 +261,8 @@
       <Value>../Teknic/libClearCore/inc</Value>
       <Value>../Teknic/LwIP/LwIP/src/include</Value>
       <Value>../Teknic/LwIP/LwIP/port/include</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
     </ListValues>
   </armgcccpp.compiler.directories.IncludePaths>
   <armgcccpp.compiler.optimization.level>Optimize most (-O3)</armgcccpp.compiler.optimization.level>
@@ -283,6 +293,7 @@
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
       <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
     </ListValues>
   </armgcccpp.assembler.general.IncludePaths>
   <armgcccpp.assembler.debugging.DebugLevel>Default (-g)</armgcccpp.assembler.debugging.DebugLevel>
@@ -290,6 +301,7 @@
     <ListValues>
       <Value>%24(PackRepoDir)\arm\cmsis\4.5.0\CMSIS\Include\</Value>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
     </ListValues>
   </armgcccpp.preprocessingassembler.general.IncludePaths>
   <armgcccpp.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcccpp.preprocessingassembler.debugging.DebugLevel>
