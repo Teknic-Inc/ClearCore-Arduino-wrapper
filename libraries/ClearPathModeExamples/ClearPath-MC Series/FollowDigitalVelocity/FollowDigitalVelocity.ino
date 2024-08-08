@@ -138,7 +138,7 @@ bool CommandVelocity(long commandedVelocity) {
         motor.MotorInAState(true);
     }
     // Delays to send the correct filtered direction.
-    delay(2 + INPUT_A_FILTER);
+    delay(20 + INPUT_A_FILTER);
 
     // Find the scaling factor of our velocity range mapped to the PWM duty
     // cycle range (255 is the max duty cycle).

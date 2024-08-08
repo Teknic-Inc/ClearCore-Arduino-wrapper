@@ -202,13 +202,10 @@ bool MoveToPosition(int positionNum) {
     else {
         // If an invalid positionNum has been entered, returns a failure
         return false;
-    }
-
-    // Ensures this delay is at least 2ms longer than the Input A, B filter
-    // setting in MSP
-    delay(1);
+    }  
 
     // Waits for HLFB to assert (signaling the move has successfully completed)
+    delay(2);
     Serial.println("Moving.. Waiting for HLFB");
     while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED &&
 			!motor.StatusReg().bit.MotorInFault) {
