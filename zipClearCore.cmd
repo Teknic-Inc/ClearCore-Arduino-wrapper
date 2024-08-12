@@ -1,4 +1,4 @@
-set ver=1.1.2
+set ver=1.7.0
 rem set version=shell git describe --dirty --always --tags
 
 .\keywordify.py -S -p .\ 
@@ -20,6 +20,7 @@ rem Remove various files not intended for release
 rd /s /q .\Style
 rd /s /q .\Debug
 rd /s /q .\Release
+rd /s /q .\.vscode
 del .\zipClearCore.cmd
 del .\package_clearcore_index.json
 

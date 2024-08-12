@@ -209,9 +209,9 @@ bool MoveToPosition(int positionNum) {
             return false;
     }
 
-    // Ensures this delay is at least 2ms longer than the Input A, B filter
+    // Ensures this delay is at least 20ms longer than the Input A, B filter
     // setting in MSP
-    delay(2 + INPUT_A_B_FILTER);
+    delay(20 + INPUT_A_B_FILTER);
 
     // Waits for HLFB to assert (signaling the move has successfully completed)
     Serial.println("Moving.. Waiting for HLFB");

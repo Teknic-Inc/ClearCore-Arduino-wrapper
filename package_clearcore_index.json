@@ -99,6 +99,37 @@
               "version": "4.5.0"
             }
           ]
+        },
+        {
+          "name": "ClearCore",
+          "architecture": "sam",
+          "version": "1.7.0",
+          "category": "Contributed",
+          "help": { "online": "https://teknic-inc.github.io/ClearCore-library/" },
+          "url": "https://www.teknic.com/files/downloads/ClearCore-1.7.0.zip",
+          "archiveFileName": "ClearCore-1.7.0.zip",
+          "checksum": "SHA-256:cc2b1081ff09a79746e011c228ecf11c1b3e7d7dc67f97619d9f6974f3114143",
+          "size": "5088417",
+          "boards": [
+            {"name": "ClearCore"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4"
+            },
+            {
+              "packager": "arduino",
+              "name": "bossac",
+              "version": "1.9.1-arduino1"
+            },
+            {
+              "name": "CMSIS",
+              "packager": "arduino",
+              "version": "4.5.0"
+            }
+          ]
         }
       ]
     }

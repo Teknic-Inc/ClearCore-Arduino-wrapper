@@ -47,7 +47,7 @@ void setup() {
     // Put your setup code here, it will only run once:
 
     // Sets the input clocking rate.
-    MotorMgr.MotorInputClocking(MotorManager::CLOCK_RATE_NORMAL);
+    MotorMgr.MotorInputClocking(MotorManager::CLOCK_RATE_LOW);
 
     // Sets all motor connectors into step and direction mode.
     MotorMgr.MotorModeSet(MotorManager::MOTOR_ALL,

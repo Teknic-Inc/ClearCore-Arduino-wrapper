@@ -72,7 +72,7 @@ archive_file_path={build.path}/{archive_file}
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 
 ## Linker: Combine gc-sections, archives, and objects
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mthumb -mcpu={build.mcu} -mfloat-abi={build.float} -mfpu={build.fpu} {compiler.c.elf.extra_flags} -specs=rdimon.specs -o "{build.path}/{build.project_name}.elf" "-T{build.variant.path}/{build.ldscript}" {object_files} "{build.path}/{archive_file}" {compiler.arm.cmsis.ldflags} -lm -Xlinker -Map={build.path}/{build.project_name}.map
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mthumb -mcpu={build.mcu} -mfloat-abi={build.float} -mfpu={build.fpu} {compiler.c.elf.extra_flags} -specs=rdimon.specs -o "{build.path}/{build.project_name}.elf" "-T{build.variant.path}/{build.ldscript}" {object_files} "{build.path}/{archive_file}" {compiler.arm.cmsis.ldflags} -lm -Xlinker "-Map={build.path}/{build.project_name}.map"
 
 ## Create output files (.eep and .bin)
 recipe.objcopy.eep.pattern="{compiler.path}{compiler.objcopy.cmd}" {compiler.objcopy.eep.flags} {compiler.objcopy.eep.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.eep"

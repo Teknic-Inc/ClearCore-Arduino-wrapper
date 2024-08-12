@@ -231,8 +231,8 @@ bool MoveIncrements(int numberOfIncrements, int positionIncrement) {
             return false;
     }
 
-    // Delays for 2ms longer than the Input A, B filter setting in MSP
-    delay(2 + INPUT_A_B_FILTER);
+    // Delays for 20ms longer than the Input A, B filter setting in MSP
+    delay(20 + INPUT_A_B_FILTER);
 
     // Sends trigger pulses to the motor
     motor.EnableTriggerPulse(numberOfIncrements, TRIGGER_PULSE_TIME, true);

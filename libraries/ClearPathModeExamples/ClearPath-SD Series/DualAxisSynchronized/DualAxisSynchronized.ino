@@ -206,37 +206,36 @@ bool SynchronizedMove(int distance) {
     motor0.Move(distance);
     motor1.Move(distance);
 
+    // Tell the user that the program will wait for HLFB to assert on both motors
+    Serial.println("Waiting for HLFB to assert on both motors");
+
     // Wait until both motors complete their moves
     uint32_t lastStatusTime = millis();
     while ( (!motor0.StepsComplete() || motor0.HlfbState() != MotorDriver::HLFB_ASSERTED ||
            !motor1.StepsComplete() || motor1.HlfbState() != MotorDriver::HLFB_ASSERTED) &&
 		   !motor0.StatusReg().bit.AlertsPresent && !motor1.StatusReg().bit.AlertsPresent ){
-        // Periodically print out why the application is waiting
-        if (millis() - lastStatusTime > 100) {
-            Serial.println("Waiting for HLFB to assert on both motors");
-            lastStatusTime = millis();
-        }
-        
-        // Check if motor alert occurred during move
-		// Clear alert if configured to do so 
-        if (motor0.StatusReg().bit.AlertsPresent || motor1.StatusReg().bit.AlertsPresent){
-            motor0.MoveStopAbrupt();
-            motor1.MoveStopAbrupt();
-			Serial.println("Motor alert detected.");		
-			PrintAlerts();
-			if(HANDLE_ALERTS){
-				HandleAlerts();
-			} else {
-				Serial.println("Enable automatic fault handling by setting HANDLE_ALERTS to 1.");
-			}
-			Serial.println("Motion may not have completed as expected. Proceed with caution.");
-			Serial.println();
-			return false;
+    	continue; 
+	}
+
+    // Check if motor alert occurred during move
+	// Clear alert if configured to do so 
+    if (motor0.StatusReg().bit.AlertsPresent || motor1.StatusReg().bit.AlertsPresent){
+		motor0.MoveStopAbrupt();
+      	motor1.MoveStopAbrupt();
+		Serial.println("Motor alert detected.");		
+		PrintAlerts();
+		if(HANDLE_ALERTS){
+			HandleAlerts();
 		} else {
-			Serial.println("Move Done");
-			return true;
+			Serial.println("Enable automatic fault handling by setting HANDLE_ALERTS to 1.");
 		}
-   }
+		Serial.println("Motion may not have completed as expected. Proceed with caution.");
+		Serial.println();
+		return false;
+	} else {
+		Serial.println("Move Done");
+		return true;
+	}
 }
 //------------------------------------------------------------------------------
 

@@ -38,3 +38,4 @@ drivers/verifyinf.cmd
 *.zip
 *.componentinfo.xml
 jlink.*
+.vscode/
