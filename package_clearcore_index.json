@@ -106,10 +106,10 @@
           "version": "1.7.0",
           "category": "Contributed",
           "help": { "online": "https://teknic-inc.github.io/ClearCore-library/" },
-          "url": "https://www.teknic.com/files/downloads/ClearCore-1.7.0.zip",
+          "url": "https://github.com/nd-teknic/ClearCore-Arduino-wrapper/releases/download/1.7.0/ClearCore-1.7.0.zip",
           "archiveFileName": "ClearCore-1.7.0.zip",
-          "checksum": "SHA-256:cc2b1081ff09a79746e011c228ecf11c1b3e7d7dc67f97619d9f6974f3114143",
-          "size": "5088417",
+          "checksum": "SHA-256:57deb605e6e4c76f86b5418da6f220389b259629af2971d7a9074b0d925f4440",
+          "size": "10005258",
           "boards": [
             {"name": "ClearCore"}
           ],
