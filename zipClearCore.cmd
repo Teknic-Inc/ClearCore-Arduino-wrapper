@@ -1,6 +1,10 @@
 set ver=1.7.0
 rem set version=shell git describe --dirty --always --tags
 
+rem Build libClearCore and LwIP
+"C:\Program Files (x86)\Atmel\Studio\7.0\AtmelStudio.exe" Teknic\libClearCore\ClearCore.atsln /build release
+"C:\Program Files (x86)\Atmel\Studio\7.0\AtmelStudio.exe" Teknic\LwIP\LwIP.atsln /build release
+
 .\keywordify.py -S -p .\ 
 
 set zipDir=ClearCore-%ver%
