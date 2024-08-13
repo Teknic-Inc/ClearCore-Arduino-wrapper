@@ -25,6 +25,7 @@ rd /s /q .\Style
 rd /s /q .\Debug
 rd /s /q .\Release
 rd /s /q .\.vscode
+rd /s /q .\Teknic\libClearCore\inc-doc
 del .\zipClearCore.cmd
 del .\package_clearcore_index.json
 
@@ -42,6 +43,9 @@ cd ..
 
 rem Zip it
 "C:\Program Files\7-Zip\7z.exe" a -r "%zipDir%.zip" ".\%zipDir%"
+
+rem Hash it
+"C:\Program Files\7-Zip\7z.exe" h -scrcsha256 "%zipDir%.zip"
 
 rem Remove the temp directory
 rd /s /q .\%zipDir%
