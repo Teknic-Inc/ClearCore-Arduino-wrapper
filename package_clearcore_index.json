@@ -108,8 +108,8 @@
           "help": { "online": "https://teknic-inc.github.io/ClearCore-library/" },
           "url": "https://www.teknic.com/files/downloads/ClearCore-1.7.0.zip",
           "archiveFileName": "ClearCore-1.7.0.zip",
-          "checksum": "SHA-256:10ffe71188b6e08b8f0643545ca441f262af757f67d93296abae148f78035c86",
-          "size": "11131689",
+          "checksum": "SHA-256:25ec2f838597180ac41b247013f786ffb6f9279b93330848072f3ed60c0347ce",
+          "size": "11131694",
           "boards": [
             {"name": "ClearCore"}
           ],
