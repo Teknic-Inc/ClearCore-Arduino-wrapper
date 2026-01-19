@@ -1,4 +1,4 @@
-set ver=1.7.0
+set ver=1.7.1
 rem set version=shell git describe --dirty --always --tags
 
 rem Build libClearCore and LwIP

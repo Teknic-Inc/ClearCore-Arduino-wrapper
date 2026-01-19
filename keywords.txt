@@ -99,6 +99,7 @@ ClearFaultsActive	KEYWORD2
 ClearQuadratureError	KEYWORD2
 Close	KEYWORD2
 CodePresent	KEYWORD2
+Completed	KEYWORD2
 Connect	KEYWORD2
 Connected	KEYWORD2
 ConnectionTimeout	KEYWORD2
@@ -113,6 +114,7 @@ DnsIp	KEYWORD2
 EIC_Handler	KEYWORD2
 EStopConnector	KEYWORD2
 EStopDecelMax	KEYWORD2
+Elapsed	KEYWORD2
 Enable	KEYWORD2
 EnableActiveLevel	KEYWORD2
 EnableConnector	KEYWORD2
@@ -249,6 +251,7 @@ SendChar	KEYWORD2
 SendLine	KEYWORD2
 SerialBreak	KEYWORD2
 SerialNumber	KEYWORD2
+SetDelay	KEYWORD2
 SetErrorCode	KEYWORD2
 Setup	KEYWORD2
 ShifterStateClear	KEYWORD2
@@ -260,6 +263,7 @@ SpiClock	KEYWORD2
 SpiSsMode	KEYWORD2
 SpiTransferData	KEYWORD2
 SpiTransferDataAsync	KEYWORD2
+Start	KEYWORD2
 State	KEYWORD2
 StateRT	KEYWORD2
 StatusAccum	KEYWORD2
