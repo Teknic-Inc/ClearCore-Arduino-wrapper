@@ -1,11 +1,11 @@
-set ver=1.7.1
+set ver=1.7.4
 rem set version=shell git describe --dirty --always --tags
 
 rem Build libClearCore and LwIP
 "C:\Program Files (x86)\Atmel\Studio\7.0\AtmelStudio.exe" Teknic\libClearCore\ClearCore.atsln /build release
 "C:\Program Files (x86)\Atmel\Studio\7.0\AtmelStudio.exe" Teknic\LwIP\LwIP.atsln /build release
 
-.\keywordify.py -S -p .\ 
+python keywordify.py -S -p .\ 
 
 set zipDir=ClearCore-%ver%
 
@@ -42,10 +42,10 @@ del /s .\*.o .\*.d
 cd ..
 
 rem Zip it
-"C:\Program Files\7-Zip\7z.exe" a -r "%zipDir%.zip" ".\%zipDir%"
+7z.exe a -r "%zipDir%.zip" ".\%zipDir%"
 
 rem Hash it
-"C:\Program Files\7-Zip\7z.exe" h -scrcsha256 "%zipDir%.zip"
+7z.exe h -scrcsha256 "%zipDir%.zip"
 
 rem Remove the temp directory
 rd /s /q .\%zipDir%
